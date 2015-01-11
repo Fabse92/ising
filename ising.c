@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include "matrix.h"
+#include "matrix.h" 
 #include "utility.h"
 
 int main(int argc, char **argv)
@@ -15,14 +15,14 @@ int main(int argc, char **argv)
     
     srand(time(NULL));
     
-    spins=matrixMalloc(N,N);    
+    spins=matrixMalloc2D(N,N);    
     
     /* a simulation for each temperature eg 0.01 to 0.06 */
-    for(T=0.0536; T<=0.0539; T += 0.00001) //testing shows: specific temp somewhere between 0.05 and 0.06
+    for(T=0.0536; T<=0.05391; T += 0.0001) //testing shows: specific temp somewhere between 0.05 and 0.06
     {
         /* fill matrix with random 1 or -1 */
-        matrixRandFill(spins,N,N);
-        matrixPrint(spins,N,N); //zum angucken
+        matrixRandFill2D(spins,N,N);
+        matrixPrint2D(spins,N,N); //zum angucken
         
         for(i=0; i<100; ++i)
         {
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
                 /* select random spin, calculate dE, accept spin flip or not */
                 rpos = rand() % N;
                 cpos = rand() % N;
-                if((dE = calcEnergyDiff(spins, rpos, cpos, N)) < 0 || 
+                if((dE = calcEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
                     rand()/RAND_MAX < exp(-dE/kB/T))
                 {
                     spins[rpos][cpos] *= -1;
@@ -40,12 +40,13 @@ int main(int argc, char **argv)
         }
         /* zum angucken */
         printf("\n");
-        matrixPrint(spins,N,N);
-        printf("==================%f\n", T+0.00001);
+        matrixPrint2D(spins,N,N);
+        printf("========this was temp: %f====\n", T);
         /* save result */
+        //..
     }
     /* now we have one saved result for each temperature */
     
-    matrixDelete(spins);    
+    matrixDelete2D(spins);    
     return EXIT_SUCCESS;
 }   
