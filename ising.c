@@ -12,8 +12,14 @@ int main(int argc, char **argv)
     const int N = 5;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;
+    unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
     
-    srand(time(NULL));
+    srand(time(NULL)); // muss weiterhin gemacht werden, da der Twister mit rand() initialisiert wird
+    mt_init();
+    
+    for (i = 0; i < 200000; ++i)  // erstmal den Twister ordentlich aufwaermen!
+      mt_random();
+          
     
     spins=matrixMalloc2D(N,N);    
     
@@ -29,10 +35,10 @@ int main(int argc, char **argv)
             for(j=0; j<N*N; ++j)
             {
                 /* select random spin, calculate dE, accept spin flip or not */
-                rpos = rand() % N;
-                cpos = rand() % N;
+                rpos = mt_random() % N;
+                cpos = mt_random() % N;
                 if((dE = calcEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
-                    rand()/RAND_MAX < exp(-dE/kB/T))
+                    mt_random()/mt_max < exp(-dE/kB/T))
                 {
                     spins[rpos][cpos] *= -1;
                 }

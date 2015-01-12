@@ -5,6 +5,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include "utility.h" // fuer mt_random()
 
 /** allocates a 2-dimensional matrix (rows x cols) */
 int **matrixMalloc2D(int rows, int cols)
@@ -56,7 +57,7 @@ void matrixRandFill2D(int **mat,int rows, int cols)
     for (i=0; i<rows; ++i)
         for (j=0; j<cols; ++j)
         {
-            mat[i][j] = 1-2*(rand()%2);
+            mat[i][j] = 1-2*(mt_random()%2);
         }                
 }
 
@@ -121,7 +122,7 @@ void matrixRandFill3D(int ***mat, int n1, int n2, int n3)
         for(j=0; j<n2; ++j)
             for(k=0; k<n3; ++k)
             {
-                mat[i][j][k] = 1-2*(rand()%2);
+                mat[i][j][k] = 1-2*(mt_random()%2);
             }
 }
 
