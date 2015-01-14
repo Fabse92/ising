@@ -2,14 +2,30 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <string.h>
 #include "matrix.h" 
 #include "utility.h"
 
+static void usage( char* progname) // typical usage-function
+{
+    printf("Usage: %s [N] \n\n", progname);
+    printf("  - N: Size of Matrix ( > 0 ) \n");
+	  printf("\n");
+	  printf("Example: %s 5 \n", progname);
+	  exit(EXIT_FAILURE);
+}
+
 int main(int argc, char **argv)
 {
+    int N;
+    
+    if (argc < 2 || sscanf(argv[1], "%d", &N) != 1 || N < 1)
+    {
+        usage(argv[0]);
+    }    
+
     double T=1.0, dE;
     const double J=1.0, kB = 0.1;
-    const int N = 5;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert

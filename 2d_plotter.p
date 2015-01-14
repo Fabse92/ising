@@ -9,4 +9,4 @@ set palette defined (-1 "black", 1 "white")
 unset key
 unset colorbox
 
-plot "heat" matrix with image
+plot "data" matrix with image
