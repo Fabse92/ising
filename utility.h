@@ -4,6 +4,23 @@
 #include <assert.h>
 #include <stdlib.h>
 
+/** Appends "value1" and "value2" to the File "filename" 
+    Where "value1" is of type double and "value2" of type double
+*/
+void writeOutputFF(double value1, double value2, const char* filename)
+{
+    FILE *fp = fopen(filename, "a");
+    char output[50];
+    
+    if (fp == NULL)
+        fprintf(stderr, "Konnte nicht in Datei %s schreiben \n", filename);
+    
+    sprintf(output, "%f \t %f \n", value1, value2);
+    fputs( output, fp);        
+        
+    fclose (fp);
+}
+
 /** Calculates the energy of the 2-dimensional spin-matrix */
 double calcEnergy2D(int **spins)
 {
@@ -64,6 +81,57 @@ int calcEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len)
         neighSum += nspin[i];
     }
     return 2*neighSum*spin;
+}
+
+//** Calculates magnetisation / spin for a 2D-Matrix */
+double calcMagperSpin2D(int **spins, int len)
+{
+  assert(spins!=NULL && len > 0);
+  
+  int i,j;
+  int N1, N2;       // N1 Anzahl Spins im Zustand +1; N2 im Zustand -1
+  for (i = 0; i < len; ++i)
+  {
+      for (j = 0; j < len; ++j)
+      {
+          if (spins[i][j] == 1)
+          {
+              ++N1;
+          }
+          else
+          {
+              ++N2;
+          }
+      }
+  }
+  return ( (double) ( N1 - N2) / ( len * len) );
+}
+
+//** Calculates magnetisation / spin for a 3D-Matrix */
+double calcMagperSpin3D(int **spins, int len)
+{
+  assert(spins!=NULL && len > 0);
+  
+  int i,j,k;
+  int N1, N2;       // N1 Anzahl Spins im Zustand +1; N2 im Zustand -1
+  for (i = 0; i < len; ++i)
+  {
+      for (j = 0; j < len; ++j)
+      {
+          for (k = 0; k < len; ++k)
+          {
+              if (spins[i][j] == 1)
+              {
+                  ++N1;
+              }
+              else
+              {
+                  ++N2;
+              }
+          }
+      }
+  }
+  return ( (double) ( N1 - N2) / ( len * len * len) );
 }
 
 

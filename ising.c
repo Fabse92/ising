@@ -63,6 +63,7 @@ int main(int argc, char **argv)
         /* zum angucken */
         printf("\n");
         matrixPrint2D(spins,N,N);
+        writeOutputFF(T, calcMagperSpin2D(spins, N), "MagperSpin");
         printf("========this was temp: %f====\n", T);
         /* save result */
         //..
