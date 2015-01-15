@@ -27,6 +27,38 @@ double calcEnergy2D(int **spins)
     return 0.0;
 }
 
+/** Calculetes the sum of all spins in the 2D-lattice */
+int spinSum2D(int **spins, int len)
+{
+  int sum;
+  
+  for (i=1;i<=len;++i)
+  {
+    for(j=1;j<=len;++j)
+    {
+      sum = sum + spins[i][j];
+    }
+  }
+  return sum;
+}
+
+/**  Calculates the difference in energy in mean field approximation that a spin flip at position (row,col) 
+would cause (in units of J!)(it has to be a square 2D matrix) */
+int calcMFTEnergyDiff2D(int **spins, int row, int col, int len) //, double J, double B)
+{
+  assert(spins != NULL && len > 0);
+  assert(row >= 0 && col >= 0);
+
+  int diff, spin, mfield;
+  
+  spin = spins[row][col];
+  mfield = spinSum2D(spins, len) - spin;
+  //diff = (8*J/(len*len)*mfield - B)*2*spin;
+  diff = (8/(len*len)*mfield)*2*spin;
+  
+  return diff;
+}
+
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)
 (it has to be a square 2D matrix) (periodic boundary conditions)*/
 /* 2 * Summe ueber Nachbarn * eigener spin */

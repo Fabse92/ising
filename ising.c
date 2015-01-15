@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
+    int mod = 0;
     
     srand(time(NULL)); // muss weiterhin gemacht werden, da der Twister mit rand() initialisiert wird
     mt_init();
@@ -53,10 +54,21 @@ int main(int argc, char **argv)
                 /* select random spin, calculate dE, accept spin flip or not */
                 rpos = mt_random() % N;
                 cpos = mt_random() % N;
-                if((dE = calcEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
-                    mt_random()/mt_max < exp(-dE/kB/T))
+                if(mod == 0)
                 {
+                  if((dE = calcEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
+                      mt_random()/mt_max < exp(-dE/kB/T))
+                  {
                     spins[rpos][cpos] *= -1;
+                  }
+                }
+                else
+                {
+                  if((dE = calcMFTEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
+                      mt_random()/mt_max < exp(-dE/kB/T))
+                  {
+                    spins[rpos][cpos] *= -1;
+                  }
                 }
             }
         }
