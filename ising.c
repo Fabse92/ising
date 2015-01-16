@@ -24,7 +24,7 @@ int main(int argc, char **argv)
         usage(argv[0]);
     }    
 
-    double T=1.0, dE;
+    double T=1.0, dE, SpinSum;
     const double J=1.0, kB = 0.1;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;
@@ -41,13 +41,14 @@ int main(int argc, char **argv)
     spins=matrixMalloc2D(N,N);    
     
     /* a simulation for each temperature eg 0.01 to 0.06 */
-    for(T=0.0536; T<=0.05391; T += 0.0001) //testing shows: specific temp somewhere between 0.05 and 0.06
+    for(T=0.0530; T<=0.0540; T += 0.00005) //testing shows: specific temp somewhere between 0.05 and 0.06
     {
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
+        SpinSum = spinSum2D(spins, N);
         matrixPrint2D(spins,N,N); //zum angucken
         
-        for(i=0; i<100; ++i)
+        for(i=0; i<1000; ++i)
         {
             for(j=0; j<N*N; ++j)
             {
@@ -67,7 +68,7 @@ int main(int argc, char **argv)
                   if((dE = calcMFTEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
                       mt_random()/mt_max < exp(-dE/kB/T))
                   {
-                    spins[rpos][cpos] *= -1;
+                    spins[rpos][cpos] *= -1;                    
                   }
                 }
             }

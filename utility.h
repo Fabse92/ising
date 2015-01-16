@@ -30,11 +30,12 @@ double calcEnergy2D(int **spins)
 /** Calculetes the sum of all spins in the 2D-lattice */
 int spinSum2D(int **spins, int len)
 {
-  int sum;
+  int sum=0;
+  int i,j;
   
-  for (i=1;i<=len;++i)
+  for (i=0;i<len;++i)
   {
-    for(j=1;j<=len;++j)
+    for(j=0;j<len;++j)
     {
       sum = sum + spins[i][j];
     }
@@ -120,23 +121,8 @@ double calcMagperSpin2D(int **spins, int len)
 {
   assert(spins!=NULL && len > 0);
   
-  int i,j;
-  int N1, N2;       // N1 Anzahl Spins im Zustand +1; N2 im Zustand -1
-  for (i = 0; i < len; ++i)
-  {
-      for (j = 0; j < len; ++j)
-      {
-          if (spins[i][j] == 1)
-          {
-              ++N1;
-          }
-          else
-          {
-              ++N2;
-          }
-      }
-  }
-  return ( (double) ( N1 - N2) / ( len * len) );
+  int sum = spinSum2D(spins, len);
+  return ( (double)sum / ( len * len) );
 }
 
 //** Calculates magnetisation / spin for a 3D-Matrix */
