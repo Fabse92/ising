@@ -27,8 +27,8 @@ double calcEnergy2D(int **spins)
     return 0.0;
 }
 
-/** Calculetes the sum of all spins in the 2D-lattice */
-int spinSum2D(int **spins, int len)
+/** Calculetes the sum of all spins in the 2D-square-lattice */
+int spinSum2DSquare(int **spins, int len)
 {
   int sum=0;
   int i,j;
@@ -44,26 +44,62 @@ int spinSum2D(int **spins, int len)
 }
 
 /**  Calculates the difference in energy in mean field approximation that a spin flip at position (row,col) 
-would cause (in units of J!)(it has to be a square 2D matrix) */
-int calcMFTEnergyDiff2D(int **spins, int row, int col, int len) //, double J, double B)
+would cause (it has to be a square 2D matrix) */
+double calcMFTEnergyDiff2DSquare(int **spins, int row, int col, int len, int sum, double J, double B)
 {
   assert(spins != NULL && len > 0);
   assert(row >= 0 && col >= 0);
-
-  int diff, spin, mfield;
+  
+  int spin, mfield;
+  double diff;
   
   spin = spins[row][col];
-  mfield = spinSum2D(spins, len) - spin;
-  //diff = (8*J/(len*len)*mfield - B)*2*spin;
-  diff = (8/(len*len)*mfield)*2*spin;
+  mfield = sum - spin;
+  diff = (8*J/(len*len)*mfield - B)*2*spin;
+    
+  return diff;
+}
+
+/** Calculetes the sum of all spins in the 3D-cubic-lattice */
+int spinSum3DCubic(int ***spins, int len)
+{
+  int sum=0;
+  int i,j,k;
   
+  for (i=0;i<len;++i)
+  {
+    for(j=0;j<len;++j)
+    {
+      for(k=0;k<len;++k)
+      {
+        sum = sum + spins[i][j][k];
+      }
+    }
+  }
+  return sum;
+}
+
+/**  Calculates the difference in energy in mean field approximation that a spin flip at position (row,col) 
+would cause (it has to be a cubic 3D matrix) */
+double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int len, int sum, double J, double B)
+{
+  assert(spins != NULL && len > 0);
+  assert(row >= 0 && col >= 0 && depth >= 0);
+  
+  int spin, mfield;
+  double diff;
+  
+  spin = spins[row][col][depth];
+  mfield = sum - spin;
+  diff = (12*J/(len*len*len)*mfield - B)*2*spin;
+    
   return diff;
 }
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)
 (it has to be a square 2D matrix) (periodic boundary conditions)*/
 /* 2 * Summe ueber Nachbarn * eigener spin */
-int calcEnergyDiff2D(int **spins, int row, int col, int len)
+double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, double B)
 {
     assert(spins != NULL && len > 0);
     assert(row >= 0 && col >= 0);
@@ -81,12 +117,12 @@ int calcEnergyDiff2D(int **spins, int row, int col, int len)
     else dspin = spins[row+1][col];
     
     neighSum = rspin + lspin + uspin + dspin;
-    return 2*neighSum*spin; 
+    return (J*neighSum - B)*2*spin; 
 }
 
-/** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause (in units of J)
+/** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause
 (it has to be a cubic 3D matrix) (periodic boundary conditions) */
-int calcEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len)
+double calcEnergyDiff3DSquare(int ***spins, int x1, int x2, int x3, int len, double J, double B)
 {
     assert(spins!=NULL && len > 0);
     assert(x1>=0 && x2>=0 && x3>=0);
@@ -113,7 +149,7 @@ int calcEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len)
     {
         neighSum += nspin[i];
     }
-    return 2*neighSum*spin;
+    return (J*neighSum - B)*2*spin;
 }
 
 //** Calculates magnetisation / spin for a 2D-Matrix */
@@ -121,35 +157,17 @@ double calcMagperSpin2D(int **spins, int len)
 {
   assert(spins!=NULL && len > 0);
   
-  int sum = spinSum2D(spins, len);
+  int sum = spinSum2DSquare(spins, len);
   return ( (double)sum / ( len * len) );
 }
 
 //** Calculates magnetisation / spin for a 3D-Matrix */
-double calcMagperSpin3D(int **spins, int len)
+double calcMagperSpin3D(int ***spins, int len)
 {
   assert(spins!=NULL && len > 0);
   
-  int i,j,k;
-  int N1, N2;       // N1 Anzahl Spins im Zustand +1; N2 im Zustand -1
-  for (i = 0; i < len; ++i)
-  {
-      for (j = 0; j < len; ++j)
-      {
-          for (k = 0; k < len; ++k)
-          {
-              if (spins[i][j] == 1)
-              {
-                  ++N1;
-              }
-              else
-              {
-                  ++N2;
-              }
-          }
-      }
-  }
-  return ( (double) ( N1 - N2) / ( len * len * len) );
+  int sum = spinSum3DCubic(spins, len);
+  return ( (double)sum / ( len * len * len) );
 }
 
 

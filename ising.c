@@ -24,12 +24,13 @@ int main(int argc, char **argv)
         usage(argv[0]);
     }    
 
-    double T=1.0, dE, SpinSum;
-    const double J=1.0, kB = 0.1;
+    double T=1.0, dE;
+    const double J=1.0, kB = 0.1, B=0.5;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
     int mod = 0;
+    int spinSum;
     
     srand(time(NULL)); // muss weiterhin gemacht werden, da der Twister mit rand() initialisiert wird
     mt_init();
@@ -45,7 +46,7 @@ int main(int argc, char **argv)
     {
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
-        SpinSum = spinSum2D(spins, N);
+        spinSum = spinSum2DSquare(spins, N);
         matrixPrint2D(spins,N,N); //zum angucken
         
         for(i=0; i<1000; ++i)
@@ -57,7 +58,7 @@ int main(int argc, char **argv)
                 cpos = mt_random() % N;
                 if(mod == 0)
                 {
-                  if((dE = calcEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
+                  if((dE = calcEnergyDiff2DSquare(spins, rpos, cpos, N, J, B)) < 0 || 
                       mt_random()/mt_max < exp(-dE/kB/T))
                   {
                     spins[rpos][cpos] *= -1;
@@ -65,10 +66,11 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                  if((dE = calcMFTEnergyDiff2D(spins, rpos, cpos, N)) < 0 || 
+                  if((dE = calcMFTEnergyDiff2DSquare(spins, rpos, cpos, N, spinSum, J, B)) < 0 || 
                       mt_random()/mt_max < exp(-dE/kB/T))
                   {
-                    spins[rpos][cpos] *= -1;                    
+                    spins[rpos][cpos] *= -1;
+                    spinSum -= 2*spins[rpos][cpos];
                   }
                 }
             }
