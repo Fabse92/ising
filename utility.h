@@ -55,7 +55,7 @@ double calcMFTEnergyDiff2DSquare(int **spins, int row, int col, int len, int sum
   
   spin = spins[row][col];
   mfield = sum - spin;
-  diff = (8*J/(len*len)*mfield - B)*2*spin;
+  diff = (8*J/(len*len)*mfield + B)*2*spin;
     
   return diff;
 }
@@ -91,7 +91,7 @@ double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int l
   
   spin = spins[row][col][depth];
   mfield = sum - spin;
-  diff = (12*J/(len*len*len)*mfield - B)*2*spin;
+  diff = (12*J/(len*len*len)*mfield + B)*2*spin;
     
   return diff;
 }
@@ -117,7 +117,7 @@ double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, 
     else dspin = spins[row+1][col];
     
     neighSum = rspin + lspin + uspin + dspin;
-    return (J*neighSum - B)*2*spin; 
+    return (J*neighSum + B)*2*spin;
 }
 
 /** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause
@@ -149,7 +149,7 @@ double calcEnergyDiff3DSquare(int ***spins, int x1, int x2, int x3, int len, dou
     {
         neighSum += nspin[i];
     }
-    return (J*neighSum - B)*2*spin;
+    return (J*neighSum + B)*2*spin;
 }
 
 //** Calculates magnetisation / spin for a 2D-Matrix */

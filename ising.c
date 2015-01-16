@@ -6,13 +6,13 @@
 #include "matrix.h" 
 #include "utility.h"
 
-static void usage( char* progname) // typical usage-function
+static void usage(char* progname) // typical usage-function
 {
     printf("Usage: %s [N] \n\n", progname);
     printf("  - N: Size of Matrix ( > 0 ) \n");
-	  printf("\n");
-	  printf("Example: %s 5 \n", progname);
-	  exit(EXIT_FAILURE);
+	printf("\n");
+	printf("Example: %s 5 \n", progname);
+	exit(EXIT_FAILURE);
 }
 
 int main(int argc, char **argv)
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     }    
 
     double T=1.0, dE;
-    const double J=1.0, kB = 0.1, B=0.5;
+    const double J=1.0, kB = 0.1, B=+0.5;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
@@ -42,8 +42,8 @@ int main(int argc, char **argv)
     spins=matrixMalloc2D(N,N);    
     
     /* a simulation for each temperature eg 0.01 to 0.06 */
-    for(T=0.0530; T<=0.0540; T += 0.00005) //testing shows: specific temp somewhere between 0.05 and 0.06
-    {
+    for(T=0.0570; T<=0.0750; T += 0.0001) //testing shows: specific temp somewhere between 0.05 and 0.06 (B=0)
+    {                                     //between 0.067 to 0.068 (B=0.5)
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
         spinSum = spinSum2DSquare(spins, N);
@@ -69,8 +69,8 @@ int main(int argc, char **argv)
                   if((dE = calcMFTEnergyDiff2DSquare(spins, rpos, cpos, N, spinSum, J, B)) < 0 || 
                       mt_random()/mt_max < exp(-dE/kB/T))
                   {
-                    spins[rpos][cpos] *= -1;
                     spinSum -= 2*spins[rpos][cpos];
+                    spins[rpos][cpos] *= -1;
                   }
                 }
             }
