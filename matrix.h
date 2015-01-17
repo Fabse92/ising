@@ -50,6 +50,30 @@ void matrixPrint2D(int **mat, int rows, int cols)
     }
 }
 
+/** prints a 2-dimensional matrix to file */
+void matrixPrint2Dfile(int **mat, int rows, int cols, const char* filename)
+{
+    int i,j;
+    FILE *fp = fopen(filename, "w");
+    char output[3 * cols + 10];
+    sprintf(output, "");
+    
+    if (fp == NULL)
+        fprintf(stderr, "Konnte nicht in Datei %s schreiben \n", filename);
+    
+    for(i=0; i<rows; ++i)
+    {
+        for(j=0; j<cols; ++j)
+        {
+            sprintf(output, "%s%02d ", output, mat[i][j]);
+        }
+        strcat(output, "\n");
+        fputs( output, fp);  
+        sprintf(output, "");      
+    }
+    fclose (fp);
+}
+
 /** Fills a 2-dimensional matrix with random 1 or -1. */
 void matrixRandFill2D(int **mat,int rows, int cols)
 {
