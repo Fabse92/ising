@@ -35,10 +35,10 @@ int spinSum2DSquare(int **spins, int len)
   
   for (i=0;i<len;++i)
   {
-    for(j=0;j<len;++j)
-    {
-      sum = sum + spins[i][j];
-    }
+      for(j=0;j<len;++j)
+      {
+         sum = sum + spins[i][j];
+      }
   }
   return sum;
 }
@@ -63,37 +63,37 @@ double calcMFTEnergyDiff2DSquare(int **spins, int row, int col, int len, int sum
 /** Calculetes the sum of all spins in the 3D-cubic-lattice */
 int spinSum3DCubic(int ***spins, int len)
 {
-  int sum=0;
-  int i,j,k;
-  
-  for (i=0;i<len;++i)
-  {
-    for(j=0;j<len;++j)
+    int sum=0;
+    int i,j,k;
+    
+    for (i=0;i<len;++i)
     {
-      for(k=0;k<len;++k)
-      {
-        sum = sum + spins[i][j][k];
-      }
+        for(j=0;j<len;++j)
+        {
+            for(k=0;k<len;++k)
+            {
+                sum = sum + spins[i][j][k];
+            }
+        }
     }
-  }
-  return sum;
+    return sum;
 }
 
 /**  Calculates the difference in energy in mean field approximation that a spin flip at position (row,col) 
 would cause (it has to be a cubic 3D matrix) */
 double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int len, int sum, double J, double B)
 {
-  assert(spins != NULL && len > 0);
-  assert(row >= 0 && col >= 0 && depth >= 0);
-  
-  int spin, mfield;
-  double diff;
-  
-  spin = spins[row][col][depth];
-  mfield = sum - spin;
-  diff = (12*J/(len*len*len)*mfield + B)*2*spin;
+    assert(spins != NULL && len > 0);
+    assert(row >= 0 && col >= 0 && depth >= 0);
     
-  return diff;
+    int spin, mfield;
+    double diff;
+    
+    spin = spins[row][col][depth];
+    mfield = sum - spin;
+    diff = (12*J/(len*len*len)*mfield + B)*2*spin;
+      
+    return diff;
 }
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)
@@ -155,19 +155,19 @@ double calcEnergyDiff3DSquare(int ***spins, int x1, int x2, int x3, int len, dou
 //** Calculates magnetisation / spin for a 2D-Matrix */
 double calcMagperSpin2D(int **spins, int len)
 {
-  assert(spins!=NULL && len > 0);
-  
-  int sum = spinSum2DSquare(spins, len);
-  return ( (double)sum / ( len * len) );
+    assert(spins!=NULL && len > 0);
+    
+    int sum = spinSum2DSquare(spins, len);
+    return ( (double)sum / ( len * len) );
 }
 
 //** Calculates magnetisation / spin for a 3D-Matrix */
 double calcMagperSpin3D(int ***spins, int len)
 {
-  assert(spins!=NULL && len > 0);
-  
-  int sum = spinSum3DCubic(spins, len);
-  return ( (double)sum / ( len * len * len) );
+    assert(spins!=NULL && len > 0);
+    
+    int sum = spinSum3DCubic(spins, len);
+    return ( (double)sum / ( len * len * len) );
 }
 
 
