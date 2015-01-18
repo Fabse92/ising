@@ -12,7 +12,7 @@
 
 static void usage(char* progname) // typical usage-function
 {
-    printf("\nUsage: %s [N] (steps) (mode) (T_i) (T_e) (T_s) \n", progname);
+    printf("\nUsage: %s [N] (steps) (mode) (T_i) (T_e) (T_s) (B)\n", progname);
     printf("Where values in [] are required, while values in () are optional \n\n");
     printf("  - N: Size of Matrix ( int value > 0 ) \n");
     printf("  - steps: Number of MonteCarlo steps ( int value > 0 ) \n");
@@ -20,15 +20,16 @@ static void usage(char* progname) // typical usage-function
     printf("  - T_i: initial temperature value for the first montecarlo-simulation ( double value ) \n");
     printf("  - T_e: temperature value where the Simualtion will end ( double value ) \n");
     printf("  - T_s: step size for the temperature ( double value ) \n");
+    printf("  - B: is the extern magnetic field ( double value ) \n");
 	  printf("\n");
-	  printf("Example: %s 25 100 n 0.0570 0.0580 0.0001 \n", progname);
+	  printf("Example: %s 25 100 n 0.0570 0.0580 0.0001 0.0000 \n", progname);
 	  exit(EXIT_FAILURE);
 }
 
 int main(int argc, char **argv)
 {
     int N, steps = 100;
-    double temp_init = 0.0580, temp_end = 0.0580, temp_step = 0.0001;
+    double temp_init = 0.0580, temp_end = 0.0580, temp_step = 0.0001, B = 0.0000;
     char mode = 'n';
     
     if (argc < 2 || sscanf(argv[1], "%d", &N) != 1 || N < 1)
@@ -55,11 +56,15 @@ int main(int argc, char **argv)
     {
         usage(argv[0]);
     }
+    if (argc > 7 && sscanf(argv[7], "%lf", &B) != 1)
+    {
+        usage(argv[0]);
+    }
 
-    printf("\nattempting to execute %s %d %d %c %f %f %f \n\n", argv[0], N, steps, mode, temp_init, temp_end, temp_step);
+    printf("\nattempting to execute %s %d %d %c %f %f %f %f \n\n", argv[0], N, steps, mode, temp_init, temp_end, temp_step, B);
 
-    double T=1.0, dE;
-    const double J=1.0, kB = 0.1, B=+0.5;
+    double T, dE;
+    const double J=1.0, kB = 1.0;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;     
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
@@ -93,9 +98,11 @@ int main(int argc, char **argv)
         for(i=0; i<steps; ++i)
         {
             // falls ein Film erstellt werden soll
-            /* ++counter;
+            ++counter;
+            /*sprintf(filename, "data/data_T=%f_B=%f_step%d.txt", T, B, counter); // klappt nicht... filename ist korrekt,
+            erstellt auch die richtigen dateien, hängt aber in der schleife fest?!?*/
             sprintf(filename, "data/data%d", counter);
-            matrixPrint2Dfile(spins,N,N, filename);*/
+            matrixPrint2Dfile(spins,N,N, filename);
         
             for(j=0; j<N*N; ++j)
             {
