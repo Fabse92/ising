@@ -4,10 +4,10 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/** Appends "value1" and "value2" to the File "filename" 
-    Where "value1" is of type double and "value2" of type double
+/** Appends "value1", "value2" and "value3" to the File "filename" 
+    Where "value1", "value2" and "value3" are of type double
 */
-void writeOutputFF(double value1, double value2, double value3, const char* filename)
+void writeOutputFFF(double value1, double value2, double value3, const char* filename)
 {
     FILE *fp = fopen(filename, "a");
     char output[50];

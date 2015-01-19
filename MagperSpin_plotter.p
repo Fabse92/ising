@@ -8,4 +8,4 @@ set terminal png size 600,600
 set output 'MagperSpin.png'
 
 
-plot "MagperSpin" using 1:2 title 'M/N im Temperaturverlauf' with linespoints lt rgb "red"
+plot "MagperSpin" using 1:2 title 'M/N im Temperaturverlauf' with points lt rgb "red"
