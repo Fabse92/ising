@@ -21,13 +21,7 @@ void writeOutputFFF(double value1, double value2, double value3, const char* fil
     fclose (fp);
 }
 
-/** Calculates the energy of the 2-dimensional spin-matrix */
-double calcEnergy2D(int **spins)
-{
-    return 0.0;
-}
-
-/** Calculetes the sum of all spins in the 2D-square-lattice */
+/** Calculates the sum of all spins in the 2D-square-lattice */
 int spinSum2DSquare(int **spins, int len)
 {
   int sum=0;
@@ -94,6 +88,44 @@ double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int l
     diff = (12*J/(len*len*len)*mfield + B)*2*spin;
       
     return diff;
+}
+
+/** Calculates the sum of all spins in n dimensions */
+int spinSumDim(void *spins, int len, int dim)
+{
+    if(dim == 2)
+    {
+        int sum=0;
+        int i,j;
+        int **spin =  (int **)spins;        
+        for (i=0;i<len;++i)
+        {
+            for(j=0;j<len;++j)
+            {
+               sum = sum + spin[i][j];
+            }
+        }
+        return sum;
+    }
+    else if (dim == 3)
+    {
+        int sum=0;
+        int i,j,k;
+        int ***spin = (int ***)spins;        
+        for (i=0;i<len;++i)
+        {
+            for(j=0;j<len;++j)
+            {
+                for(k=0;k<len;++k)
+                {
+                    sum = sum + spin[i][j][k];
+                }
+            }
+        }
+        return sum;
+    }
+    fprintf(stderr, "called spinSumD() with invalid dimension: %d\n", dim);
+    exit(EXIT_FAILURE);
 }
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)

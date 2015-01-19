@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     {                                     //between 0.067 to 0.068 (B=0.5)
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
-        spinSum = spinSum2DSquare(spins, N);
+        spinSum = spinSumDim(spins, N, 2);
         sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B);
         imagecounter = 0;
         matrixPrint2Dfile(spins,N,N, filename);
