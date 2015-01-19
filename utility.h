@@ -7,7 +7,7 @@
 /** Appends "value1" and "value2" to the File "filename" 
     Where "value1" is of type double and "value2" of type double
 */
-void writeOutputFF(double value1, double value2, const char* filename)
+void writeOutputFF(double value1, double value2, double value3, const char* filename)
 {
     FILE *fp = fopen(filename, "a");
     char output[50];
@@ -15,7 +15,7 @@ void writeOutputFF(double value1, double value2, const char* filename)
     if (fp == NULL)
         fprintf(stderr, "Konnte nicht in Datei %s schreiben \n", filename);
     
-    sprintf(output, "%f \t %f \n", value1, value2);
+    sprintf(output, "%f \t %f \t %f \n", value1, value2, value3);
     fputs( output, fp);        
         
     fclose (fp);
