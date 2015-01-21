@@ -285,8 +285,8 @@ double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int l
       
     return diff;
 }
-
-//** Calculates magnetisation / spin for a 2D-Matrix */
+/*
+//** Calculates magnetisation / spin for a 2D-Matrix 
 double calcMagperSpin2D(int **spins, int len)
 {
     assert(spins!=NULL && len > 0);
@@ -295,13 +295,32 @@ double calcMagperSpin2D(int **spins, int len)
     return ( (double)sum / ( len * len) );
 }
 
-//** Calculates magnetisation / spin for a 3D-Matrix */
+//** Calculates magnetisation / spin for a 3D-Matrix 
 double calcMagperSpin3D(int ***spins, int len)
 {
     assert(spins!=NULL && len > 0);
     
     int sum = spinSumDim(spins, len, 3);
     return ( (double)sum / ( len * len * len) );
+}*/
+
+/** Calculates magnetisation per spin for a 2D- or 3D-matrix */
+double magPerSpinDim(void *spins, int len, int dim)
+{
+    assert(dim == 2 || dim == 3);
+    assert(spins!=NULL && len>0);
+    
+    double result;
+    int sum = spinSumDim(spins, len, dim);
+    if(dim == 2)
+    {
+        result = ((double)sum / (len*len));
+    }
+    else if(dim == 3)
+    {
+        result = ((double)sum / (len*len*len));
+    }
+    return result;
 }
 
 
