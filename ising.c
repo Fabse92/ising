@@ -9,7 +9,7 @@
 
 #define MAGPERSPINOUTPUT "MagperSpin" // Dateiname der Datei in der die Magnetisierung pro Spin fuer jede Temperatur gespeichert wird
 #define ENERGYPERMAG "EperMag" // Dateiname der Datei in der die Energie pro Magnetisierung fuer jeden Flip gespeichert wird
-#define MT_MAX 4294967295
+#define MT_MAX 4294967295  // 2^32 - 1, hoechster von mt_random() generierter Wert
 
 static void usage(char* progname) // typical usage-function
 {
@@ -116,7 +116,6 @@ int main(int argc, char **argv)
     const double J=1.0, kB = 1.0;
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;     
-    unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
     int spinSum = 0, edgeSum = 0;
     char filename[50];
     int imagecounter = 0, changecounter = 0; // fuer Film     
@@ -154,7 +153,7 @@ int main(int argc, char **argv)
                 if(calcMode == 'n')
                 {
                   if((dE = calcEnergyDiff2DSquare(spins, rpos, cpos, N, J, B)) < 0 || 
-                      mt_random()/ (double) mt_max < exp(-dE/kB/T))
+                      mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
@@ -170,7 +169,7 @@ int main(int argc, char **argv)
                 else if(calcMode == 'm')
                 {
                   if((dE = calcMFTEnergyDiff2DSquare(spins, rpos, cpos, N, spinSum, J, B)) < 0 || 
-                      mt_random()/ (double) mt_max < exp(-dE/kB/T))
+                      mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       spins[rpos][cpos] *= -1;
