@@ -110,7 +110,6 @@ int main(int argc, char **argv)
     printf("\nattempting to execute %s %d %d %c %c %f %f %f %f \n\n", argv[0], N, steps, calcMode, filmMode, temp_init, temp_end, temp_step, B);
     
     initialize(filmMode);
-    return(0);
 
     double T, dE;
     const double J=1.0, kB = 1.0;
