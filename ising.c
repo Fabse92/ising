@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
     int spinSum = 0, edgeSum = 0;
     char filename[50];
-    int imagecounter = 0, changecounter = 500; // fuer Film     
+    int imagecounter = 0, changecounter = 0; // fuer Film     
 
     spins=matrixMalloc2D(N,N);    
     
@@ -128,9 +128,8 @@ int main(int argc, char **argv)
         {           
             for(j=0; j<N*N; ++j)
             {
-                if(filmMode == 'y' && changecounter >= 500) // falls ein Film erstellt werden soll
+                if(filmMode == 'y' && changecounter%500 == 0) // falls ein Film erstellt werden soll
                     {
-                        changecounter = 0;
                         ++imagecounter;
                         sprintf(filename, "film/data_T=%f_B=%f_500changes%d.txt", T, B, imagecounter); //könnte jetzt auch verwendet werden.
                         //sprintf(filename, "data/data%d", imagecounter);
@@ -148,8 +147,11 @@ int main(int argc, char **argv)
                       spinSum -= 2*spins[rpos][cpos];
                       edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
                       spins[rpos][cpos] *= -1;
-                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B); //Noch zu viele Daten für T>Tc
-                      //writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
+                      if(changecounter%100 == 0)
+                      {
+                        sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                        writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
+                      }  
                       ++changecounter;
                   }
                 }
@@ -160,8 +162,11 @@ int main(int argc, char **argv)
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       spins[rpos][cpos] *= -1;
-                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);//Noch zu viele Daten für T>Tc
-                      //writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyMFT(J, B, N, spinSum, 2), filename);
+                      if(changecounter%100 == 0)
+                      {
+                        sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                        writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyMFT(J, B, N, spinSum, 2), filename);
+                      }
                       ++changecounter;
                   }
                 }
