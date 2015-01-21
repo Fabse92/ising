@@ -60,6 +60,64 @@ double calcEnergyMFT(double J, double B, int len, int spinSum, int dim)
   return energy;
 }
 
+/** Calculates the sum of the edges of one spin in 2 dimensions */
+int neighSum2D(int **spins, int x1, int x2, int len)
+{
+    assert(spins!=NULL && len > 0);
+    assert(x1>=0 && x2>=0);
+    
+    int i, neighSum=0, spin;
+    int nspin[4]; //4 neighbor spins
+    
+    spin = spins[x1][x2];
+    
+    if(x1-1<0) nspin[0] = spins[len-1][x2];
+    else nspin[0] = spins[x1-1][x2];
+    if(x1+1>len-1) nspin[1] = spins[0][x2];
+    else nspin[1] = spins[x1+1][x2];
+    if(x2-1<0) nspin[2] = spins[x1][len-1];
+    else nspin[2] = spins[x1][x2-1];
+    if(x2+1>len-1) nspin[3] = spins[x1][0];
+    else nspin[3] = spins[x1][x2+1];
+
+    for(i=0; i<4; ++i)
+    {
+        neighSum += nspin[i];
+    }
+    return neighSum*spin;
+}
+
+/** Calculates the sum of the edges of one spin in 3 dimensions */
+int neighSum3D(int ***spins, int x1, int x2, int x3, int len)
+{
+    assert(spins!=NULL && len > 0);
+    assert(x1>=0 && x2>=0 && x3>=0);
+    
+    int i, neighSum=0, spin;
+    int nspin[6]; //6 neighbor spins
+    
+    spin = spins[x1][x2][x3];
+    
+    if(x1-1<0) nspin[0] = spins[len-1][x2][x3];
+    else nspin[0] = spins[x1-1][x2][x3];
+    if(x1+1>len-1) nspin[1] = spins[0][x2][x3];
+    else nspin[1] = spins[x1+1][x2][x3];
+    if(x2-1<0) nspin[2] = spins[x1][len-1][x3];
+    else nspin[2] = spins[x1][x2-1][x3];
+    if(x2+1>len-1) nspin[3] = spins[x1][0][x3];
+    else nspin[3] = spins[x1][x2+1][x3];
+    if(x3-1<0) nspin[4] = spins[x1][x2][len-1];
+    else nspin[4] = spins[x1][x2][x3-1];
+    if(x3+1>len-1) nspin[5] = spins[x1][x2][0];
+    else nspin[5] = spins[x1][x2][x3+1];
+
+    for(i=0; i<6; ++i)
+    {
+        neighSum += nspin[i];
+    }
+    return neighSum*spin;
+}
+
 /** Calculates the sum of all spins in n dimensions */
 int spinSumDim(void *spins, int len, int dim)
 {
@@ -128,64 +186,6 @@ int edgeSumDim(void *spins, int len, int dim)
         }
     }
     return sum/2;
-}
-
-/** Calculates the sum of the edges of one spin in 2 dimensions */
-int neighSum2D(int **spins, int x1, int x2, int len)
-{
-    assert(spins!=NULL && len > 0);
-    assert(x1>=0 && x2>=0);
-    
-    int i, neighSum=0, spin;
-    int nspin[4]; //4 neighbor spins
-    
-    spin = spins[x1][x2];
-    
-    if(x1-1<0) nspin[0] = spins[len-1][x2];
-    else nspin[0] = spins[x1-1][x2];
-    if(x1+1>len-1) nspin[1] = spins[0][x2];
-    else nspin[1] = spins[x1+1][x2];
-    if(x2-1<0) nspin[2] = spins[x1][len-1];
-    else nspin[2] = spins[x1][x2-1];
-    if(x2+1>len-1) nspin[3] = spins[x1][0];
-    else nspin[3] = spins[x1][x2+1];
-
-    for(i=0; i<4; ++i)
-    {
-        neighSum += nspin[i];
-    }
-    return neighSum*spin;
-}
-
-/** Calculates the sum of the edges of one spin in 3 dimensions */
-int neighSum3D(int ***spins, int x1, int x2, int x3, int len)
-{
-    assert(spins!=NULL && len > 0);
-    assert(x1>=0 && x2>=0 && x3>=0);
-    
-    int i, neighSum=0, spin;
-    int nspin[6]; //6 neighbor spins
-    
-    spin = spins[x1][x2][x3];
-    
-    if(x1-1<0) nspin[0] = spins[len-1][x2][x3];
-    else nspin[0] = spins[x1-1][x2][x3];
-    if(x1+1>len-1) nspin[1] = spins[0][x2][x3];
-    else nspin[1] = spins[x1+1][x2][x3];
-    if(x2-1<0) nspin[2] = spins[x1][len-1][x3];
-    else nspin[2] = spins[x1][x2-1][x3];
-    if(x2+1>len-1) nspin[3] = spins[x1][0][x3];
-    else nspin[3] = spins[x1][x2+1][x3];
-    if(x3-1<0) nspin[4] = spins[x1][x2][len-1];
-    else nspin[4] = spins[x1][x2][x3-1];
-    if(x3+1>len-1) nspin[5] = spins[x1][x2][0];
-    else nspin[5] = spins[x1][x2][x3+1];
-
-    for(i=0; i<6; ++i)
-    {
-        neighSum += nspin[i];
-    }
-    return neighSum*spin;
 }
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)

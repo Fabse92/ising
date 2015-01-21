@@ -9,6 +9,7 @@
 
 #define MAGPERSPINOUTPUT "MagperSpin" // Dateiname der Datei in der die Magnetisierung pro Spin fuer jede Temperatur gespeichert wird
 #define ENERGYPERMAG "EperMag" // Dateiname der Datei in der die Energie pro Magnetisierung fuer jeden Flip gespeichert wird
+#define MT_MAX 4294967295
 
 static void usage(char* progname) // typical usage-function
 {
@@ -66,7 +67,8 @@ void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, ch
 void initialize(char filmMode)
 {
     FILE *fp;
-    int i;
+    int i, idx;
+    int verteilung[10] = {0,0,0,0,0,0,0,0,0,0};
     
     if ((fp = fopen(MAGPERSPINOUTPUT, "w")) == NULL) // Dateiinhalt löschen
     {
@@ -84,8 +86,17 @@ void initialize(char filmMode)
     srand(time(NULL)); // muss weiterhin gemacht werden, da der Twister mit rand() initialisiert wird
     mt_init();
     
-    for (i = 0; i < 500000; ++i)  // erstmal den Twister ordentlich aufwaermen!
+    for (i = 0; i < 600000; ++i)  // erstmal den Twister ordentlich aufwaermen!
         mt_random();
+    // test des Zufallszahlengenerators
+    /*
+    for (i = 0; i < 1000000; ++i)
+    {    
+        idx = ((mt_random() / (double) MT_MAX) * 10) / 1;
+        ++verteilung[idx];
+    }
+    printf("\n Verteilung: \n %d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n", verteilung[0], verteilung[1],verteilung[2],verteilung[3],verteilung[4],verteilung[5],verteilung[6],verteilung[7],verteilung[8],verteilung[9]);
+    */
 }    
 
 int main(int argc, char **argv)
@@ -99,6 +110,7 @@ int main(int argc, char **argv)
     printf("\nattempting to execute %s %d %d %c %c %f %f %f %f \n\n", argv[0], N, steps, calcMode, filmMode, temp_init, temp_end, temp_step, B);
     
     initialize(filmMode);
+    return(0);
 
     double T, dE;
     const double J=1.0, kB = 1.0;
@@ -142,7 +154,7 @@ int main(int argc, char **argv)
                 if(calcMode == 'n')
                 {
                   if((dE = calcEnergyDiff2DSquare(spins, rpos, cpos, N, J, B)) < 0 || 
-                      mt_random()/mt_max < exp(-dE/kB/T))
+                      mt_random()/ (double) mt_max < exp(-dE/kB/T))
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
@@ -158,7 +170,7 @@ int main(int argc, char **argv)
                 else if(calcMode == 'm')
                 {
                   if((dE = calcMFTEnergyDiff2DSquare(spins, rpos, cpos, N, spinSum, J, B)) < 0 || 
-                      mt_random()/mt_max < exp(-dE/kB/T))
+                      mt_random()/ (double) mt_max < exp(-dE/kB/T))
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       spins[rpos][cpos] *= -1;
@@ -186,6 +198,6 @@ int main(int argc, char **argv)
     }
     /* now we have one saved result for each temperature */
     
-    matrixDelete2D(spins);    
+    matrixDelete2D(spins);   
     return EXIT_SUCCESS;
 }   
