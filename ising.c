@@ -117,8 +117,8 @@ int main(int argc, char **argv)
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
         spinSum = spinSumDim(spins, N, 2);
-        //if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
-        printf("edgeSum = %f\n",edgeSum);
+        if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
+        //printf("edgeSum = %d\n",edgeSum); // Kontrolldruck
         sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B);
         imagecounter = 0;
         matrixPrint2Dfile(spins,N,N, filename);
@@ -145,10 +145,10 @@ int main(int argc, char **argv)
                   if((dE = calcEnergyDiff2DSquare(spins, rpos, cpos, N, J, B)) < 0 || 
                       mt_random()/mt_max < exp(-dE/kB/T))
                   {
-                      //spinSum -= 2*spins[rpos][cpos];
-                      //edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
+                      spinSum -= 2*spins[rpos][cpos];
+                      edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
                       spins[rpos][cpos] *= -1;
-                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B); //Noch zu viele Daten für T>Tc
                       //writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
                       ++changecounter;
                   }
@@ -160,7 +160,7 @@ int main(int argc, char **argv)
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       spins[rpos][cpos] *= -1;
-                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);//Noch zu viele Daten für T>Tc
                       //writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyMFT(J, B, N, spinSum, 2), filename);
                       ++changecounter;
                   }

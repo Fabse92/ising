@@ -196,7 +196,7 @@ int edgeSumDim(void *spins, int len, int dim)
             }
         }
     }
-    return sum;
+    return sum/2;
 }
 
 /** Calculates the sum of the edges of one spin in 2 dimensions */
@@ -265,7 +265,7 @@ double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, 
     assert(spins != NULL && len > 0);
     assert(row >= 0 && col >= 0);
     
-    int neighSum, spin, rspin, lspin, uspin, dspin;
+    /*int neighSum, spin, rspin, lspin, uspin, dspin;
     
     spin = spins[row][col];
     if(col-1 < 0) lspin = spins[row][len-1];
@@ -278,7 +278,11 @@ double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, 
     else dspin = spins[row+1][col];
     
     neighSum = rspin + lspin + uspin + dspin;
-    return (J*neighSum + B)*2*spin;
+    return (J*neighSum + B)*2*spin;*/
+    int neighTerm, spin;
+    spin = spins[row][col];
+    neighTerm = neighSum2D(spins, row, col, len);
+    return 2*(J*neighTerm + B*spin);
 }
 
 /** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause
@@ -288,7 +292,7 @@ double calcEnergyDiff3DCubic(int ***spins, int x1, int x2, int x3, int len, doub
     assert(spins!=NULL && len > 0);
     assert(x1>=0 && x2>=0 && x3>=0);
     
-    int i, neighSum=0, spin;
+    /*int i, neighSum=0, spin;
     int nspin[6]; //6 neighbor spins
     
     spin = spins[x1][x2][x3];
@@ -310,7 +314,11 @@ double calcEnergyDiff3DCubic(int ***spins, int x1, int x2, int x3, int len, doub
     {
         neighSum += nspin[i];
     }
-    return (J*neighSum + B)*2*spin;
+    return (J*neighSum + B)*2*spin;*/
+    int neighTerm, spin;
+    spin = spins[x1][x2][x3];
+    neighTerm = neighSum3D(spins, x1, x2, x3, len);
+    return 2*(J*neighTerm + B*spin);
 }
 
 //** Calculates magnetisation / spin for a 2D-Matrix */
