@@ -4,6 +4,23 @@
 #include <assert.h>
 #include <stdlib.h>
 
+/** Appends "value1" and "value2" to the File "filename" 
+    Where "value1" and "value2" are of type double
+*/
+void writeOutputFF(double value1, double value2, const char* filename)
+{
+    FILE *fp = fopen(filename, "a");
+    char output[50];
+    
+    if (fp == NULL)
+        fprintf(stderr, "Konnte nicht in Datei %s schreiben \n", filename);
+    
+    sprintf(output, "%f \t %f \n", value1, value2);
+    fputs( output, fp);        
+        
+    fclose (fp);
+}
+
 /** Appends "value1", "value2" and "value3" to the File "filename" 
     Where "value1", "value2" and "value3" are of type double
 */
@@ -90,13 +107,37 @@ double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int l
     return diff;
 }
 
+/** Calculates the Energy of the current spin lattice with nearest neighbor Hamiltonian*/
+double calcEnergyNN(double J, double B, int len, int spinSum, int edgeSum)
+{
+  double energy;
+  
+  energy = -J*edgeSum/2 - B*spinSum;
+
+  return energy;
+}
+
+/** Calculates the Energy of the current spin lattice with Mean-Field Hamiltonian*/
+double calcEnergyMFT(double J, double B, int len, int spinSum, int dim)
+{
+  assert(dim == 2 || dim == 3);
+  double energy;
+  
+  if(dim == 2) energy = -(4*J*spinSum/(len*len) + B)*spinSum;
+  else if(dim == 3) energy = -(6*J*spinSum/(len*len) + B)*spinSum;
+  
+  return energy;
+}
+
 /** Calculates the sum of all spins in n dimensions */
 int spinSumDim(void *spins, int len, int dim)
 {
+    assert(dim == 2 || dim == 3);
+    
+    int sum=0;
+    int i,j;
     if(dim == 2)
     {
-        int sum=0;
-        int i,j;
         int **spin =  (int **)spins;        
         for (i=0;i<len;++i)
         {
@@ -105,12 +146,10 @@ int spinSumDim(void *spins, int len, int dim)
                sum = sum + spin[i][j];
             }
         }
-        return sum;
     }
     else if (dim == 3)
     {
-        int sum=0;
-        int i,j,k;
+        int k;
         int ***spin = (int ***)spins;        
         for (i=0;i<len;++i)
         {
@@ -122,10 +161,100 @@ int spinSumDim(void *spins, int len, int dim)
                 }
             }
         }
-        return sum;
     }
-    fprintf(stderr, "called spinSumD() with invalid dimension: %d\n", dim);
-    exit(EXIT_FAILURE);
+    return sum;
+}
+
+/** Calculates the sum of all edges in the lattice in n dimensions (for NN-Energy calculating)*/
+int edgeSumDim(void *spins, int len, int dim)
+{
+  assert(dim == 2 || dim == 3);
+    
+    int sum=0;
+    int i,j;
+    if(dim == 2)
+    {
+        for (i=0;i<len;++i)
+        {
+            for(j=0;j<len;++j)
+            {
+               sum = sum + neighSum2D(spins, i, j, len);
+            }
+        }
+    }
+    else if (dim == 3)
+    {
+        int k;    
+        for (i=0;i<len;++i)
+        {
+            for(j=0;j<len;++j)
+            {
+                for(k=0;k<len;++k)
+                {
+                    sum = sum + neighSum3D(spins, i, j, k, len);
+                }
+            }
+        }
+    }
+    return sum;
+}
+
+/** Calculates the sum of the edges of one spin in 2 dimensions */
+int neighSum2D(int **spins, int x1, int x2, int len)
+{
+    assert(spins!=NULL && len > 0);
+    assert(x1>=0 && x2>=0);
+    
+    int i, neighSum=0, spin;
+    int nspin[4]; //4 neighbor spins
+    
+    spin = spins[x1][x2];
+    
+    if(x1-1<0) nspin[0] = spins[len-1][x2];
+    else nspin[0] = spins[x1-1][x2];
+    if(x1+1>len-1) nspin[1] = spins[0][x2];
+    else nspin[1] = spins[x1+1][x2];
+    if(x2-1<0) nspin[2] = spins[x1][len-1];
+    else nspin[2] = spins[x1][x2-1];
+    if(x2+1>len-1) nspin[3] = spins[x1][0];
+    else nspin[3] = spins[x1][x2+1];
+
+    for(i=0; i<4; ++i)
+    {
+        neighSum += nspin[i];
+    }
+    return neighSum*spin;
+}
+
+/** Calculates the sum of the edges of one spin in 3 dimensions */
+int neighSum3D(int ***spins, int x1, int x2, int x3, int len)
+{
+    assert(spins!=NULL && len > 0);
+    assert(x1>=0 && x2>=0 && x3>=0);
+    
+    int i, neighSum=0, spin;
+    int nspin[6]; //6 neighbor spins
+    
+    spin = spins[x1][x2][x3];
+    
+    if(x1-1<0) nspin[0] = spins[len-1][x2][x3];
+    else nspin[0] = spins[x1-1][x2][x3];
+    if(x1+1>len-1) nspin[1] = spins[0][x2][x3];
+    else nspin[1] = spins[x1+1][x2][x3];
+    if(x2-1<0) nspin[2] = spins[x1][len-1][x3];
+    else nspin[2] = spins[x1][x2-1][x3];
+    if(x2+1>len-1) nspin[3] = spins[x1][0][x3];
+    else nspin[3] = spins[x1][x2+1][x3];
+    if(x3-1<0) nspin[4] = spins[x1][x2][len-1];
+    else nspin[4] = spins[x1][x2][x3-1];
+    if(x3+1>len-1) nspin[5] = spins[x1][x2][0];
+    else nspin[5] = spins[x1][x2][x3+1];
+
+    for(i=0; i<6; ++i)
+    {
+        neighSum += nspin[i];
+    }
+    return neighSum*spin;
 }
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)
@@ -154,7 +283,7 @@ double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, 
 
 /** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause
 (it has to be a cubic 3D matrix) (periodic boundary conditions) */
-double calcEnergyDiff3DSquare(int ***spins, int x1, int x2, int x3, int len, double J, double B)
+double calcEnergyDiff3DCubic(int ***spins, int x1, int x2, int x3, int len, double J, double B)
 {
     assert(spins!=NULL && len > 0);
     assert(x1>=0 && x2>=0 && x3>=0);

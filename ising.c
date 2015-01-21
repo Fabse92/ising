@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 
 #define MAGPERSPINOUTPUT "MagperSpin" // Dateiname der Datei in der die Magnetisierung pro Spin fuer jede Temperatur gespeichert wird
+#define ENERGYPERMAG "EperMag" // Dateiname der Datei in der die Energie pro Magnetisierung fuer jeden Flip gespeichert wird
 
 static void usage(char* progname) // typical usage-function
 {
@@ -104,7 +105,7 @@ int main(int argc, char **argv)
     int i,j, rpos, cpos; //row-position, column-position
     int **spins;     
     unsigned long mt_max = 4294967295; // 2^32 - 1, hoechster von mt_random() generierter Wert
-    int spinSum;
+    int spinSum = 0, edgeSum = 0;
     char filename[50];
     int imagecounter = 0, changecounter = 500; // fuer Film     
 
@@ -116,6 +117,8 @@ int main(int argc, char **argv)
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
         spinSum = spinSumDim(spins, N, 2);
+        //if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
+        printf("edgeSum = %f\n",edgeSum);
         sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B);
         imagecounter = 0;
         matrixPrint2Dfile(spins,N,N, filename);
@@ -142,7 +145,11 @@ int main(int argc, char **argv)
                   if((dE = calcEnergyDiff2DSquare(spins, rpos, cpos, N, J, B)) < 0 || 
                       mt_random()/mt_max < exp(-dE/kB/T))
                   {
+                      //spinSum -= 2*spins[rpos][cpos];
+                      //edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
                       spins[rpos][cpos] *= -1;
+                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                      //writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
                       ++changecounter;
                   }
                 }
@@ -153,6 +160,8 @@ int main(int argc, char **argv)
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       spins[rpos][cpos] *= -1;
+                      //sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                      //writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyMFT(J, B, N, spinSum, 2), filename);
                       ++changecounter;
                   }
                 }
