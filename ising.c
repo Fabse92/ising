@@ -147,7 +147,7 @@ int main(int argc, char **argv)
                       spinSum -= 2*spins[rpos][cpos];
                       edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
                       spins[rpos][cpos] *= -1;
-                      if(changecounter%100 == 0)
+                      if(changecounter%500 == 0)
                       {
                         sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
                         writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
                   {
                       spinSum -= 2*spins[rpos][cpos];
                       spins[rpos][cpos] *= -1;
-                      if(changecounter%100 == 0)
+                      if(changecounter%500 == 0)
                       {
                         sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
                         writeOutputFF(calcMagperSpin2D(spins, N), calcEnergyMFT(J, B, N, spinSum, 2), filename);
@@ -171,6 +171,8 @@ int main(int argc, char **argv)
                   }
                 }
             }              
+            sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
+            writeOutputFF(i, calcMagperSpin2D(spins, N), filename);
         }
         sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
         matrixPrint2Dfile(spins,N,N, filename);
