@@ -120,9 +120,9 @@ int main(int argc, char **argv)
         spinSum = spinSumDim(spins, N, 2);
         if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
         //printf("edgeSum = %d\n",edgeSum); // Kontrolldruck
-        sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B);
+        //sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B); //Setup klappt, Startbild nicht mehr nötig, Endbild weiter zur Kontrolle
         imagecounter = 0;
-        matrixPrint2Dfile(spins,N,N, filename);
+        //matrixPrint2Dfile(spins,N,N, filename);
         
         for(i=0; i<steps; ++i)
         {           
