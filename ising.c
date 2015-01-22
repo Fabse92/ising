@@ -23,9 +23,9 @@ static void usage(char* progname) // typical usage-function
     printf("  - T_e: temperature value where the Simualtion will end ( double value ) \n");
     printf("  - T_s: step size for the temperature ( double value ) \n");
     printf("  - B: is the extern magnetic field ( double value ) \n");
-	  printf("\n");
-	  printf("Example: %s 25 1000 n y 0.0570 0.0580 0.0001 0.0000 \n", progname);
-	  exit(EXIT_FAILURE);
+	printf("\n");
+	printf("Example: %s 25 1000 n y 1.50 4.00 0.10 0.00 \n", progname);
+	exit(EXIT_FAILURE);
 }
 
 void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, char *filmMode, double *temp_init, double *temp_end, double *temp_step, double *B)
@@ -88,21 +88,12 @@ void initialize(char filmMode)
     
     for (i = 0; i < 600000; ++i)  // erstmal den Twister ordentlich aufwaermen!
         mt_random();
-    // test des Zufallszahlengenerators
-    /*
-    for (i = 0; i < 1000000; ++i)
-    {    
-        idx = ((mt_random() / (double) MT_MAX) * 10) / 1;
-        ++verteilung[idx];
-    }
-    printf("\n Verteilung: \n %d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n", verteilung[0], verteilung[1],verteilung[2],verteilung[3],verteilung[4],verteilung[5],verteilung[6],verteilung[7],verteilung[8],verteilung[9]);
-    */
 }    
 
 int main(int argc, char **argv)
 {
     int N, steps = 1000;
-    double temp_init = 0.0580, temp_end = 0.0580, temp_step = 0.0001, B = 0.0000;
+    double temp_init = 1.5, temp_end = 4.0, temp_step = 0.1, B = 0.0000;
     char calcMode = 'n', filmMode = 'n';
     
     getParameters(argc, argv, &N, &steps, &calcMode, &filmMode, &temp_init, &temp_end, &temp_step, &B);    
@@ -122,8 +113,8 @@ int main(int argc, char **argv)
     spins=matrixMalloc2D(N,N);    
     
     /* a simulation for each temperature eg 0.01 to 0.06 */
-    for(T=temp_init; T<=temp_end; T += temp_step) //testing shows: specific temp somewhere between 0.05 and 0.06 (B=0)
-    {                                     //between 0.067 to 0.068 (B=0.5)
+    for(T=temp_init; T<=temp_end; T += temp_step) //testing shows: specific temp somewhere near 2.2 (B=0)
+    {
         /* fill matrix with random 1 or -1 */
         matrixRandFill2D(spins,N,N);
         spinSum = spinSumDim(spins, N, 2);
@@ -132,7 +123,6 @@ int main(int argc, char **argv)
         sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B);
         imagecounter = 0;
         matrixPrint2Dfile(spins,N,N, filename);
-        //matrixPrint2D(spins,N,N); //zum angucken
         
         for(i=0; i<steps; ++i)
         {           
@@ -187,15 +177,9 @@ int main(int argc, char **argv)
         sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
         matrixPrint2Dfile(spins,N,N, filename);
         writeOutputFFF(T, magPerSpinDim(spins, N, 2), B, MAGPERSPINOUTPUT);
-        /* zum angucken
-        printf("\n");
-        matrixPrint2D(spins,N,N);*/ 
-        printf("========temp %f finished========\n", T);
-        /* save result */
-        //..
+        printf("temp %f finished,   ", T);
     }
-    /* now we have one saved result for each temperature */
-    
+    prinft("\n");
     matrixDelete2D(spins);   
     return EXIT_SUCCESS;
 }   
