@@ -67,8 +67,7 @@ void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, ch
 void initialize(char filmMode)
 {
     FILE *fp;
-    int i, idx;
-    int verteilung[10] = {0,0,0,0,0,0,0,0,0,0};
+    int i;
     
     if ((fp = fopen(MAGPERSPINOUTPUT, "w")) == NULL) // Dateiinhalt löschen
     {
@@ -108,7 +107,7 @@ int main(int argc, char **argv)
     int **spins;     
     int spinSum = 0, edgeSum = 0;
     char filename[50];
-    int imagecounter = 0, changecounter = 0; // fuer Film     
+    unsigned long imagecounter = 0, changecounter = 0; // fuer Film     
 
     spins=matrixMalloc2D(N,N);    
     
@@ -128,11 +127,11 @@ int main(int argc, char **argv)
         {           
             for(j=0; j<N*N; ++j)
             {
-                if(filmMode == 'y' && changecounter%500 == 0) // falls ein Film erstellt werden soll
+                if(filmMode == 'y' && changecounter%5000 == 0) // falls ein Film erstellt werden soll
                     {
                         ++imagecounter;
-                        sprintf(filename, "film/data_T=%f_B=%f_500changes%d.txt", T, B, imagecounter); //könnte jetzt auch verwendet werden.
-                        //sprintf(filename, "data/data%d", imagecounter);
+                        sprintf(filename, "film/data%lu", imagecounter);
+                        //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
                         matrixPrint2Dfile(spins,N,N, filename);
                     }            
             
