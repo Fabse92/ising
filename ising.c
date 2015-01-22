@@ -179,7 +179,7 @@ int main(int argc, char **argv)
         writeOutputFFF(T, magPerSpinDim(spins, N, 2), B, MAGPERSPINOUTPUT);
         printf("temp %f finished,   ", T);
     }
-    prinft("\n");
+    prinf("\n");
     matrixDelete2D(spins);   
     return EXIT_SUCCESS;
 }   
