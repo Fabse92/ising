@@ -24,7 +24,7 @@ static void usage(char* progname) // typical usage-function
     printf("  - T_s: step size for the temperature ( double value ) \n");
     printf("  - B: is the extern magnetic field ( double value ) \n");
 	printf("\n");
-	printf("Example: %s 25 1000 n y 1.50 4.00 0.10 0.00 \n", progname);
+	printf("Example: %s 25 1000 n n 1.50 4.00 0.10 0.00 \n", progname);
 	exit(EXIT_FAILURE);
 }
 
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 
     double T, dE;
     const double J=1.0, kB = 1.0;
-    int i,j, rpos, cpos; //row-position, column-position
+    int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
     int **spins;     
     int spinSum = 0, edgeSum = 0;
     char filename[50];
@@ -140,11 +140,11 @@ int main(int argc, char **argv)
                 cpos = mt_random() % N;
                 if(calcMode == 'n')
                 {
-                  if((dE = calcEnergyDiff2DSquare(spins, rpos, cpos, N, J, B)) < 0 || 
+                  if((dE = calcEnergyDiffDim(spins, rpos, cpos, zpos, N, J, B, 2)) < 0 || 
                       mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                   {
                       spinSum -= 2*spins[rpos][cpos];
-                      edgeSum -= 2*neighSum2D(spins, rpos, cpos, N);
+                      edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
                       spins[rpos][cpos] *= -1;
                       if(changecounter%500 == 0)
                       {
@@ -156,7 +156,7 @@ int main(int argc, char **argv)
                 }
                 else if(calcMode == 'm')
                 {
-                  if((dE = calcMFTEnergyDiff2DSquare(spins, rpos, cpos, N, spinSum, J, B)) < 0 || 
+                  if((dE = calcMFTEnergyDiffDim(spins, rpos, cpos, zpos, N, spinSum, J, B, 2)) < 0 || 
                       mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                   {
                       spinSum -= 2*spins[rpos][cpos];

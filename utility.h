@@ -39,6 +39,7 @@ void writeOutputFFF(double value1, double value2, double value3, const char* fil
 }
 
 /** Calculates the Energy of the current spin lattice with nearest neighbor Hamiltonian*/
+/* you can use this only if you have a current sum of all spins and sum over all edges */
 double calcEnergyNN(double J, double B, int len, int spinSum, int edgeSum)
 {
   double energy;
@@ -120,6 +121,26 @@ int neighSum3D(int ***spins, int x1, int x2, int x3, int len)
     return neighSum*spin;
 }
 
+
+/** Calculates the sum of the edges of one spin in dim dimensions */
+/* example: edge 1....-1 adds -1 to the sum; edge -1....-1 adds +1 */
+int neighSumDim(void *spins, int x1, int x2, int x3, int len, int dim)
+{
+    assert(dim == 2 || dim == 3);
+    assert(spins!=NULL && len>0);
+    
+    int result;
+    if(dim == 2)
+    {
+        result = neighSum2D((int **)spins, x1, x2, len);
+    }
+    else if(dim == 3)
+    {
+        result = neighSum3D((int ***)spins, x1, x2, x3, len);
+    }
+    return result;    
+}
+
 /** Calculates the sum of all spins in dim dimensions */
 int spinSumDim(void *spins, int len, int dim)
 {
@@ -192,7 +213,7 @@ int edgeSumDim(void *spins, int len, int dim)
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)
 (it has to be a square 2D matrix) (periodic boundary conditions)*/
-double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, double B)
+double calcEnergyDiff2D(int **spins, int row, int col, int len, double J, double B)
 {
     assert(spins != NULL && len > 0);
     assert(row >= 0 && col >= 0);
@@ -205,7 +226,7 @@ double calcEnergyDiff2DSquare(int **spins, int row, int col, int len, double J, 
 
 /** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause
 (it has to be a cubic 3D matrix) (periodic boundary conditions) */
-double calcEnergyDiff3DCubic(int ***spins, int x1, int x2, int x3, int len, double J, double B)
+double calcEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len, double J, double B)
 {
     assert(spins!=NULL && len > 0);
     assert(x1>=0 && x2>=0 && x3>=0);
@@ -218,7 +239,7 @@ double calcEnergyDiff3DCubic(int ***spins, int x1, int x2, int x3, int len, doub
 
 /**  Calculates the difference in energy in mean field approximation that a spin flip at position (row,col) 
 would cause (it has to be a square 2D matrix) */
-double calcMFTEnergyDiff2DSquare(int **spins, int row, int col, int len, int sum, double J, double B)
+double calcMFTEnergyDiff2D(int **spins, int row, int col, int len, int sum, double J, double B)
 {
   assert(spins != NULL && len > 0);
   assert(row >= 0 && col >= 0);
@@ -235,7 +256,7 @@ double calcMFTEnergyDiff2DSquare(int **spins, int row, int col, int len, int sum
 
 /**  Calculates the difference in energy in mean field approximation that a spin flip at position (row,col) 
 would cause (it has to be a cubic 3D matrix) */
-double calcMFTEnergyDiff3DCubic(int ***spins, int row, int col, int depth, int len, int sum, double J, double B)
+double calcMFTEnergyDiff3D(int ***spins, int row, int col, int depth, int len, int sum, double J, double B)
 {
     assert(spins != NULL && len > 0);
     assert(row >= 0 && col >= 0 && depth >= 0);
@@ -269,6 +290,43 @@ double magPerSpinDim(void *spins, int len, int dim)
     return result;
 }
 
+/** Calculates the difference in energy that a spin flip at pos (x1,x2(,x3)) would cause */
+/* x3 is not used in 2-dimensional case */
+double calcEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, double J, double B, int dim)
+{
+    assert(dim == 2 || dim == 3);
+    assert(spins!=NULL && len>0);
+    
+    double result;
+    if(dim == 2)
+    {
+        result = calcEnergyDiff2D((int **)spins, x1, x2, len, J, B);
+    }
+    else if(dim == 3)
+    {
+        result = calcEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
+    }
+    return result;
+}
+
+/** Calculates the difference in energy in mean field approximation that a spin flip at pos (x1,x2(,x3)) would cause */
+/* x3 is not used in 2-dimensional case */
+double calcMFTEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, int sum, double J, double B, int dim)
+{
+    assert(dim == 2 || dim == 3);
+    assert(spins!=NULL && len>0);
+    
+    double result;
+    if(dim == 2)
+    {
+        result = calcMFTEnergyDiff2D((int **)spins, x1, x2, len, sum, J, B);
+    }
+    else if(dim == 3)
+    {
+        result = calcMFTEnergyDiff3D((int ***)spins, x1, x2, x3, len, sum, J, B);
+    }
+    return result;
+}
 
 /* This program implements the Mersenne twister algorithm for generation of pseudorandom numbers. 
 The program returns random integers in the range 0 to 2^32-1 (this holds even if a long int is
