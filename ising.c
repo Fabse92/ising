@@ -13,22 +13,23 @@
 
 static void usage(char* progname) // typical usage-function
 {
-    printf("\nUsage: %s [N] (steps) (calcMode) (filmMode)(T_i) (T_e) (T_s) (B)\n", progname);
+    printf("\nUsage: %s [N] (steps) (calcMode) (filmMode) (sweepMode) (S_i) (S_e) (S_s) (K)\n", progname);
     printf("Where values in [] are required, while values in () are optional \n\n");
     printf("  - N: Size of Matrix ( int value > 0 ) \n");
     printf("  - steps: Number of MonteCarlo steps ( int value > 0 ) \n");
     printf("  - calcMode: energy calculating via nearest neighbour or meanfield aproximation ( n or m ) \n");
     printf("  - filmMode: additional lattice saving ( y or n ) \n");
-    printf("  - T_i: initial temperature value for the first montecarlo-simulation ( double value ) \n");
-    printf("  - T_e: temperature value where the Simualtion will end ( double value ) \n");
-    printf("  - T_s: step size for the temperature ( double value ) \n");
-    printf("  - B: is the extern magnetic field ( double value ) \n");
-	printf("\n");
-	printf("Example: %s 25 1000 n n 1.50 4.00 0.10 0.00 \n", progname);
-	exit(EXIT_FAILURE);
+    printf("  - sweepMode: montecarlo-simulations for differnt magnetic fields or temperatures( B or T ) \n");
+    printf("  - S_i: initial value of sweep parameter for the first montecarlo-simulation ( double value ) \n");
+    printf("  - S_e: value of sweep parameter where the Simualtion will end ( double value ) \n");
+    printf("  - S_s: step size of sweep parameter ( double value ) \n");
+    printf("  - C: is the extern constant parameter over the sweep ( double value ) \n");
+    printf("\n");
+    printf("Example: %s 25 1000 n y T 1.50 4.00 0.10 0.00 \n", progname);
+    exit(EXIT_FAILURE);
 }
 
-void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, char *filmMode, double *temp_init, double *temp_end, double *temp_step, double *B)
+void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, char *filmMode, char *sweepMode, double *sweep_init, double *sweep_end, double *sweep_step, double *C)
 {
     if (argc < 2 || sscanf(argv[1], "%d", N) != 1 || *N < 1)
     {
@@ -46,19 +47,23 @@ void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, ch
     {
         usage(argv[0]);
     }
-    if (argc > 5 && sscanf(argv[5], "%lf", temp_init) != 1)
+    if ((argc > 5 && sscanf(argv[5], "%c", sweepMode) != 1) || (*sweepMode != 'B' && *sweepMode != 'T'))
     {
         usage(argv[0]);
     }
-    if (argc > 6 && sscanf(argv[6], "%lf", temp_end) != 1)
+    if (argc > 6 && sscanf(argv[6], "%lf", sweep_init) != 1)
     {
         usage(argv[0]);
     }
-    if (argc > 7 && sscanf(argv[7], "%lf", temp_step) != 1)
+    if (argc > 7 && sscanf(argv[7], "%lf", sweep_end) != 1)
     {
         usage(argv[0]);
     }
-    if (argc > 8 && sscanf(argv[8], "%lf", B) != 1)
+    if (argc > 8 && sscanf(argv[8], "%lf", sweep_step) != 1)
+    {
+        usage(argv[0]);
+    }
+    if (argc > 9 && sscanf(argv[9], "%lf", C) != 1)
     {
         usage(argv[0]);
     }        
@@ -92,16 +97,16 @@ void initialize(char filmMode)
 int main(int argc, char **argv)
 {
     int N, steps = 1000;
-    double temp_init = 1.5, temp_end = 4.0, temp_step = 0.1, B = 0.0000;
-    char calcMode = 'n', filmMode = 'n';
+    double sweep_init = 1.5, sweep_end = 4.0, sweep_step = 0.1, C = 0.0000;
+    char calcMode = 'n', filmMode = 'n', sweepMode = 'T';
     
-    getParameters(argc, argv, &N, &steps, &calcMode, &filmMode, &temp_init, &temp_end, &temp_step, &B);    
+    getParameters(argc, argv, &N, &steps, &calcMode, &filmMode, &sweepMode, &sweep_init, &sweep_end, &sweep_step, &C);    
 
-    printf("\nattempting to execute %s %d %d %c %c %f %f %f %f \n\n", argv[0], N, steps, calcMode, filmMode, temp_init, temp_end, temp_step, B);
+    printf("\nattempting to execute %s %d %d %c %c %c %f %f %f %f \n\n", argv[0], N, steps, calcMode, filmMode, sweepMode, sweep_init, sweep_end, sweep_step, C);
     
     initialize(filmMode);
 
-    double T, dE;
+    double S, T, B, dE;
     const double J=1.0, kB = 1.0;
     int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
     int **spins;     
@@ -110,65 +115,78 @@ int main(int argc, char **argv)
     unsigned long imagecounter = 0, changecounter = 0; // fuer Film     
 
     spins=matrixMallocDim(N, 2);    
+    if(sweepMode == 'T') B = C; //choose the right sweepMode
+    else if(sweepMode == 'B') T = C;
     
-    /* a simulation for each temperature eg 0.01 to 0.06 */
-    for(T=temp_init; T<=temp_end; T += temp_step) //testing shows: specific temp somewhere near 2.2 (B=0)
+    /* a simulation for each sweep increment */
+    for(S=sweep_init; S<=sweep_end; S += sweep_step)
     {
-        /* fill matrix with random 1 or -1 */
-        matrixRandFillDim(spins,N,2);
+        matrixRandFillDim(spins,N,2); // fill matrix with random 1 or -1
         spinSum = spinSumDim(spins, N, 2);
         if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
-        //printf("edgeSum = %d\n",edgeSum); // Kontrolldruck
-        //sprintf(filename, "output/matrix_T=%f_B=%f_start.txt", T, B); //Setup klappt, Startbild nicht mehr nötig, Endbild weiter zur Kontrolle
+        if(sweepMode == 'T') T = S; //choose the right sweepMode
+        else if(sweepMode == 'B') B = S;
         imagecounter = 0;
-        //matrixPrint2Dfile(spins,N,N, filename);
         
         for(i=0; i<steps; ++i)
         {           
             for(j=0; j<N*N; ++j)
             {
                 if(filmMode == 'y' && changecounter%5000 == 0) // falls ein Film erstellt werden soll
-                    {
-                        ++imagecounter;
-                        sprintf(filename, "film/data%lu", imagecounter);
-                        //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
-                        matrixPrint2Dfile(spins,N,N, filename);
-                    }            
+                {
+                    ++imagecounter;
+                    sprintf(filename, "film/data%lu", imagecounter);
+                    //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
+                    matrixPrint2Dfile(spins,N,N, filename);
+                }            
             
                 /* select random spin, calculate dE, accept spin flip or not */
                 rpos = mt_random() % N;
                 cpos = mt_random() % N;
-                if(calcMode == 'n')
+                if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, 2, calcMode)) < 0 || 
+                    mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                 {
-                  if((dE = calcEnergyDiffDim(spins, rpos, cpos, zpos, N, J, B, 2)) < 0 || 
-                      mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
-                  {
-                      spinSum -= 2*spins[rpos][cpos];
-                      edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
-                      spins[rpos][cpos] *= -1;
-                      if(changecounter%500 == 0)
-                      {
+                    spinSum -= 2*spins[rpos][cpos];
+                    if (calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
+                    spins[rpos][cpos] *= -1;
+                    if(changecounter%500 == 0)
+                    {
                         sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                        writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
-                      }  
-                      ++changecounter;
-                  }
+                        writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, 2), filename);
+                    }  
+                    ++changecounter;
+                }
+                /*if(calcMode == 'n')
+                {
+                    if((dE = calcNNEnergyDiffDim(spins, rpos, cpos, zpos, N, J, B, 2)) < 0 || 
+                        mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
+                    {
+                        spinSum -= 2*spins[rpos][cpos];
+                        edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
+                        spins[rpos][cpos] *= -1;
+                        if(changecounter%500 == 0)
+                        {
+                            sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                            writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
+                        }  
+                        ++changecounter;
+                    }
                 }
                 else if(calcMode == 'm')
                 {
-                  if((dE = calcMFTEnergyDiffDim(spins, rpos, cpos, zpos, N, spinSum, J, B, 2)) < 0 || 
-                      mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
-                  {
-                      spinSum -= 2*spins[rpos][cpos];
-                      spins[rpos][cpos] *= -1;
-                      if(changecounter%500 == 0)
-                      {
-                        sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                        writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergyMFT(J, B, N, spinSum, 2), filename);
-                      }
-                      ++changecounter;
-                  }
-                }
+                    if((dE = calcMFTEnergyDiffDim(spins, rpos, cpos, zpos, N, spinSum, J, B, 2)) < 0 || 
+                        mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
+                    {
+                        spinSum -= 2*spins[rpos][cpos];
+                        spins[rpos][cpos] *= -1;
+                        if(changecounter%500 == 0)
+                        {
+                            sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                            writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergyMFT(J, B, N, spinSum, 2), filename);
+                        }
+                        ++changecounter;
+                    }
+                }*/
             }              
             sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
             writeOutputFF(i, magPerSpinDim(spins, N, 2), filename);
@@ -176,7 +194,8 @@ int main(int argc, char **argv)
         sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
         matrixPrint2Dfile(spins,N,N, filename);
         writeOutputFFF(T, magPerSpinDim(spins, N, 2), B, MAGPERSPINOUTPUT);
-        printf("temp %f finished,   ", T);
+        if(sweepMode == 'T') printf("T = %f finished,   ", T);
+        else if(sweepMode == 'B') printf("B = %f finished,   ", B);
     }
     printf("\n");
     matrixDeleteDim(spins, 2);   

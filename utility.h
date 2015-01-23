@@ -38,6 +38,19 @@ void writeOutputFFF(double value1, double value2, double value3, const char* fil
     fclose (fp);
 }
 
+/** Calculates the Energy of the current spin lattice in calcMode and Dimension dim*/
+double calcEnergy(double J, double B, int len, int spinSum, int edgeSum, char calcMode, int dim)
+{
+  assert(dim == 2 || dim == 3);
+  double energy;
+  
+  if(calcMode == 'n') energy = -J*edgeSum/2 - B*spinSum;
+  else if (calcMode == 'm' && dim == 2) energy = -(4*J*spinSum/(len*len) + B)*spinSum;
+  else if (calcMode == 'm' && dim == 3) energy = -(6*J*spinSum/(len*len*len) + B)*spinSum;
+
+  return energy;
+}
+
 /** Calculates the Energy of the current spin lattice with nearest neighbor Hamiltonian*/
 /* you can use this only if you have a current sum of all spins and sum over all edges */
 double calcEnergyNN(double J, double B, int len, int spinSum, int edgeSum)
@@ -213,7 +226,7 @@ int edgeSumDim(void *spins, int len, int dim)
 
 /** Calculates the difference in energy that a spin flip at position (row,col) would cause (in units of J!)
 (it has to be a square 2D matrix) (periodic boundary conditions)*/
-double calcEnergyDiff2D(int **spins, int row, int col, int len, double J, double B)
+double calcNNEnergyDiff2D(int **spins, int row, int col, int len, double J, double B)
 {
     assert(spins != NULL && len > 0);
     assert(row >= 0 && col >= 0);
@@ -226,7 +239,7 @@ double calcEnergyDiff2D(int **spins, int row, int col, int len, double J, double
 
 /** Calculates the difference in energy that a spin flip at position (x1, x2, x3) would cause
 (it has to be a cubic 3D matrix) (periodic boundary conditions) */
-double calcEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len, double J, double B)
+double calcNNEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len, double J, double B)
 {
     assert(spins!=NULL && len > 0);
     assert(x1>=0 && x2>=0 && x3>=0);
@@ -292,7 +305,7 @@ double magPerSpinDim(void *spins, int len, int dim)
 
 /** Calculates the difference in energy that a spin flip at pos (x1,x2(,x3)) would cause */
 /* x3 is not used in 2-dimensional case */
-double calcEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, double J, double B, int dim)
+double calcNNEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, double J, double B, int dim)
 {
     assert(dim == 2 || dim == 3);
     assert(spins!=NULL && len>0);
@@ -300,11 +313,11 @@ double calcEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, double J,
     double result;
     if(dim == 2)
     {
-        result = calcEnergyDiff2D((int **)spins, x1, x2, len, J, B);
+        result = calcNNEnergyDiff2D((int **)spins, x1, x2, len, J, B);
     }
     else if(dim == 3)
     {
-        result = calcEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
+        result = calcNNEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
     }
     return result;
 }
@@ -326,6 +339,22 @@ double calcMFTEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, int su
         result = calcMFTEnergyDiff3D((int ***)spins, x1, x2, x3, len, sum, J, B);
     }
     return result;
+}
+
+/** Calculates the difference in energy that a spin flip at its position would cause (periodic boundary conditions)*/
+double calcEnergyDiff(void *spins, int x1, int x2, int x3, int len, double J, double B, int sum, int dim, char calcMode)
+{
+  assert(calcMode == 'n' || calcMode == 'm');
+  assert(dim == 2 || dim == 3);
+  assert(spins!=NULL && len>0);
+  double dE;
+  
+  if(calcMode == 'n' && dim == 2) dE = calcNNEnergyDiff2D((int **)spins, x1, x2, len, J, B);
+  else if(calcMode == 'n' && dim == 3) dE = calcNNEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
+  else if(calcMode == 'm' && dim == 2) dE = calcMFTEnergyDiff2D((int **)spins, x1, x2, len, sum, J, B);
+  else if(calcMode == 'm' && dim == 3) dE = calcMFTEnergyDiff3D((int ***)spins, x1, x2, x3, len, sum, J, B);
+  
+  return dE;
 }
 
 /* This program implements the Mersenne twister algorithm for generation of pseudorandom numbers. 
