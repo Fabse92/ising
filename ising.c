@@ -109,13 +109,13 @@ int main(int argc, char **argv)
     char filename[50];
     unsigned long imagecounter = 0, changecounter = 0; // fuer Film     
 
-    spins=matrixMalloc2D(N,N);    
+    spins=matrixMallocDim(N, 2);    
     
     /* a simulation for each temperature eg 0.01 to 0.06 */
     for(T=temp_init; T<=temp_end; T += temp_step) //testing shows: specific temp somewhere near 2.2 (B=0)
     {
         /* fill matrix with random 1 or -1 */
-        matrixRandFill2D(spins,N,N);
+        matrixRandFillDim(spins,N,2);
         spinSum = spinSumDim(spins, N, 2);
         if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
         //printf("edgeSum = %d\n",edgeSum); // Kontrolldruck
@@ -179,6 +179,6 @@ int main(int argc, char **argv)
         printf("temp %f finished,   ", T);
     }
     printf("\n");
-    matrixDelete2D(spins);   
+    matrixDeleteDim(spins, 2);   
     return EXIT_SUCCESS;
 }   

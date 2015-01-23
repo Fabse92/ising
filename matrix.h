@@ -1,11 +1,12 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-/* functions for doing things with the matrix */
+/* functions for doing things with matrices */
 
 #include <assert.h>
 #include <stdlib.h>
 #include "utility.h" // fuer mt_random()
+
 
 /** allocates a 2-dimensional matrix (rows x cols) */
 int **matrixMalloc2D(int rows, int cols)
@@ -148,6 +149,69 @@ void matrixRandFill3D(int ***mat, int n1, int n2, int n3)
             {
                 mat[i][j][k] = 1-2*(mt_random()%2);
             }
+}
+
+/** allocates a dim-dimensional matrix ( dim=2,3; NxN(xN) ) */
+void *matrixMallocDim(int N, int dim)
+{
+    assert(N>0);
+    assert(dim==2 || dim==3);
+    
+    void *result;
+    if(dim==2)
+    {
+        result = (void *)matrixMalloc2D(N,N);
+    }
+    else if (dim==3)
+    {
+        result = (void *)matrixMalloc3D(N,N,N);
+    }
+    return result;
+}
+
+/** deletes a dim-dimensional matrix */
+void matrixDeleteDim(void *mat, int dim)
+{
+    assert(dim==2 || dim==3);
+    
+    if(dim==2)
+    {
+        matrixDelete2D((int **)mat);
+    }
+    else if(dim==3)
+    {
+        matrixDelete3D((int ***)mat);
+    }
+}
+
+/** prints a dim-dimensional matrix (NxN(xN)) to the console */
+void matrixPrintDim(void *mat, int N, int dim)
+{
+    assert(dim==2 || dim==3);
+    
+    if(dim==2)
+    {
+        matrixPrint2D((int **)mat, N, N);
+    }
+    else if(dim==3)
+    {
+        matrixPrint3D((int ***)mat, N, N, N);
+    }
+}
+
+/** fills a dim-dimensional matrix (NxN(xN)) with random -1 or 1 */
+void matrixRandFillDim(void *mat, int N, int dim)
+{
+    assert(dim==2 || dim==3);
+    
+    if(dim==2)
+    {
+        matrixRandFill2D((int **)mat, N, N);
+    }
+    else if(dim==3)
+    {
+        matrixRandFill3D((int ***)mat, N, N, N);
+    }
 }
 
 #endif
