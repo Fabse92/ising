@@ -156,7 +156,7 @@ int main(int argc, char **argv)
                     }  
                     ++changecounter;
                 }
-                /*if(calcMode == 'n')
+                if(calcMode == 'n')
                 {
                     if((dE = calcNNEnergyDiffDim(spins, rpos, cpos, zpos, N, J, B, 2)) < 0 || 
                         mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
                         }
                         ++changecounter;
                     }
-                }*/
+                }
             }              
             sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
             writeOutputFF(i, magPerSpinDim(spins, N, 2), filename);
@@ -194,8 +194,8 @@ int main(int argc, char **argv)
         sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
         matrixPrint2Dfile(spins,N,N, filename);
         writeOutputFFF(T, magPerSpinDim(spins, N, 2), B, MAGPERSPINOUTPUT);
-        if(sweepMode == 'T') printf("T = %f finished,   ", T);
-        else if(sweepMode == 'B') printf("B = %f finished,   ", B);
+        if(sweepMode == 'T') printf("=> T = %f finished\n", T);
+        else if(sweepMode == 'B') printf("=> B = %f finished\n", B);
     }
     printf("\n");
     matrixDeleteDim(spins, 2);   
