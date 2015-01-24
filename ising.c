@@ -31,42 +31,17 @@ static void usage(char* progname) // typical usage-function
 
 void getParameters(int argc, char **argv, int *N, int *steps, char *calcMode, char *filmMode, char *sweepMode, double *sweep_init, double *sweep_end, double *sweep_step, double *C)
 {
-    if (argc < 2 || sscanf(argv[1], "%d", N) != 1 || *N < 1)
-    {
-        usage(argv[0]);
-    }  
-    if ((argc > 2 && sscanf(argv[2], "%d", steps) != 1) || *steps < 1)
-    {
-        usage(argv[0]);
-    }  
-    if ((argc > 3 && sscanf(argv[3], "%c", calcMode) != 1) || (*calcMode != 'n' && *calcMode != 'm'))
-    {
-        usage(argv[0]);
-    }
-    if ((argc > 4 && sscanf(argv[4], "%c", filmMode) != 1) || (*filmMode != 'y' && *filmMode != 'n'))
-    {
-        usage(argv[0]);
-    }
-    if ((argc > 5 && sscanf(argv[5], "%c", sweepMode) != 1) || (*sweepMode != 'B' && *sweepMode != 'T'))
-    {
-        usage(argv[0]);
-    }
-    if (argc > 6 && sscanf(argv[6], "%lf", sweep_init) != 1)
-    {
-        usage(argv[0]);
-    }
-    if (argc > 7 && sscanf(argv[7], "%lf", sweep_end) != 1)
-    {
-        usage(argv[0]);
-    }
-    if (argc > 8 && sscanf(argv[8], "%lf", sweep_step) != 1)
-    {
-        usage(argv[0]);
-    }
-    if (argc > 9 && sscanf(argv[9], "%lf", C) != 1)
-    {
-        usage(argv[0]);
-    }        
+    if(argc !=10 
+      || sscanf(argv[1], "%d", N) != 1 || *N < 1  
+      || sscanf(argv[2], "%d", steps) != 1 || *steps < 1 
+      || sscanf(argv[3], "%c", calcMode) != 1 || (*calcMode != 'n' && *calcMode != 'm')
+      || sscanf(argv[4], "%c", filmMode) != 1 || (*filmMode != 'y' && *filmMode != 'n')
+      || sscanf(argv[5], "%c", sweepMode) != 1 || (*sweepMode != 'B' && *sweepMode != 'T')
+      || sscanf(argv[6], "%lf", sweep_init) != 1
+      || sscanf(argv[7], "%lf", sweep_end) != 1
+      || sscanf(argv[8], "%lf", sweep_step) != 1
+      || sscanf(argv[9], "%lf", C) != 1) 
+        usage(argv[0]);     
 }
     
 void initialize(char filmMode)
@@ -75,23 +50,17 @@ void initialize(char filmMode)
     int i;
     
     if ((fp = fopen(MAGPERSPINOUTPUT, "w")) == NULL) // Dateiinhalt löschen
-    {
         fprintf(stderr, "Konnte nicht in Datei %s schreiben \n", MAGPERSPINOUTPUT);
-    } else
-    {
+    else
         fclose(fp);
-    }
     
     mkdir("output", 0777); // creates a directory like mkdir does
-    
-    if (filmMode == 'y')
-        mkdir("film", 0777);
+    if (filmMode == 'y') mkdir("film", 0777);
     
     srand(time(NULL)); // muss weiterhin gemacht werden, da der Twister mit rand() initialisiert wird
     mt_init();
     
-    for (i = 0; i < 600000; ++i)  // erstmal den Twister ordentlich aufwaermen!
-        mt_random();
+    for (i = 0; i < 600000; ++i) mt_random();// erstmal den Twister ordentlich aufwaermen!
 }    
 
 int main(int argc, char **argv)
@@ -156,37 +125,6 @@ int main(int argc, char **argv)
                     }  
                     ++changecounter;
                 }
-                /*if(calcMode == 'n')
-                {
-                    if((dE = calcNNEnergyDiffDim(spins, rpos, cpos, zpos, N, J, B, 2)) < 0 || 
-                        mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
-                    {
-                        spinSum -= 2*spins[rpos][cpos];
-                        edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
-                        spins[rpos][cpos] *= -1;
-                        if(changecounter%500 == 0)
-                        {
-                            sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                            writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergyNN(J, B, N, spinSum, edgeSum), filename);
-                        }  
-                        ++changecounter;
-                    }
-                }
-                else if(calcMode == 'm')
-                {
-                    if((dE = calcMFTEnergyDiffDim(spins, rpos, cpos, zpos, N, spinSum, J, B, 2)) < 0 || 
-                        mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
-                    {
-                        spinSum -= 2*spins[rpos][cpos];
-                        spins[rpos][cpos] *= -1;
-                        if(changecounter%500 == 0)
-                        {
-                            sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                            writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergyMFT(J, B, N, spinSum, 2), filename);
-                        }
-                        ++changecounter;
-                    }
-                }*/
             }              
             sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
             writeOutputFF(i, magPerSpinDim(spins, N, 2), filename);

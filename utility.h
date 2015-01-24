@@ -51,107 +51,54 @@ double calcEnergy(double J, double B, int len, int spinSum, int edgeSum, char ca
   return energy;
 }
 
-/** Calculates the Energy of the current spin lattice with nearest neighbor Hamiltonian*/
-/* you can use this only if you have a current sum of all spins and sum over all edges */
-double calcEnergyNN(double J, double B, int len, int spinSum, int edgeSum)
-{
-  double energy;
-  
-  energy = -J*edgeSum/2 - B*spinSum;
-
-  return energy;
-}
-
-/** Calculates the Energy of the current spin lattice with Mean-Field Hamiltonian*/
-double calcEnergyMFT(double J, double B, int len, int spinSum, int dim)
-{
-  assert(dim == 2 || dim == 3);
-  double energy;
-  
-  if(dim == 2) energy = -(4*J*spinSum/(len*len) + B)*spinSum;
-  else if(dim == 3) energy = -(6*J*spinSum/(len*len) + B)*spinSum;
-  
-  return energy;
-}
-
-/** Calculates the sum of the edges of one spin in 2 dimensions */
-/* example: edge 1....-1 adds -1 to the sum; edge -1....-1 adds +1 */
-int neighSum2D(int **spins, int x1, int x2, int len)
-{
-    assert(spins!=NULL && len > 0);
-    assert(x1>=0 && x2>=0);
-    
-    int i, neighSum=0, spin;
-    int nspin[4]; //4 neighbor spins
-    
-    spin = spins[x1][x2];
-    
-    if(x1-1<0) nspin[0] = spins[len-1][x2];
-    else nspin[0] = spins[x1-1][x2];
-    if(x1+1>len-1) nspin[1] = spins[0][x2];
-    else nspin[1] = spins[x1+1][x2];
-    if(x2-1<0) nspin[2] = spins[x1][len-1];
-    else nspin[2] = spins[x1][x2-1];
-    if(x2+1>len-1) nspin[3] = spins[x1][0];
-    else nspin[3] = spins[x1][x2+1];
-
-    for(i=0; i<4; ++i)
-    {
-        neighSum += nspin[i];
-    }
-    return neighSum*spin;
-}
-
-/** Calculates the sum of the edges of one spin in 3 dimensions */
-/* example: edge 1....-1 adds -1 to the sum; edge -1....-1 adds +1 */
-int neighSum3D(int ***spins, int x1, int x2, int x3, int len)
-{
-    assert(spins!=NULL && len > 0);
-    assert(x1>=0 && x2>=0 && x3>=0);
-    
-    int i, neighSum=0, spin;
-    int nspin[6]; //6 neighbor spins
-    
-    spin = spins[x1][x2][x3];
-    
-    if(x1-1<0) nspin[0] = spins[len-1][x2][x3];
-    else nspin[0] = spins[x1-1][x2][x3];
-    if(x1+1>len-1) nspin[1] = spins[0][x2][x3];
-    else nspin[1] = spins[x1+1][x2][x3];
-    if(x2-1<0) nspin[2] = spins[x1][len-1][x3];
-    else nspin[2] = spins[x1][x2-1][x3];
-    if(x2+1>len-1) nspin[3] = spins[x1][0][x3];
-    else nspin[3] = spins[x1][x2+1][x3];
-    if(x3-1<0) nspin[4] = spins[x1][x2][len-1];
-    else nspin[4] = spins[x1][x2][x3-1];
-    if(x3+1>len-1) nspin[5] = spins[x1][x2][0];
-    else nspin[5] = spins[x1][x2][x3+1];
-
-    for(i=0; i<6; ++i)
-    {
-        neighSum += nspin[i];
-    }
-    return neighSum*spin;
-}
-
-
 /** Calculates the sum of the edges of one spin in dim dimensions */
 /* example: edge 1....-1 adds -1 to the sum; edge -1....-1 adds +1 */
 int neighSumDim(void *spins, int x1, int x2, int x3, int len, int dim)
 {
     assert(dim == 2 || dim == 3);
     assert(spins!=NULL && len>0);
+    assert(x1>=0 && x2>=0 && x3>=0);
     
-    int result;
+    int i, neighSum=0, ispin;
+    int nspin[2*dim]; //(2*dim) neighbor spins
     if(dim == 2)
     {
-        result = neighSum2D((int **)spins, x1, x2, len);
+        int **spin =  (int **)spins;
+        ispin = spin[x1][x2];
+    
+        if(x1-1<0) nspin[0] = spin[len-1][x2];
+        else nspin[0] = spin[x1-1][x2];
+        if(x1+1>len-1) nspin[1] = spin[0][x2];
+        else nspin[1] = spin[x1+1][x2];
+        if(x2-1<0) nspin[2] = spin[x1][len-1];
+        else nspin[2] = spin[x1][x2-1];
+        if(x2+1>len-1) nspin[3] = spin[x1][0];
+        else nspin[3] = spin[x1][x2+1];
     }
     else if(dim == 3)
     {
-        result = neighSum3D((int ***)spins, x1, x2, x3, len);
+        int ***spin = (int ***)spins;
+        ispin = spin[x1][x2][x3];
+    
+        if(x1-1<0) nspin[0] = spin[len-1][x2][x3];
+        else nspin[0] = spin[x1-1][x2][x3];
+        if(x1+1>len-1) nspin[1] = spin[0][x2][x3];
+        else nspin[1] = spin[x1+1][x2][x3];
+        if(x2-1<0) nspin[2] = spin[x1][len-1][x3];
+        else nspin[2] = spin[x1][x2-1][x3];
+        if(x2+1>len-1) nspin[3] = spin[x1][0][x3];
+        else nspin[3] = spin[x1][x2+1][x3];
+        if(x3-1<0) nspin[4] = spin[x1][x2][len-1];
+        else nspin[4] = spin[x1][x2][x3-1];
+        if(x3+1>len-1) nspin[5] = spin[x1][x2][0];
+        else nspin[5] = spin[x1][x2][x3+1];
     }
-    return result;    
+    
+    for(i=0; i<2*dim; ++i)
+    {
+        neighSum += nspin[i];
+    }
+    return neighSum*ispin;    
 }
 
 /** Calculates the sum of all spins in dim dimensions */
@@ -196,27 +143,21 @@ int edgeSumDim(void *spins, int len, int dim)
     assert(dim == 2 || dim == 3);
     
     int sum=0;
-    int i,j;
-    if(dim == 2)
+    int i,j,k;
+    
+    for (i=0;i<len;++i)
     {
-        for (i=0;i<len;++i)
+        for(j=0;j<len;++j)
         {
-            for(j=0;j<len;++j)
+            if(dim == 2)
             {
-               sum = sum + neighSum2D(spins, i, j, len);
+                sum = sum + neighSumDim(spins, i, j, 0, len, 2);
             }
-        }
-    }
-    else if (dim == 3)
-    {
-        int k;    
-        for (i=0;i<len;++i)
-        {
-            for(j=0;j<len;++j)
+            else if (dim == 3)
             {
                 for(k=0;k<len;++k)
                 {
-                    sum = sum + neighSum3D(spins, i, j, k, len);
+                    sum = sum + neighSumDim(spins, i, j, k, len, 3);
                 }
             }
         }
@@ -233,7 +174,7 @@ double calcNNEnergyDiff2D(int **spins, int row, int col, int len, double J, doub
     
     int neighTerm, spin;
     spin = spins[row][col];
-    neighTerm = neighSum2D(spins, row, col, len);
+    neighTerm = neighSumDim(spins, row, col, 0, len, 2);
     return 2*(J*neighTerm + B*spin);
 }
 
@@ -246,7 +187,7 @@ double calcNNEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len, double 
     
     int neighTerm, spin;
     spin = spins[x1][x2][x3];
-    neighTerm = neighSum3D(spins, x1, x2, x3, len);
+    neighTerm = neighSumDim(spins, x1, x2, x3, len, 3);
     return 2*(J*neighTerm + B*spin);
 }
 
@@ -284,6 +225,24 @@ double calcMFTEnergyDiff3D(int ***spins, int row, int col, int depth, int len, i
     return diff;
 }
 
+/** Calculates the difference in energy that a spin flip at its position would cause (periodic boundary conditions)*/
+double calcEnergyDiff(void *spins, int x1, int x2, int x3, int len, double J, double B, int sum, int dim, char calcMode)
+{
+  assert(calcMode == 'n' || calcMode == 'm');
+  assert(dim == 2 || dim == 3);
+  assert(spins!=NULL && len>0);
+  assert(x1 >= 0 && x2 >= 0 && x3 >= 0);
+  
+  double dE;
+  
+  if(calcMode == 'n' && dim == 2) dE = calcNNEnergyDiff2D((int **)spins, x1, x2, len, J, B);
+  else if(calcMode == 'n' && dim == 3) dE = calcNNEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
+  else if(calcMode == 'm' && dim == 2) dE = calcMFTEnergyDiff2D((int **)spins, x1, x2, len, sum, J, B);
+  else if(calcMode == 'm' && dim == 3) dE = calcMFTEnergyDiff3D((int ***)spins, x1, x2, x3, len, sum, J, B);
+  
+  return dE;
+}
+
 /** Calculates magnetisation per spin for a 2D- or 3D-matrix */
 double magPerSpinDim(void *spins, int len, int dim)
 {
@@ -301,60 +260,6 @@ double magPerSpinDim(void *spins, int len, int dim)
         result = ((double)sum / (len*len*len));
     }
     return result;
-}
-
-/** Calculates the difference in energy that a spin flip at pos (x1,x2(,x3)) would cause */
-/* x3 is not used in 2-dimensional case */
-double calcNNEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, double J, double B, int dim)
-{
-    assert(dim == 2 || dim == 3);
-    assert(spins!=NULL && len>0);
-    
-    double result;
-    if(dim == 2)
-    {
-        result = calcNNEnergyDiff2D((int **)spins, x1, x2, len, J, B);
-    }
-    else if(dim == 3)
-    {
-        result = calcNNEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
-    }
-    return result;
-}
-
-/** Calculates the difference in energy in mean field approximation that a spin flip at pos (x1,x2(,x3)) would cause */
-/* x3 is not used in 2-dimensional case */
-double calcMFTEnergyDiffDim(void *spins, int x1, int x2, int x3, int len, int sum, double J, double B, int dim)
-{
-    assert(dim == 2 || dim == 3);
-    assert(spins!=NULL && len>0);
-    
-    double result;
-    if(dim == 2)
-    {
-        result = calcMFTEnergyDiff2D((int **)spins, x1, x2, len, sum, J, B);
-    }
-    else if(dim == 3)
-    {
-        result = calcMFTEnergyDiff3D((int ***)spins, x1, x2, x3, len, sum, J, B);
-    }
-    return result;
-}
-
-/** Calculates the difference in energy that a spin flip at its position would cause (periodic boundary conditions)*/
-double calcEnergyDiff(void *spins, int x1, int x2, int x3, int len, double J, double B, int sum, int dim, char calcMode)
-{
-  assert(calcMode == 'n' || calcMode == 'm');
-  assert(dim == 2 || dim == 3);
-  assert(spins!=NULL && len>0);
-  double dE;
-  
-  if(calcMode == 'n' && dim == 2) dE = calcNNEnergyDiff2D((int **)spins, x1, x2, len, J, B);
-  else if(calcMode == 'n' && dim == 3) dE = calcNNEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
-  else if(calcMode == 'm' && dim == 2) dE = calcMFTEnergyDiff2D((int **)spins, x1, x2, len, sum, J, B);
-  else if(calcMode == 'm' && dim == 3) dE = calcMFTEnergyDiff3D((int ***)spins, x1, x2, x3, len, sum, J, B);
-  
-  return dE;
 }
 
 /* This program implements the Mersenne twister algorithm for generation of pseudorandom numbers. 
