@@ -84,21 +84,21 @@ int main(int argc, char **argv)
     double S, T, B, dE;
     const double J=1.0, kB = 1.0;
     int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
-    int **spins;     
+    void *spins;     
     int spinSum = 0, edgeSum = 0;
     char filename[50];
     unsigned long imagecounter = 0, changecounter = 0; // fuer Film     
 
-    spins=matrixMallocDim(N, 2);    
+    spins=matrixMallocDim(N, dim);    
     if(sweepPar == 'T') B = C; //choose the right sweepPar (set constant)
     else if(sweepPar == 'B') T = C;
     
     /* a simulation for each sweep increment */
     for(S=sweep_init; S<=sweep_end; S += sweep_step)
     {
-        if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,2); // fill matrix with random 1 or -1
-        spinSum = spinSumDim(spins, N, 2);
-        if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
+        if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
+        spinSum = spinSumDim(spins, N, dim);
+        if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, dim);
         if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
         else if(sweepPar == 'B') B = S;
         imagecounter = 0;
@@ -107,37 +107,48 @@ int main(int argc, char **argv)
         {           
             for(j=0; j<N*N; ++j)
             {
-                if(filmMode == 'y' && changecounter%5000 == 0) // falls ein Film erstellt werden soll
+                if(filmMode == 'y' && dim ==2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
                 {
                     ++imagecounter;
                     sprintf(filename, "film/data%lu", imagecounter);
                     //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
                     matrixPrint2Dfile(spins,N,N, filename);
                 }            
-            
+                
                 /* select random spin, calculate dE, accept spin flip or not */
                 rpos = mt_random() % N;
                 cpos = mt_random() % N;
-                if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, 2, calcMode)) < 0 || 
+                if(dim == 3) zpos = mt_random() % N;
+                if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim, calcMode)) < 0 || 
                     mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                 {
-                    spinSum -= 2*spins[rpos][cpos];
-                    if (calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
-                    spins[rpos][cpos] *= -1;
+                    if(calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
+                    if(dim == 2)
+                    {
+                        int **spin =  (int **)spins;
+                        spinSum -= 2*spin[rpos][cpos];
+                        spin[rpos][cpos] *= -1;
+                    }
+                    if(dim == 3)
+                    {
+                        int ***spin =  (int ***)spins;
+                        spinSum -= 2*spin[rpos][cpos][zpos];
+                        spin[rpos][cpos][zpos] *= -1;
+                    }
                     if(changecounter%500 == 0)
                     {
                         sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                        writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, 2), filename);
+                        writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, dim), filename);
                     }  
                     ++changecounter;
                 }
             }              
             sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
-            writeOutputFF(i, magPerSpinDim(spins, N, 2), filename);
+            writeOutputFF(i, magPerSpinDim(spins, N, dim), filename);
         }
         sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
-        matrixPrint2Dfile(spins,N,N, filename);
-        writeOutputFFF(T, magPerSpinDim(spins, N, 2), B, MAGPERSPINOUTPUT);
+        if(dim == 2) matrixPrint2Dfile(spins,N,N, filename);
+        writeOutputFFF(T, magPerSpinDim(spins, N, dim), B, MAGPERSPINOUTPUT);
         if(sweepPar == 'T') printf("=> T = %f finished\n", T);
         else if(sweepPar == 'B') printf("=> B = %f finished\n", B);
     }
@@ -145,9 +156,9 @@ int main(int argc, char **argv)
     {
         for(S=sweep_end; S>=sweep_init; S -= sweep_step)
         {
-            if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,2); // fill matrix with random 1 or -1
-            spinSum = spinSumDim(spins, N, 2);
-            if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, 2);
+            if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
+            spinSum = spinSumDim(spins, N, dim);
+            if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, dim);
             if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
             else if(sweepPar == 'B') B = S;
             imagecounter = 0;
@@ -156,7 +167,7 @@ int main(int argc, char **argv)
             {           
                 for(j=0; j<N*N; ++j)
                 {
-                    if(filmMode == 'y' && changecounter%5000 == 0) // falls ein Film erstellt werden soll
+                    if(filmMode == 'y' && dim == 2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
                     {
                         ++imagecounter;
                         sprintf(filename, "film/data%lu", imagecounter);
@@ -167,31 +178,41 @@ int main(int argc, char **argv)
                     /* select random spin, calculate dE, accept spin flip or not */
                     rpos = mt_random() % N;
                     cpos = mt_random() % N;
-                    if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, 2, calcMode)) < 0 || 
+                    if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim, calcMode)) < 0 || 
                         mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                     {
-                        spinSum -= 2*spins[rpos][cpos];
-                        if (calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, 2);
-                        spins[rpos][cpos] *= -1;
+                        if (calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
+                        if(dim == 2)
+                        {
+                            int **spin =  (int **)spins;
+                            spinSum -= 2*spin[rpos][cpos];
+                            spin[rpos][cpos] *= -1;
+                        }
+                        if(dim == 3)
+                        {
+                            int ***spin =  (int ***)spins;
+                            spinSum -= 2*spin[rpos][cpos][zpos];
+                            spin[rpos][cpos][zpos] *= -1;
+                        }
                         if(changecounter%500 == 0)
                         {
                             sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                            writeOutputFF(magPerSpinDim(spins, N, 2), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, 2), filename);
+                            writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, dim), filename);
                         }  
                         ++changecounter;
                     }
                 }              
                 sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
-                writeOutputFF(i, magPerSpinDim(spins, N, 2), filename);
+                writeOutputFF(i, magPerSpinDim(spins, N, dim), filename);
             }
             sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
-            matrixPrint2Dfile(spins,N,N, filename);
-            writeOutputFFF(T, magPerSpinDim(spins, N, 2), B, MAGPERSPINOUTPUT);
+            if(dim == 2) matrixPrint2Dfile(spins,N,N, filename);
+            writeOutputFFF(T, magPerSpinDim(spins, N, dim), B, MAGPERSPINOUTPUT);
             if(sweepPar == 'T') printf("=> T = %f finished\n", T);
             else if(sweepPar == 'B') printf("=> B = %f finished\n", B);
         }
     }
     printf("\n");
-    matrixDeleteDim(spins, 2);   
+    matrixDeleteDim(spins, dim);   
     return EXIT_SUCCESS;
 }   
