@@ -105,7 +105,7 @@ int main(int argc, char **argv)
         
         for(i=0; i<steps; ++i)
         {           
-            for(j=0; j<N*N; ++j)
+            for(j=0; j<pow(N,dim); ++j)
             {
                 if(filmMode == 'y' && dim ==2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
                 {
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
         
             for(i=0; i<steps; ++i)
             {           
-                for(j=0; j<N*N; ++j)
+                for(j=0; j<pow(N,dim); ++j)
                 {
                     if(filmMode == 'y' && dim == 2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
                     {
