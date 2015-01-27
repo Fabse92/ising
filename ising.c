@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     else if(sweepPar == 'B') T = C;
     
     /* a simulation for each sweep increment */
-    for(S=sweep_init; S<=sweep_end; S += sweep_step)
+    for(S=sweep_init; S<=sweep_end+sweep_step/2; S += sweep_step)
     {
         if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
         spinSum = spinSumDim(spins, N, dim);
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
     }
     if(hystMode == 'y')
     {
-        for(S=sweep_end; S>=sweep_init; S -= sweep_step)
+        for(S=sweep_end; S>=sweep_init-sweep_step/2; S -= sweep_step)
         {
             if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
             spinSum = spinSumDim(spins, N, dim);
@@ -178,6 +178,7 @@ int main(int argc, char **argv)
                     /* select random spin, calculate dE, accept spin flip or not */
                     rpos = mt_random() % N;
                     cpos = mt_random() % N;
+                    zpos = mt_random() % N;
                     if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim)) < 0 || 
                         mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                     {
