@@ -25,7 +25,7 @@ static void usage(char* progname) // typical usage-function
     printf("  - C: is the value of extern constant parameter over the sweep ( double value ) \n");
     printf("  - sweepMode: sweep over one lattice or new lattice for every sweep step ( y or n ) \n");
     printf("  - hystMode: additional simulation back from S_e to S_i ( y or n ) \n");
-    printf("  - calcMode: energy calculating via nearest neighbour or meanfield aproximation ( n or m ) \n");
+    printf("  - calcMode: cluster update on/off ( y or n ) TODO!!!\n");
     printf("  - filmMode: additional lattice saving ( y or n ) \n");
     printf("\n");
     printf("Example: %s 25 2 1000 T 1.50 4.00 0.10 0.00 n n n n \n", progname);
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
     {
         if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
         spinSum = spinSumDim(spins, N, dim);
-        if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, dim);
+        edgeSum = edgeSumDim(spins, N, dim);
         if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
         else if(sweepPar == 'B') B = S;
         imagecounter = 0;
@@ -119,10 +119,10 @@ int main(int argc, char **argv)
                 rpos = mt_random() % N;
                 cpos = mt_random() % N;
                 if(dim == 3) zpos = mt_random() % N;
-                if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim, calcMode)) < 0 || 
+                if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim)) < 0 || 
                     mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                 {
-                    if(calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
+                    edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
                     if(dim == 2)
                     {
                         int **spin =  (int **)spins;
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
                     if(changecounter%500 == 0)
                     {
                         sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                        writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, dim), filename);
+                        writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum), filename);
                     }  
                     ++changecounter;
                 }
@@ -158,7 +158,7 @@ int main(int argc, char **argv)
         {
             if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
             spinSum = spinSumDim(spins, N, dim);
-            if(calcMode == 'n') edgeSum = edgeSumDim(spins, N, dim);
+            edgeSum = edgeSumDim(spins, N, dim);
             if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
             else if(sweepPar == 'B') B = S;
             imagecounter = 0;
@@ -178,10 +178,10 @@ int main(int argc, char **argv)
                     /* select random spin, calculate dE, accept spin flip or not */
                     rpos = mt_random() % N;
                     cpos = mt_random() % N;
-                    if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim, calcMode)) < 0 || 
+                    if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim)) < 0 || 
                         mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
                     {
-                        if (calcMode == 'n') edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
+                        edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
                         if(dim == 2)
                         {
                             int **spin =  (int **)spins;
@@ -197,7 +197,7 @@ int main(int argc, char **argv)
                         if(changecounter%500 == 0)
                         {
                             sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                            writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum, calcMode, dim), filename);
+                            writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum), filename);
                         }  
                         ++changecounter;
                     }
