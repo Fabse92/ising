@@ -69,6 +69,8 @@ void initialize(char filmMode)
     for (i = 0; i < 600000; ++i) mt_random();// erstmal den Twister ordentlich aufwaermen!
 }    
 
+void runSweep(void *spins, const double J, const double kB, int N, int dim, int steps, double sweep_init, double sweep_end, double sweep_step, double C, char sweepPar, char sweepMode, char hystRetour, char calcMode, char filmMode);
+
 int main(int argc, char **argv)
 {
     int N, dim, steps = 1000;
@@ -80,7 +82,11 @@ int main(int argc, char **argv)
     printf("\nattempting to execute %s %d %d %d %c %f %f %f %f %c %c %c %c \n\n", argv[0], N, dim, steps, sweepPar, sweep_init, sweep_end, sweep_step, C, sweepMode, hystMode, calcMode, filmMode);
     
     initialize(filmMode);
-
+    void *spins;    
+    const double J=1.0, kB = 1.0;
+    spins=matrixMallocDim(N, dim);
+    runSweep(spins, J, kB, N, dim, steps, sweep_init, sweep_end, sweep_step, C, sweepPar, sweepMode, 'n', calcMode, filmMode);
+/*
     double S, T, B, dE;
     const double J=1.0, kB = 1.0;
     int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
@@ -93,9 +99,156 @@ int main(int argc, char **argv)
     if(sweepPar == 'T') B = C; //choose the right sweepPar (set constant)
     else if(sweepPar == 'B') T = C;
     
+    // a simulation for each sweep increment
+    for(S=sweep_init; S<=sweep_end+sweep_step/2; S += sweep_step)
+    {
+        if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
+        spinSum = spinSumDim(spins, N, dim);
+        edgeSum = edgeSumDim(spins, N, dim);
+        if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
+        else if(sweepPar == 'B') B = S;
+        imagecounter = 0;
+        
+        for(i=0; i<steps; ++i)
+        {           
+            for(j=0; j<pow(N,dim); ++j)
+            {
+                if(filmMode == 'y' && dim ==2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
+                {
+                    ++imagecounter;
+                    sprintf(filename, "film/data%lu", imagecounter);
+                    //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
+                    matrixPrint2Dfile(spins,N,N, filename);
+                }            
+                
+                // select random spin, calculate dE, accept spin flip or not
+                rpos = mt_random() % N;
+                cpos = mt_random() % N;
+                if(dim == 3) zpos = mt_random() % N;
+                if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim)) < 0 || 
+                    mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
+                {
+                    edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
+                    if(dim == 2)
+                    {
+                        int **spin =  (int **)spins;
+                        spinSum -= 2*spin[rpos][cpos];
+                        spin[rpos][cpos] *= -1;
+                    }
+                    if(dim == 3)
+                    {
+                        int ***spin =  (int ***)spins;
+                        spinSum -= 2*spin[rpos][cpos][zpos];
+                        spin[rpos][cpos][zpos] *= -1;
+                    }
+                    if(changecounter%500 == 0)
+                    {
+                        sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                        writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum), filename);
+                    }  
+                    ++changecounter;
+                }
+            }              
+            sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
+            writeOutputFF(i, magPerSpinDim(spins, N, dim), filename);
+        }
+        sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
+        if(dim == 2) matrixPrint2Dfile(spins,N,N, filename);
+        writeOutputFFF(T, magPerSpinDim(spins, N, dim), B, MAGPERSPINOUTPUT);
+        if(sweepPar == 'T') printf("=> T = %f finished\n", T);
+        else if(sweepPar == 'B') printf("=> B = %f finished\n", B);
+    }*/
+    if(hystMode == 'y')
+    {
+        runSweep(spins, J, kB, N, dim, steps, sweep_init, sweep_end, sweep_step, C, sweepPar, sweepMode, 'y', calcMode, filmMode);
+        /*
+        for(S=sweep_end; S>=sweep_init-sweep_step/2; S -= sweep_step)
+        {
+            if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
+            spinSum = spinSumDim(spins, N, dim);
+            edgeSum = edgeSumDim(spins, N, dim);
+            if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
+            else if(sweepPar == 'B') B = S;
+            imagecounter = 0;
+        
+            for(i=0; i<steps; ++i)
+            {           
+                for(j=0; j<pow(N,dim); ++j)
+                {
+                    if(filmMode == 'y' && dim == 2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
+                    {
+                        ++imagecounter;
+                        sprintf(filename, "film/data%lu", imagecounter);
+                        //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
+                        matrixPrint2Dfile(spins,N,N, filename);
+                    }            
+                    
+                    // select random spin, calculate dE, accept spin flip or not
+                    rpos = mt_random() % N;
+                    cpos = mt_random() % N;
+                    zpos = mt_random() % N;
+                    if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim)) < 0 || 
+                        mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
+                    {
+                        edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
+                        if(dim == 2)
+                        {
+                            int **spin =  (int **)spins;
+                            spinSum -= 2*spin[rpos][cpos];
+                            spin[rpos][cpos] *= -1;
+                        }
+                        if(dim == 3)
+                        {
+                            int ***spin =  (int ***)spins;
+                            spinSum -= 2*spin[rpos][cpos][zpos];
+                            spin[rpos][cpos][zpos] *= -1;
+                        }
+                        if(changecounter%500 == 0)
+                        {
+                            sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+                            writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum), filename);
+                        }  
+                        ++changecounter;
+                    }
+                }              
+                sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
+                writeOutputFF(i, magPerSpinDim(spins, N, dim), filename);
+            }
+            sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
+            if(dim == 2) matrixPrint2Dfile(spins,N,N, filename);
+            writeOutputFFF(T, magPerSpinDim(spins, N, dim), B, MAGPERSPINOUTPUT);
+            if(sweepPar == 'T') printf("=> T = %f finished\n", T);
+            else if(sweepPar == 'B') printf("=> B = %f finished\n", B);
+        }*/
+    }
+    printf("\n");
+    matrixDeleteDim(spins, dim);   
+    return EXIT_SUCCESS;
+}   
+
+
+void runSweep(void *spins, const double J, const double kB, int N, int dim, int steps, double sweep_init, double sweep_end, double sweep_step, double C, char sweepPar, char sweepMode, char hystRetour, char calcMode, char filmMode)
+{
+    double S, T, B, dE;
+    double buffer;
+    int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
+    int spinSum = 0, edgeSum = 0;
+    char filename[50];
+    unsigned long imagecounter = 0, changecounter = 0; // fuer Film
+        
+    if(sweepPar == 'T') B = C; //choose the right sweepPar (set constant)
+    else if(sweepPar == 'B') T = C;
+        
+    if(hystRetour == 'y')//to use the same for-loop(<=) in both directions
+    {
+        buffer = -sweep_init;
+        sweep_init = -sweep_end;
+        sweep_end = buffer;
+    }
     /* a simulation for each sweep increment */
     for(S=sweep_init; S<=sweep_end+sweep_step/2; S += sweep_step)
     {
+        if(hystRetour == 'y') S = -S;
         if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
         spinSum = spinSumDim(spins, N, dim);
         edgeSum = edgeSumDim(spins, N, dim);
@@ -151,69 +304,7 @@ int main(int argc, char **argv)
         writeOutputFFF(T, magPerSpinDim(spins, N, dim), B, MAGPERSPINOUTPUT);
         if(sweepPar == 'T') printf("=> T = %f finished\n", T);
         else if(sweepPar == 'B') printf("=> B = %f finished\n", B);
-    }
-    if(hystMode == 'y')
-    {
-        for(S=sweep_end; S>=sweep_init-sweep_step/2; S -= sweep_step)
-        {
-            if(sweepMode == 'n' || S == sweep_init) matrixRandFillDim(spins,N,dim); // fill matrix with random 1 or -1
-            spinSum = spinSumDim(spins, N, dim);
-            edgeSum = edgeSumDim(spins, N, dim);
-            if(sweepPar == 'T') T = S; //choose the right sweepPar (set variable)
-            else if(sweepPar == 'B') B = S;
-            imagecounter = 0;
-        
-            for(i=0; i<steps; ++i)
-            {           
-                for(j=0; j<pow(N,dim); ++j)
-                {
-                    if(filmMode == 'y' && dim == 2 && changecounter%5000 == 0) // falls ein Film erstellt werden soll
-                    {
-                        ++imagecounter;
-                        sprintf(filename, "film/data%lu", imagecounter);
-                        //sprintf(filename, "film/data_T=%f_B=%f_500changes%lu.txt", T, B, imagecounter);
-                        matrixPrint2Dfile(spins,N,N, filename);
-                    }            
-                    
-                    /* select random spin, calculate dE, accept spin flip or not */
-                    rpos = mt_random() % N;
-                    cpos = mt_random() % N;
-                    zpos = mt_random() % N;
-                    if((dE = calcEnergyDiff(spins, rpos, cpos, zpos, N, J, B, spinSum, dim)) < 0 || 
-                        mt_random()/ (double) MT_MAX < exp(-dE/kB/T))
-                    {
-                        edgeSum -= 2*neighSumDim(spins, rpos, cpos, zpos, N, dim);
-                        if(dim == 2)
-                        {
-                            int **spin =  (int **)spins;
-                            spinSum -= 2*spin[rpos][cpos];
-                            spin[rpos][cpos] *= -1;
-                        }
-                        if(dim == 3)
-                        {
-                            int ***spin =  (int ***)spins;
-                            spinSum -= 2*spin[rpos][cpos][zpos];
-                            spin[rpos][cpos][zpos] *= -1;
-                        }
-                        if(changecounter%500 == 0)
-                        {
-                            sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                            writeOutputFF(magPerSpinDim(spins, N, dim), calcEnergy(J, B, N, spinSum, edgeSum), filename);
-                        }  
-                        ++changecounter;
-                    }
-                }              
-                sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
-                writeOutputFF(i, magPerSpinDim(spins, N, dim), filename);
-            }
-            sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
-            if(dim == 2) matrixPrint2Dfile(spins,N,N, filename);
-            writeOutputFFF(T, magPerSpinDim(spins, N, dim), B, MAGPERSPINOUTPUT);
-            if(sweepPar == 'T') printf("=> T = %f finished\n", T);
-            else if(sweepPar == 'B') printf("=> B = %f finished\n", B);
-        }
-    }
-    printf("\n");
-    matrixDeleteDim(spins, dim);   
-    return EXIT_SUCCESS;
-}   
+        if(hystRetour == 'y') S = -S;
+    }    
+}
+
