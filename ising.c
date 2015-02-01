@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     runSweep(&para);
     para.sweep_end -= para.sweep_step; // wieder abziehen
 
-    if(para.hystMode == 'y')
+    if(para.hystMode == 'n')
     {        
         buffer = para.sweep_init;
         para.sweep_init = para.sweep_end;
@@ -53,7 +53,7 @@ void runSweep(Parameters *para)
     else if(para->sweepPar == 'B') T = para->C;
         
     /* a simulation for each sweep increment */
-    for(S = para->sweep_init; fabs(para->sweep_step) <= fabs(S - para->sweep_end); S += para->sweep_step) // fabs ist der Absolutbetrag eines double,   warum war hier para->sweep_end+para->sweep_step/2 als Bedingung?
+    for(S = para->sweep_init; fabs(para->sweep_step) / 2 < fabs(S - para->sweep_end); S += para->sweep_step) // fabs ist der Absolutbetrag eines double,   warum war hier para->sweep_end+para->sweep_step/2 als Bedingung?
     {
         if(para->sweepMode == 'n' || S == para->sweep_init) matrixRandFillDim(para->spins,para->N,para->dim); // fill matrix with random 1 or -1
         spinSum = spinSumDim(para->spins, para->N, para->dim);
