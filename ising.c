@@ -10,23 +10,28 @@
 
 int main(int argc, char **argv)
 {
-    char hystRetour = 'n';
+    double buffer;
     Parameters para;
         
     getParameters(argc, argv, &para);    
     initialize(para.filmMode);
     para.spins = matrixMallocDim(para.N, para.dim);
     
-    if(para.hystMode == 'y')
-    {
-        hystRetour = 'y';
-        para.hystMode = 'n';
-    }
+    //ausrechnen, welches sweep_end das letzte ist, das in der alten Schleife genutzt wurde
+    para.sweep_end = para.sweep_init + para.sweep_step * (int) ((para.sweep_end - para.sweep_init) / para.sweep_step); // schöner, wenn man eine Retour macht
+    
+    para.sweep_end += para.sweep_step; // damit Schleife nicht eine Iteration zu früh aufhört
     runSweep(&para);
+    para.sweep_end -= para.sweep_step; // wieder abziehen
 
-    if(hystRetour == 'y')
-    {
-        para.hystMode = 'y';
+    if(para.hystMode == 'y')
+    {        
+        buffer = para.sweep_init;
+        para.sweep_init = para.sweep_end;
+        para.sweep_end = buffer;
+        para.sweep_step = -para.sweep_step;
+        
+        para.sweep_end += para.sweep_step; // damit Schleife nicht zu früh aufhört        
         runSweep(&para);
     }
     
@@ -39,7 +44,6 @@ int main(int argc, char **argv)
 void runSweep(Parameters *para)
 {
     double S, T, B, dE;
-    double buffer;
     int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
     int spinSum = 0, edgeSum = 0;
     char filename[50];
@@ -48,16 +52,9 @@ void runSweep(Parameters *para)
     if(para->sweepPar == 'T') B = para->C; //choose the right sweepPar (set constant)
     else if(para->sweepPar == 'B') T = para->C;
         
-    if(para->hystMode == 'y')//to use the same for-loop(<=) in both directions
-    {
-        buffer = -para->sweep_init;
-        para->sweep_init = -para->sweep_end;
-        para->sweep_end = buffer;
-    }
     /* a simulation for each sweep increment */
-    for(S = para->sweep_init; S <= para->sweep_end+para->sweep_step/2; S += para->sweep_step)
+    for(S = para->sweep_init; fabs(para->sweep_step) <= fabs(S - para->sweep_end); S += para->sweep_step) // fabs ist der Absolutbetrag eines double,   warum war hier para->sweep_end+para->sweep_step/2 als Bedingung?
     {
-        if(para->hystMode == 'y') S = -S;
         if(para->sweepMode == 'n' || S == para->sweep_init) matrixRandFillDim(para->spins,para->N,para->dim); // fill matrix with random 1 or -1
         spinSum = spinSumDim(para->spins, para->N, para->dim);
         edgeSum = edgeSumDim(para->spins, para->N, para->dim);
@@ -113,7 +110,6 @@ void runSweep(Parameters *para)
         writeOutputFFF(T, magPerSpinDim(para->spins, para->N, para->dim), B, MAGPERSPINOUTPUT);
         if(para->sweepPar == 'T') printf("=> T = %f finished\n", T);
         else if(para->sweepPar == 'B') printf("=> B = %f finished\n", B);
-        if(para->hystMode == 'y') S = -S;
     }    
 }
 

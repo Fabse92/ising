@@ -49,8 +49,8 @@ void getParameters(int argc, char **argv, Parameters *para)
     //zunaechst Standardwerte
     para->steps = 1000;
     para->J = 1.0; para->kB = 1.0; 
-    para->sweep_init = 1.5; para->sweep_end = 4.0; para->sweep_step = 0.1; para->C = 0.0000;
-    para->sweepPar = 'T'; para->sweepMode = 'n'; para->hystMode = 'y'; para->calcMode = 'n'; para->filmMode = 'n';   
+    para->sweep_init = 1.5; para->sweep_end = 4.0; para->sweep_step = 0.15; para->C = 0.0000;
+    para->sweepPar = 'T'; para->sweepMode = 'n'; para->hystMode = 'n'; para->calcMode = 'n'; para->filmMode = 'n';   
 
     if(argc < 3 
       || sscanf(argv[1], "%d", &para->N) != 1 || para->N < 1  
