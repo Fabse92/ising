@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     runSweep(&para);
     para.sweep_end -= para.sweep_step; // wieder abziehen
 
-    if(para.hystMode == 'n')
+    if(para.hystMode == 'y')
     {        
         buffer = para.sweep_init;
         para.sweep_init = para.sweep_end;
