@@ -1,7 +1,7 @@
 .PHONY: all clean
 
 CC=clang
-CFLAGS=-lm
+CFLAGS=-lm -Wall -Wextra -O3
 
 BIN = ising
 

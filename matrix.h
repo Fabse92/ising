@@ -157,7 +157,7 @@ void *matrixMallocDim(int N, int dim)
     assert(N>0);
     assert(dim==2 || dim==3);
     
-    void *result;
+    void *result = NULL;
     if(dim==2)
     {
         result = (void *)matrixMalloc2D(N,N);

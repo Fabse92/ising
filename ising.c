@@ -78,7 +78,7 @@ void runSweep(Parameters *para)
                 rpos = mt_random() % para->N;
                 cpos = mt_random() % para->N;
                 if(para->dim == 3) zpos = mt_random() % para->N;
-                if((dE = calcEnergyDiff(para->spins, rpos, cpos, zpos, para->N, para->J, B, spinSum, para->dim)) < 0 || 
+                if((dE = calcEnergyDiff(para->spins, rpos, cpos, zpos, para->N, para->J, B, para->dim)) < 0 || 
                     mt_random()/ (double) MT_MAX < exp(-dE/para->kB/T))
                 {
                     edgeSum -= 2*neighSumDim(para->spins, rpos, cpos, zpos, para->N, para->dim);
@@ -97,7 +97,7 @@ void runSweep(Parameters *para)
                     if(changecounter%500 == 0)
                     {
                         sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                        writeOutputFF(magPerSpinDim(para->spins, para->N, para->dim), calcEnergy(para->J, B, para->N, spinSum, edgeSum), filename);
+                        writeOutputFF(magPerSpinDim(para->spins, para->N, para->dim), calcEnergy(para->J, B, spinSum, edgeSum), filename);
                     }  
                     ++changecounter;
                 }

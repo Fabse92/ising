@@ -39,7 +39,7 @@ void writeOutputFFF(double value1, double value2, double value3, const char* fil
 }
 
 /** Calculates the Energy of the current spin lattice of Dimension dim*/
-double calcEnergy(double J, double B, int len, int spinSum, int edgeSum)
+double calcEnergy(double J, double B, int spinSum, int edgeSum)
 {
   double energy;
   
@@ -189,13 +189,13 @@ double calcEnergyDiff3D(int ***spins, int x1, int x2, int x3, int len, double J,
 }
 
 /** Calculates the difference in energy that a spin flip at its position would cause (periodic boundary conditions)*/
-double calcEnergyDiff(void *spins, int x1, int x2, int x3, int len, double J, double B, int sum, int dim)
+double calcEnergyDiff(void *spins, int x1, int x2, int x3, int len, double J, double B, int dim)
 {
   assert(dim == 2 || dim == 3);
   assert(spins!=NULL && len>0);
   assert(x1 >= 0 && x2 >= 0 && x3 >= 0);
   
-  double dE;
+  double dE = 0.0;
   
   if(dim == 2) dE = calcEnergyDiff2D((int **)spins, x1, x2, len, J, B);
   else if(dim == 3) dE = calcEnergyDiff3D((int ***)spins, x1, x2, x3, len, J, B);
@@ -209,7 +209,7 @@ double magPerSpinDim(void *spins, int len, int dim)
     assert(dim == 2 || dim == 3);
     assert(spins!=NULL && len>0);
     
-    double result;
+    double result = 0.0;
     int sum = spinSumDim(spins, len, dim);
     if(dim == 2)
     {
