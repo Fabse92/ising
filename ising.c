@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     }
     
     printf("\n");
-    clusterDelete(&para);
+    if (para.clusterMode == 'y') clusterDelete(&para);
     matrixDeleteDim(para.spins, para.dim);   
     return EXIT_SUCCESS;
 }   
