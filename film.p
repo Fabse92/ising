@@ -9,7 +9,7 @@ unset key
 unset colorbox
 
 
-do for [i=1:442] {
+do for [i=1:25] {
 set output 'png/plot'.i.'.png'
 plot 'film/data'.i matrix with image
 }

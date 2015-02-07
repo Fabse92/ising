@@ -1,9 +1,0 @@
-http://scholarworks.umass.edu/cgi/viewcontent.cgi?article=2108&context=physics_faculty_pubs
-
-http://journals.aps.org/pre/abstract/10.1103/PhysRevE.72.046704
-
-http://www.thp.uni-koeln.de/trebst/pubs/ClusterUpdates.pdf
-
-http://katzgraber.org/teaching/ss07/files/andrist.pdf
-
-gegoogelt: simulation slow down cluster update
