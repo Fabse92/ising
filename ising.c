@@ -76,7 +76,7 @@ void runSweep(Parameters *para)
         
         if(para->sweepMode == 'n' || S == para->sweep_init) 
         {
-          matrixRandFillDim(para->spins,para->N,para->dim); // fill matrix with random 1 or -1
+          matrixFillDim(para->spins,para->N,para->dim,para->matMode); // fill matrix with random +-1, +1 or -1
         }
         spinSum = spinSumDim(para->spins, para->N, para->dim);
         edgeSum = edgeSumDim(para->spins, para->N, para->dim);

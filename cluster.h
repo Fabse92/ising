@@ -31,8 +31,9 @@ void initializeClusterVars(Parameters *para)
 // vor jedem Schritt muss die Clustermatrix wieder zurückgesetzt werden
 void resetClusterMatrix(Parameters *para)
 {
-    for (int i = 0; i < para->N; i++)
-        for (int j = 0; j < para->N; j++)
+    int i,j;
+    for (i = 0; i < para->N; i++)
+        for (j = 0; j < para->N; j++)
             para->cv.cluster[i][j] = false;
 }
 

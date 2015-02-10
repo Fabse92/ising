@@ -76,13 +76,15 @@ void matrixPrint2Dfile(int **mat, int rows, int cols, const char* filename)
 }
 
 /** Fills a 2-dimensional matrix with random 1 or -1. */
-void matrixRandFill2D(int **mat,int rows, int cols)
+void matrixFill2D(int **mat,int rows, int cols, char matMode)
 {
     int i,j;
     for (i=0; i<rows; ++i)
         for (j=0; j<cols; ++j)
         {
-            mat[i][j] = 1-2*(mt_random()%2);
+            if(matMode == 'r') mat[i][j] = 1-2*(mt_random()%2);
+            else if(matMode == 'p') mat[i][j] = 1;
+            else if(matMode == 'n') mat[i][j] = -1;
         }                
 }
 
@@ -139,7 +141,7 @@ void matrixPrint3D(int ***mat, int n1, int n2, int n3)
 }
 
 /** Fills a 3-dimensional matrix with random -1 or 1 */
-void matrixRandFill3D(int ***mat, int n1, int n2, int n3)
+void matrixFill3D(int ***mat, int n1, int n2, int n3, char matMode)
 {
     int i,j,k;
     
@@ -147,7 +149,9 @@ void matrixRandFill3D(int ***mat, int n1, int n2, int n3)
         for(j=0; j<n2; ++j)
             for(k=0; k<n3; ++k)
             {
-                mat[i][j][k] = 1-2*(mt_random()%2);
+                if(matMode == 'r') mat[i][j][k] = 1-2*(mt_random()%2);
+                else if(matMode == 'p') mat[i][j][k] = 1;
+                else if(matMode == 'n') mat[i][j][k] = -1;
             }
 }
 
@@ -200,17 +204,17 @@ void matrixPrintDim(void *mat, int N, int dim)
 }
 
 /** fills a dim-dimensional matrix (NxN(xN)) with random -1 or 1 */
-void matrixRandFillDim(void *mat, int N, int dim)
+void matrixFillDim(void *mat, int N, int dim, char matMode)
 {
     assert(dim==2 || dim==3);
     
     if(dim==2)
     {
-        matrixRandFill2D((int **)mat, N, N);
+        matrixFill2D((int **)mat, N, N, matMode);
     }
     else if(dim==3)
     {
-        matrixRandFill3D((int ***)mat, N, N, N);
+        matrixFill3D((int ***)mat, N, N, N, matMode);
     }
 }
 
