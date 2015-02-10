@@ -7,7 +7,7 @@ Gliederung Ausarbeitung und Vortrag
    
 2. Simulationsprozess und Programmbeschreibung
    2.1 Allgemeiner Programmablauf
-   2.2 Umsetzung und Verhalten MonteCarloMethode vs ClusterUpdate
+   2.2 Umsetzung und Verhalten Metropolis vs ClusterUpdate
        Grundlegende Konvergenz der Methoden durch minimiere E.
        - E-Steps-Graph: Konvergenz der Simulation  MC2D, MC3D, CU2D, CU3D, T=x, B=0
        Daraus resultierende Konvergenz von m.
