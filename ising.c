@@ -125,19 +125,16 @@ void runSweep(Parameters *para)
                         spinSum -= 2*spin[rpos][cpos][zpos];
                         spin[rpos][cpos][zpos] *= -1;
                     }
-                    if(changecounter%500 == 0)
-                    {
-                        sprintf(filename, "output/%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
-                        writeOutputFF(magPerSpinDim(para->spins, para->N, para->dim), calcEnergy(para->J, B, spinSum, edgeSum), filename);
-                    }  
-                    ++changecounter;
                 }
             }              
-            sprintf(filename, "output/MagperStep_T=%f_B=%f.txt", T, B);
-            writeOutputFF(i, magPerSpinDim(para->spins, para->N, para->dim), filename);
+            sprintf(filename, "%s_T=%f_B=%f.txt", ENERGYPERMAG, T, B);
+            writeOutputFFF(i, magPerSpinDim(para->spins, para->N, para->dim), calcEnergy(para->J, B, spinSum, edgeSum), filename);
         }
-        sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
-        if(para->dim == 2) matrixPrint2Dfile(para->spins,para->N,para->N, filename);
+        if(para->dim == 2)
+        {
+            sprintf(filename, "output/matrix_T=%f_B=%f_end.txt", T, B);
+            matrixPrint2Dfile(para->spins,para->N,para->N, filename);
+        }
         writeOutputFFF(T, magPerSpinDim(para->spins, para->N, para->dim), B, MAGPERSPINOUTPUT);
         if(para->sweepPar == 'T') printf("=> T = %f finished\n", T);
         else if(para->sweepPar == 'B') printf("=> B = %f finished\n", B);

@@ -4,8 +4,8 @@
 #include <sys/stat.h>
 #include <stdbool.h>
 
-#define MAGPERSPINOUTPUT "MagperSpin" // Dateiname der Datei in der die Magnetisierung pro Spin fuer jede Temperatur gespeichert wird
-#define ENERGYPERMAG "EperMag" // Dateiname der Datei in der die Energie pro Magnetisierung fuer jeden Flip gespeichert wird
+#define MAGPERSPINOUTPUT "output/Temp_Mag_BField" // Unterordner + Name der Datei in der die Magnetisierung pro Spin fuer jeden Sweepschritt am Ende der Simulation gespeichert wird (für m(T) und m(B))
+#define ENERGYPERMAG "output/Step_Energy_Mag" // Unterordner + Name der Datei in die pro Step Energie und Magnetisierung geschrieben wird (für E(step), m(step), E(m))
 #define MT_MAX 4294967295  // 2^32 - 1, hoechster von mt_random() generierter Wert
 
 typedef struct
@@ -87,13 +87,13 @@ void initialize(Parameters *para)
     FILE *fp;
     int i;
     
+    mkdir("output", 0777); // creates a directory like mkdir does
+    if (para->filmMode == 'y') mkdir("film", 0777);
+    
     if ((fp = fopen(MAGPERSPINOUTPUT, "w")) == NULL) // Dateiinhalt löschen
         fprintf(stderr, "Konnte nicht in Datei %s schreiben \n", MAGPERSPINOUTPUT);
     else
         fclose(fp);
-    
-    mkdir("output", 0777); // creates a directory like mkdir does
-    if (para->filmMode == 'y') mkdir("film", 0777);
     
     srand(time(NULL)); // muss weiterhin gemacht werden, da der Twister mit rand() initialisiert wird
     mt_init();
