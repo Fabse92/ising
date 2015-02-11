@@ -54,7 +54,7 @@ void tryAdd(Parameters *para, int row, int col, int clusterSpin) {
 //wird aufgerufen, um den Aufbau des Clusters zu starten und ruft sich dann über "tryAdd" rekursiv auf
 void growCluster(Parameters *para, int row, int col, int clusterSpin)
 {
-    printf("%f \n", para->cv.addProbability);
+    //printf("%f \n", para->cv.addProbability);
     int **spins2D = (int **)para->spins;
 
     int rowPrev = (row == 0 ? para->N - 1 : row - 1);
