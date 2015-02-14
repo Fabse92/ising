@@ -107,7 +107,8 @@ void runSweep(Parameters *para)
                     {
                         changecounter += 5000;
                     }
-                    
+                    spinSum = spinSumDim(para->spins, para->N, para->dim);
+                    edgeSum = edgeSumDim(para->spins, para->N, para->dim);
                     break; // ein Montecarlo Schritt wurde damit ausgeführt                    
                 
                 } else if((dE = calcEnergyDiff(para->spins, rpos, cpos, zpos, para->N, para->J, B, para->dim)) < 0 || mt_random()/ (double) MT_MAX < exp(-dE/para->kB/T))
