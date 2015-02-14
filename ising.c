@@ -112,6 +112,7 @@ void runSweep(Parameters *para)
                 
                 } else if((dE = calcEnergyDiff(para->spins, rpos, cpos, zpos, para->N, para->J, B, para->dim)) < 0 || mt_random()/ (double) MT_MAX < exp(-dE/para->kB/T))
                 {
+                    ++changecounter;
                     edgeSum -= 2*neighSumDim(para->spins, rpos, cpos, zpos, para->N, para->dim);
                     if(para->dim == 2)
                     {
