@@ -1,0 +1,47 @@
+Gliederung Ausarbeitung und Vortrag
+
+1. Problemstellung und Theorie
+   1.1 Ising Modell 2D, 3D
+   1.2 MonteCarlo Simulation 
+       -Metropolis algorithmus
+   1.3 Ziele für die Auswertung
+   
+2. Simulationsprozess und Programmbeschreibung
+   2.1 Allgemeiner Programmablauf
+   2.2 Umsetzung und Verhalten Metropolis 
+       ( Grundlegende Konvergenz der Methoden durch minimiere E.
+         - E-Steps-Graph: Konvergenz der Simulation  MC2D, MC3D, T=x, B=0)
+       Daraus resultierende Konvergenz von m.
+       2D:
+       - m-Steps-Graph: Konvergenz der MonteCarloSimulation 2D, versch. T, B=0 (matMode r und p) 
+       - zu m(T)->1, m(T)->0 und m(T)->(was schönes dazwischen) MPFilme
+       3D:
+       - m-Steps-Graph: Konvergenz der MonteCarloSimulation 3D versch. T B=0 (matMode r und p)
+   2.3 Modi zur Auswertung
+   
+3. Auswertung
+   3.1 Temperaturabhängigkeit:
+       - m-T-Graph: MC2D, versch. B
+       - m-T-Graph: MC3D, versch. B
+   3.2 Magnetfeldabhängigkeit:
+       Einletung E(m)-Verlauf, (vllt nur an einem Bsp.)
+       (- E-m-Graph: MC2D, versch. T, B=0, versch. matModes
+        - E-m-Graph: MC3D, versch. T, B=0)
+       Auswertung Hysterese-Schaltverhalten
+       - m-B-Graph: MC2D, versch. T
+       - m-B-Graph: MC3D, versch. T
+
+4. ClusterUpdates
+   4.1 Wolff Algorithmus
+   4.2 Umsetzung und Verhalten ClusterUpdate vs Metropolis
+       Konvergenzverhalten:
+       2D:
+       - m-Steps-Graph: Konvergenz der MonteCarloSimulation 2D, versch. T, B=0 (matMode r und p) 
+       - m-Steps-Graph: Konvergenz der ClusterUpdateSimulation 2D, versch. T, B=0 (matMode r und p)
+       - zu m(T)->1, m(T)->0 und m(T)->(was schönes dazwischen) CUFilme
+       3D:
+       - m-Steps-Graph: Konvergenz der MonteCarloSimulation 3D versch. T B=0 (matMode r und p)
+       - m-Steps-Graph: Konvergenz der ClusterUpdateSimulation 3D versch. T B=0 (matMode r und p)
+   4.3 Vgl: MP vs CU
+       - m-T-Graph: MC2D,CU2D B=0
+       - m-T-Graph: MC3D,CU3D B=0
