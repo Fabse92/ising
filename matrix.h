@@ -5,6 +5,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "utility.h" // fuer mt_random()
 
 
@@ -14,6 +15,25 @@ int **matrixMalloc2D(int rows, int cols)
     assert(rows > 0 && cols > 0);
     
     int i, *data, **pointers;
+    
+    data = malloc(rows*cols*sizeof(*data));
+    pointers = malloc(rows*sizeof(*pointers));
+    
+    for (i=0; i<rows; ++i)
+    {
+        pointers[i] = data + i*cols;
+    }
+    
+    return pointers;
+}
+
+/** allocates a 2-dimensional matrix (rows x cols) for booleans */
+bool **matrixMalloc2DBool(int rows, int cols)
+{
+    assert(rows > 0 && cols > 0);
+    
+    int i;
+    bool *data, **pointers;
     
     data = malloc(rows*cols*sizeof(*data));
     pointers = malloc(rows*sizeof(*pointers));
@@ -94,6 +114,30 @@ int ***matrixMalloc3D(int n1, int n2, int n3)
     assert(n1>0 && n2>0 && n3>0);
     
     int i, *data, **pointers1, ***pointers2;
+    
+    data = malloc(n1*n2*n3*sizeof(*data));
+    pointers1 = malloc(n1*n2*sizeof(*pointers1));
+    pointers2 = malloc(n1*sizeof(*pointers2));
+    assert(pointers2 != NULL);
+    
+    for(i=0; i<n1*n2; ++i)
+    {
+        pointers1[i] = data + i*n3;
+    }
+    for(i=0; i<n1; ++i)
+    {
+        pointers2[i] = pointers1 + i*n2;
+    } 
+    return pointers2;
+}
+
+/** allocates a 3-dimensional matrix (n1 x n2 x n3) for booleans*/
+bool ***matrixMalloc3DBool(int n1, int n2, int n3)
+{
+    assert(n1>0 && n2>0 && n3>0);
+    
+    int i;
+    bool *data, **pointers1, ***pointers2;
     
     data = malloc(n1*n2*n3*sizeof(*data));
     pointers1 = malloc(n1*n2*sizeof(*pointers1));

@@ -2,7 +2,6 @@
 #define ISING_H
 
 #include <sys/stat.h>
-#include <stdbool.h>
 
 #define MAGPERSPINOUTPUT "output/Temp_Mag_BField" // Unterordner + Name der Datei in der die Magnetisierung pro Spin fuer jeden Sweepschritt am Ende der Simulation gespeichert wird (für m(T) und m(B))
 #define ENERGYPERMAG "output/Step_Energy_Mag" // Unterordner + Name der Datei in die pro Step Energie und Magnetisierung geschrieben wird (für E(step), m(step), E(m))
@@ -10,7 +9,7 @@
 
 typedef struct
 {
-    bool **cluster;
+    void *cluster;
     double addProbability;
     
 } Cluster_Vars;

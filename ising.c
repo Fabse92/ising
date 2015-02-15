@@ -48,7 +48,7 @@ void runSweep(Parameters *para)
 {
     double S, T, B, dE;
     int i,j, rpos, cpos, zpos=0; //row-position, column-position, pos in third dim(can be anything/is not used in 2d case)
-    int spinSum = 0, edgeSum = 0;
+    int spinSum = 0, edgeSum = 0, clusterSpin;
     char filename[50];
     unsigned long imagecounter = 0, changecounter = 0; // fuer Film
         
@@ -102,7 +102,9 @@ void runSweep(Parameters *para)
                 if(para->clusterMode == 'y')
                 {
                     resetClusterMatrix(para);
-                    growCluster(para, rpos, cpos, ((int **)para->spins)[rpos][cpos]);
+                    if(para->dim == 2) clusterSpin = ((int **)para->spins)[rpos][cpos];
+                    if(para->dim == 3) clusterSpin = ((int ***)para->spins)[rpos][cpos][zpos];
+                    growCluster(para, rpos, cpos, zpos, clusterSpin);
                     if(para->filmMode == 'y')
                     {
                         changecounter += 5000;
