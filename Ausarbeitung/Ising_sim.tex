@@ -1,0 +1,67 @@
+\documentclass[12pt,a4paper, german]{article}
+\usepackage[a4paper, left=2 cm, right=2 cm, top=2.5 cm, bottom=2 cm]{geometry}
+\usepackage[T1]{fontenc}
+\newcommand{\changefont}[3]{
+\fontfamily{#1} \fontseries{#2} \fontshape{#3} \selectfont}
+\usepackage[utf8]{inputenc}
+
+\usepackage{wrapfig}
+\usepackage{graphicx, subfigure}
+\usepackage{float} 
+\floatplacement{figure}{H}
+%\usepackage{subcaption} 
+\usepackage[format=hang,labelfont={bf,sf},font=small]{caption}  
+\setlength{\captionmargin}{20pt} 
+
+\usepackage{chngcntr}
+\usepackage{amsfonts}  
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\counterwithin{equation}{section}
+
+\usepackage[numbers]{natbib}
+\usepackage{babelbib}
+
+%\usepackage{cite}
+
+\usepackage[ngerman]{babel}
+
+\setcounter{tocdepth}{4}   
+\setcounter{secnumdepth}{4} 
+
+\newcommand{\m}{ \ensuremath}
+%opening
+\title{Monte Carlo Simulation des Ising Modell}
+\author{Niek Andresen, Robert Hartmann, Jan Fabian Schimd}
+\date{WS 14/15}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Problemstellung und Theorie}
+\input{theorie}
+\newpage
+\section{Das Programm}
+\input{metropolis}
+\newpage
+\section{Ergebnisse und Auswertung}
+\input{auswertung}
+\newpage
+\section{Alternative: Cluster Monte Carlo Algorithmen}
+\input{cluster}
+\newpage
+\section{Zusammenfassung}
+\input{fazit}
+\newpage
+\listoffigures
+\section{Quellen}
+\begin{itemize}
+\item blabla
+\end{itemize}
+\newpage
+\end{document}

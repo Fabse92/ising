@@ -1,0 +1,18 @@
+\subsection{Das Ising-Modell}
+Das Ising-Modell beschreibt näherungsweise den Ferromagnetismus in Festkörpern. Hierbei wird ein Kristall als äquidistantes Gitter gesehen, an dessen Gitterpunkten sich einzelne Spins befinden, welche ein magnetisches Moment haben. In der Näherung verändern sich die Positionen der Spins nicht. Nimmt man zusätzlich an, dass nur nächste Nachbarn im Gitter sich gegenseitig beeinflussen und beschränkt man nun noch die Spins in ihre z-Richtung und lässt sie nur zwei diskrete Werte annehmen ($\pm1$), ergibt sich der Hamiltonoperator:\\
+\[
+\hat{H}=-J\sum_{<i,j>} S_i S_j - B\sum_{i=1}^N S_i
+\]
+wobei $S_i \in \{-1,+1\}$. J ist die Kopplungskonstante zwischen benachbarten Spins, während die Summe nur über nächste Nachbarn $<i,j>$ geht. B ist ein äußeres Magnetfeld.\\
+Somit liefern entgegengesetzt gerichtete Nachbarn einen positiven Energiebeitrag und gleichgerichtete einen negativen (für $J>0$).\\
+
+\subsection{Monte-Carlo-Simulation und Metropolis-Algorithmus}
+Zur Simulation dieses Systems im Ising-Modell wird die Monte-Carlo-Methode verwendet. Hierbei werden mit Hilfe von Zufallszahlen mögliche Konfigurationen des Systems erstellt. Um einen einfachen Mittelwert einer gesuchten Größe bilden zu können, werden Konfigurationen gemäß der Metropolis-Methode gewählt.\\
+Die Wahrscheinlichkeitsverteilung ist die Boltzmann-Verteilung, sodass sich folgende Wahrscheinlichkeit zur Durchführung eines Spin-Flips, der eine Energieänderung von $\Delta E$ zur Folge hätte, ergibt:
+\[
+P(S_k \rightarrow -S_k)=min\{ 1, e^{(-\frac{\Delta E}{k_B T})} \}
+\]
+
+
+\subsection{Ziele}
+Es soll das Verhalten des Gitters bei verschiedenen Temperaturen und äußeren Magnetfeldstärken sichtbar werden. Außerdem wird die Konvergenz des Systems und damit der Größe der Gesamtmagnetisierung $m=\sum_i S_i$ sowie der Energie betrachtet.
