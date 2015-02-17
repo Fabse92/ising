@@ -93,4 +93,16 @@ Als zweites soll die Abhängigkeit der Magnetisierung vom äußeren Feld betrach
 	\caption{Abhängigkeit der Magnetisierung von einem externen Magnetfeld, Simulation via Metropolisalgorithmus auf einem Gitter}
 	\label{mpbsweep}
 \end{figure}
-In beiden Fällen ist zu erkennen, dass sich für $T<T_{c}$ eine Hysterese herausbildet, welche immer schmaler wird, je näher sich $T$ $T_{c}$ annähert. Zudem ist zu beobachten, dass für kleine Temperaturen das Gitter komplett schaltet, währen um $T_{c}$ herum die Magnetiesung vor dem Schalten langsam kolabiert. Dieses Schaltverhalten lässt sich anhand der zwei Minima der freien Energie an $\pm m_{0}$ erklären. Diese liegen je nach Temperatur mehr oder weniger tief, für $B=0$ jedoch auf selber Höhe (Gleichgewicht). Im Falle eines externen Feldes verschiebt sich das Gleichgewicht zu Gunsten des angelegten Feldes. Ein Umschalten findet folglich erst statt, wenn aus dem ungünstigem Extrema ein Wendepunkt geworden ist, was je nach Temperatur bei unterschiedlichen $|B|>0$ der Fall ist (Abb. \ref{}). An $T_{c}$ selbst ist erstmals keine Hysterese mehr zu erkennen, da ab hier nur noch ein einziges Minimum bei $m=0$ besteht. Für $T>T_{c}$ ist ein kontinuierlicher Übergang der Magnetisierung zu beobachten, welcher durch den Ursprung verläuft. Dies deckt sich mit den Ergebnissen der Simulationen zur Temperaturabhängigkeit Kapitel \ref{auswT}. Für höhere Temperaturen ist entsprechend ein stärkeres Feld nötig um eine komplette Magnetisierung zu erreichen. 
+In beiden Fällen ist zu erkennen, dass sich für $T<T_{c}$ eine Hysterese herausbildet, welche immer schmaler wird, je näher sich $T$ $T_{c}$ annähert. Zudem ist zu beobachten, dass für kleine Temperaturen das Gitter komplett schaltet, währen um $T_{c}$ herum die Magnetiesung vor dem Schalten langsam kolabiert. Dieses Schaltverhalten lässt sich anhand der zwei Minima der freien Energie an $\pm m_{0}$ erklären. Diese liegen je nach Temperatur mehr oder weniger tief, für $B=0$ jedoch auf selber Höhe (Gleichgewicht). Im Falle eines externen Feldes verschiebt sich das Gleichgewicht zu Gunsten des angelegten Feldes. Ein Umschalten findet folglich erst statt, wenn aus dem ungünstigem Extrema ein Wendepunkt geworden ist, was je nach Temperatur bei unterschiedlichen $|B|>0$ der Fall ist (Abb. \ref{fmag}b). An $T_{c}$ selbst ist erstmals keine Hysterese mehr zu erkennen, da ab hier nur noch ein einziges Minimum bei $m=0$ besteht (Abb. \ref{fmag}a). Für $T>T_{c}$ ist ein kontinuierlicher Übergang der Magnetisierung zu beobachten, welcher durch den Ursprung verläuft. Dies deckt sich mit den Ergebnissen der Simulationen zur Temperaturabhängigkeit Kapitel \ref{auswT}. Für höhere Temperaturen ist entsprechend ein stärkeres Feld nötig um eine komplette Magnetisierung zu erreichen. 
+\begin{figure}[H]
+	\centering
+	\subfigure[Temperaturabhängigkeit, $B=0$]{
+		\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_T.jpg}
+}	
+	\subfigure[Feldabhängigkeit, $T=const.$]{
+		\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_B.jpg}
+}		
+	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung. Auswirkung der Temperatur und des externen Magnetfelds}
+	\label{fmag}
+\end{figure}
+
