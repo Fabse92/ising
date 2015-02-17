@@ -1,0 +1,28 @@
+\select@language {ngerman}
+\select@language {ngerman}
+\contentsline {figure}{\numberline {1}{\ignorespaces Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus f\IeC {\"u}r ein zweidimensionales Gitter\relax }}{3}
+\contentsline {figure}{\numberline {2}{\ignorespaces Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus f\IeC {\"u}r ein dreidimensionales Gitter\relax }}{4}
+\contentsline {figure}{\numberline {3}{\ignorespaces Temperaturabh\IeC {\"a}ngigkeit der Magnetisierung im 2D Ising Modells via Metropolisalgorithmus ohne \IeC {\"a}u\IeC {\ss }eres Feld\relax }}{5}
+\contentsline {figure}{\numberline {4}{\ignorespaces Temperaturabh\IeC {\"a}ngigkeit der Magnetisierung im 2D Ising Modells via Metropolisalgorithmus f\IeC {\"u}r verschiedene \IeC {\"a}u\IeC {\ss }ere Felder\relax }}{6}
+\contentsline {figure}{\numberline {5}{\ignorespaces Temperaturabh\IeC {\"a}ngigkeit der Magnetisierung im 3D Ising Modells via Metropolisalgorithmus ohne \IeC {\"a}u\IeC {\ss }eres Feld\relax }}{7}
+\contentsline {figure}{\numberline {6}{\ignorespaces Temperaturabh\IeC {\"a}ngigkeit der Magnetisierung im \IeC {\textsection }D Ising Modells via Metropolisalgorithmus f\IeC {\"u}r verschiedene \IeC {\"a}u\IeC {\ss }ere Felder\relax }}{8}
+\contentsline {figure}{\numberline {7}{\ignorespaces Abh\IeC {\"a}ngigkeit der Magnetisierung von einem externen Magnetfeld, Simulation via Metropolisalgorithmus auf einem Gitter\relax }}{9}
+\contentsline {figure}{\numberline {8}{\ignorespaces schematischer Verlauf der freien Energie in Abh\IeC {\"a}ngigkeit der Magnetisierung. Auswirkung der Temperatur und des externen Magnetfelds\relax }}{9}
+\contentsline {figure}{\numberline {9}{\ignorespaces \relax }}{10}
+\contentsline {figure}{\numberline {10}{\ignorespaces \relax }}{10}
+\contentsline {figure}{\numberline {11}{\ignorespaces \relax }}{10}
+\contentsline {figure}{\numberline {12}{\ignorespaces \relax }}{10}
+\contentsline {figure}{\numberline {13}{\ignorespaces \relax }}{10}
+\contentsline {figure}{\numberline {14}{\ignorespaces \relax }}{10}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {zuf\IeC {\"a}llige Startkonfiguration}}}{10}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {positv parallele Startkonfiguration}}}{10}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {zuf\IeC {\"a}llige Startkonfiguration}}}{10}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {positv parallele Startkonfiguration}}}{10}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Start aus Zufallskonfiguration}}}{10}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Start aus geordneten Konfigurationen}}}{10}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Start aus Zufallskonfiguration}}}{10}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Start aus geordneten Konfigurationen}}}{10}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {2D Modell}}}{10}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {3D Modell}}}{10}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Temperaturabh\IeC {\"a}ngigkeit, $B=0$}}}{10}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Feldabh\IeC {\"a}ngigkeit, $T=const.$}}}{10}
