@@ -44,15 +44,15 @@ Für die Wahrscheinlichkeit $A(i \rightarrow j)$ den Übergang von i nach j zu b
 (Hierbei bedeutet $_{innen}$ jeweils innerhalb und $_{außen}$ außerhalb des Clusters\\
 und $n_{gleich}$ bzw. $n_{diff}$ sind die Anzahl Spins, die am Rand gleich bzw. ungleich zu dem Spin innerhalb des Clusters sind.)
 \begin{align}
-A(i \rightarrow j)=A_{innen} * (1 - p)^{n_{gleich}}\\
-A_{innen} = p^{n_{innen}-1} + Z\\
-E_i = E_{innen} + E_{außen} - n_{gleich} * J + n_{diff} * J\\
+&A(i \rightarrow j)=A_{innen} * (1 - p)^{n_{gleich}}\\
+&A_{innen} = p^{n_{innen}-1} + Z\\
+&E_i = E_{innen} + E_{außen} - n_{gleich} * J + n_{diff} * J\\
 \end{align}
 Mit Z der Wahrscheinlichkeit einen Spin im Cluster als Startpunkt gewählt zu haben.\\
 Ebenso gilt:
 \begin{align}
-A(j \rightarrow i)=A_{innen} * (1 - p)^{n_{diff}}\\
-E_j = E_{innen} + E_{außen} + n_{gleich} * J - n_{diff} * J\\
+&A(j \rightarrow i)=A_{innen} * (1 - p)^{n_{diff}}\\
+&E_j = E_{innen} + E_{außen} + n_{gleich} * J - n_{diff} * J\\
 \end{align}
 Damit gilt:
 \begin{align}
@@ -69,13 +69,13 @@ Der Vorteil des Cluster-Algorithmus ist die schnelle Konverenzgeschwindigkeit in
 \begin{figure}[H]
 	\centering
 	\subfigure[Konvergenz beim Cluster-Update-Verfahren]{
-		\includegraphics[width=0.30\textwidth]{../Graph_Export/CU2D/m(steps)_Plot.jpg}
-	}
+		\includegraphics[width=0.47\textwidth]{../Graph_Export/CU2D/m(steps)_Plot.jpg}
+	}\\
 	\subfigure[Betragswerte der Abbildung (a)]{
-		\includegraphics[width=0.30\textwidth]{../Graph_Export/CU2D/abs(m(steps))_Plot.jpg}
+		\includegraphics[width=0.47\textwidth]{../Graph_Export/CU2D/abs(m(steps))_Plot.jpg}
 	}	
 	\subfigure[Konvergenz beim Metropolis-Verfahren]{
-		\includegraphics[width=0.30\textwidth]{../Graph_Export/MP2D/m(Steps)_r.jpg}
+		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(Steps)_r.jpg}
 	}		
 	\caption{Konvergenz der Magnetisierung im Vergleich zwischen Metropolis- und Cluster-Update-Verfahren auf einem 50x50 Gitter}
 	\label{cu2d2steps}
@@ -96,7 +96,7 @@ Zu vergleichen sind also sinnvollerweise die Abbildungen \ref{cu2d2steps}b und \
 	\label{cu2d3steps}
 \end{figure}
 
-Bei der Simulation auf einem dreidimensionalen Gitter erkennt man die gleichen Phänomene, wie beim Zweidimensionalen. Die Konvergenz ist insgesamt etwas schneller.
+Bei der Simulation auf einem dreidimensionalen Gitter erkennt man die gleichen Phänomene, wie beim Zweidimensionalen. Die Konvergenz ist allerdings vergleichsweise nicht wesentlich schlechter beim Metropolis.
 
 \begin{figure}[H]
 	\centering
