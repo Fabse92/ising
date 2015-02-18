@@ -1,20 +1,24 @@
-Das von uns entwickelte Programm zur Untersuchung des Ising-Modells ist in C geschrieben. Die wichtigen Parameter zum Steuern der Simulation werden als Programmparameter beim Starten mitgegeben. Die Zufallszahlen im Programm werden mit einem Mersenne-Twister Pseudozufallszahlengenerator erzeugt.
 
-\subsection{Metropolis Schema}
+Das Programm simuliert das Ising Modell auf einem Gitter vorgegebener Länge $N$ und Dimension $d$ mittels Monte Carlo Verfahren. Dabei können sowohl eine als auch mehrere Simulationen zu unterschiedlichen Parameterwerten durchgeführt werden. Jede Simulation besteht dabei aus $n$ Monte Carlo Schritten oder steps. Darin werden $N^{d}$ potentielle Spinflips betrachtet, welche je nach Flipwahrscheinlichkeit akzeptiert oder abgelehnt werden. Die Flipwahrscheinlichkeit ergibt sich aus Differenz der inneren Energien beider Zustände. Für unsere Simulation berachten die Kopplungskonstante in “Nächster-Nachbarn”-Näherung mit $J=1$. Die Boltzmannkonstante wird ebenfalls mit $k_{b}=1$ eingerechnet. 
+Alle Parameter der Simulation, sowie die Auswahl der Programmmodi, welche das Zusammenspiel der einzelnen Simulationen bestimmen, werden beim Programmaufruf übergeben. Die Zufallszahlen im Programm werden mit einem Mersenne-Twister Pseudozufallszahlengenerator erzeugt. Das Programm ist in C geschrieben.
 
-1. Es ist ein Anfangszustand gegeben\\
-2. Wähle zufällig einen Spin aus\\
-3. Berechne die Energiedifferenz $\Delta E$ gegenüber dem jetzigen Zustand, wenn der gewählte Spin geflippt wird\\
-4. Flippe den Spin mit Wahrscheinlichkeit $P(S_k \rightarrow -S_k)=min\{ 1, e^{(-\frac{\Delta E}{k_B T})} \}$\\
-5. Gehe zu 1.\\\\
-In unserem Programm bilden $N^{dim}$ Durchläufe dieses Schemas einen Monte-Carlo-Schritt (step).
 
-\subsection{Im Detail: Konvergenz des Metropolis Algorithmus}
+\subsection{Monte Carlo Schritt im Metropolis Schema}
 
-Hier der Metropolis Block eines Monte Carlo Schritts mit Konvergenzverhalten
+Zunächst wird für die Flipwahrscheinlichkeit $W_{ij}$ mittels Metropolis-Schema berechnet. Die Wahrscheinlichkeit, dass sich das System im Zustand $i$ befindet ergibt sich nach $P_{i}=\frac{1}{Z_{k}}\dot e^{-\beta E_{i}}$. Dabei bezeichnet $Z_{k}$ die kanonische Zustandsumme des Systems, $E_{i}$ die innere Energie des Systems in Zustand $i$. Daraus folgt für die Flipwahrscheinlichkeit
+\begin{equation}
+W_{ij}=min\{1,\frac{P_{j}}{P_{i}}\}=min\{1,e^{\beta \Delta E}\}
+\end{equation}
+mit $\Delta E=E_{i}-E_{j}$. Somit wird jede Energieminimierung akzeptiert, jede Energieerhöhung nur zu einer gewissen Wahrscheinlichkeit. 
 
-2D
 
+Somit läuft ein Flip während eines Monte Carlo Schritts wie folgt ab:\\
+Zunächst befindet sich das System im Zustand $i$. Dann wird ein zufälliger Spin $S_{k}$ ausgewählt. Danach wird die Energiedifferenz $\Delta E$ zwischen Energie im Zustand $i$ mit $S_{k}$ und die Energie im Zustand $j$ mit $-S_{k}$, also dem gefliptem Spin berechnet. Diese berechnet sich im hier verwendetem Ising-Modell über $\Delta E=2S_{k}(B+\sum_{i=1}^{d}S_{k-1}+S_{k+1})$. Die Berücksichtigung des Magnetfelds $B$ spielt bei unsere Betrachtung eine große Rolle, weshalb der Metropolisalgorithmus verwendet wurde. Eine Alternative ohne äußeres Feld wird in Kapitel \ref{cluster} dargestellt. Der Spinflip wird der Wahrscheinlichkeit $W(S_k \rightarrow -S_k)=min\{ 1, e^{\frac{\Delta E}{T}} \}$. Im Falle einer Energieerhöhung wird der Spinflip ausgeführt, falls die Flipwahrscheinlichkeit $e^{\frac{\Delta E}{T}}$ größer als eine Zufallszahl $R\in[0,1]$.
+
+
+\subsection{Im Detail: Konvergenz von makroskopischen Größen im Metropolis Algorithmus}
+
+Durch die Temperaturabhängigkeit der Flipwahrscheinlichkeit $W_{ij}$ konvergiert die Energie im Verlauf einer Simulation gegen einen bestimmten Energiewert $E_{n}$, welcher äquivalent zum Minimum der freien Energie $F=E-TS$ ist. Daraus folgt das auch der Zustand bis auf mikroskopische Fluktuationen bzw. die Magnetisierung des Systems und damit auch die durchschnittliche Magnetisierung pro Spin konvergent ist. Diese konvergiert für verschiedene Startkonfigurationen sowohl für ein zwei- als auch dreidimensionales Gitter (Abb.\ref{} und \ref{}). Hier wurden jeweils der Verlauf der Magnetisierung des Systems über 1000 Monte Carlo Schritte aus einer rein positiven Startkonfiguration und einer zufälligen Startkonfiguration für verschiedene Temperaturen $T$ betrachtet. Je niedriger die Temperatur, desto höher ist der absolute Wert...
 \begin{figure}[H]
 	\centering
 	\subfigure[zufällige Startkonfiguration]{
@@ -26,9 +30,6 @@ Hier der Metropolis Block eines Monte Carlo Schritts mit Konvergenzverhalten
 	\caption{Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus für ein zweidimensionales Gitter}
 	\label{mp2dkonv}
 \end{figure}
-
-3D
-
 \begin{figure}[H]
 	\centering
 	\subfigure[zufällige Startkonfiguration]{
@@ -40,6 +41,8 @@ Hier der Metropolis Block eines Monte Carlo Schritts mit Konvergenzverhalten
 	\caption{Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus für ein dreidimensionales Gitter}
 	\label{mp3dkonv}
 \end{figure}
+
+bilder aus Filmen...
 
 \subsection{Im Detail: Funktion weiterer Parameter}
 
