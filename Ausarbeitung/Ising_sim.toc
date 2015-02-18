@@ -5,10 +5,9 @@
 \contentsline {subsection}{\numberline {1.2}Monte-Carlo-Simulation und Metropolis-Algorithmus}{2}
 \contentsline {subsection}{\numberline {1.3}Ziele}{2}
 \contentsline {section}{\numberline {2}Das Programm}{3}
-\contentsline {subsection}{\numberline {2.1}Allgemeiner Aufbau}{3}
-\contentsline {subsection}{\numberline {2.2}Metropolis Schema}{3}
-\contentsline {subsection}{\numberline {2.3}Im Detail: Konvergenz des Metropolis Algorithmus}{3}
-\contentsline {subsection}{\numberline {2.4}Im Detail: Funktion weiterer Parameter}{4}
+\contentsline {subsection}{\numberline {2.1}Metropolis Schema}{3}
+\contentsline {subsection}{\numberline {2.2}Im Detail: Konvergenz des Metropolis Algorithmus}{3}
+\contentsline {subsection}{\numberline {2.3}Im Detail: Funktion weiterer Parameter}{4}
 \contentsline {section}{\numberline {3}Ergebnisse und Auswertung}{5}
 \contentsline {subsection}{\numberline {3.1}Phasen\IeC {\"u}bergang zwischen Hoch- und Niedertemperaturphase}{5}
 \contentsline {paragraph}{\numberline {3.1.0.1}2D-Modell}{5}
@@ -17,6 +16,6 @@
 \contentsline {section}{\numberline {4}Alternative: Cluster Monte Carlo Algorithmen}{10}
 \contentsline {subsection}{\numberline {4.1}Wolff-Algorithmus}{10}
 \contentsline {subsection}{\numberline {4.2}Flipp-Wahrscheinlichkeit des Clusters = 1}{10}
-\contentsline {subsection}{\numberline {4.3}Konvergenzverhalten im Vergleich}{11}
-\contentsline {section}{\numberline {5}Zusammenfassung}{12}
-\contentsline {section}{\numberline {6}Quellen}{13}
+\contentsline {subsection}{\numberline {4.3}Metropolis und Cluster-Update im Vergleich}{11}
+\contentsline {section}{\numberline {5}Zusammenfassung}{14}
+\contentsline {section}{\numberline {6}Quellen}{15}

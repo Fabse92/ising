@@ -8,21 +8,7 @@
 \contentsline {figure}{\numberline {6}{\ignorespaces Temperaturabh\IeC {\"a}ngigkeit der Magnetisierung im \IeC {\textsection }D Ising Modells via Metropolisalgorithmus f\IeC {\"u}r verschiedene \IeC {\"a}u\IeC {\ss }ere Felder\relax }}{8}
 \contentsline {figure}{\numberline {7}{\ignorespaces Abh\IeC {\"a}ngigkeit der Magnetisierung von einem externen Magnetfeld, Simulation via Metropolisalgorithmus auf einem Gitter\relax }}{9}
 \contentsline {figure}{\numberline {8}{\ignorespaces schematischer Verlauf der freien Energie in Abh\IeC {\"a}ngigkeit der Magnetisierung. Auswirkung der Temperatur und des externen Magnetfelds\relax }}{9}
-\contentsline {figure}{\numberline {9}{\ignorespaces \relax }}{10}
-\contentsline {figure}{\numberline {10}{\ignorespaces \relax }}{10}
-\contentsline {figure}{\numberline {11}{\ignorespaces \relax }}{10}
-\contentsline {figure}{\numberline {12}{\ignorespaces \relax }}{10}
-\contentsline {figure}{\numberline {13}{\ignorespaces \relax }}{10}
-\contentsline {figure}{\numberline {14}{\ignorespaces \relax }}{10}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {zuf\IeC {\"a}llige Startkonfiguration}}}{10}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {positv parallele Startkonfiguration}}}{10}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {zuf\IeC {\"a}llige Startkonfiguration}}}{10}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {positv parallele Startkonfiguration}}}{10}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Start aus Zufallskonfiguration}}}{10}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Start aus geordneten Konfigurationen}}}{10}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Start aus Zufallskonfiguration}}}{10}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Start aus geordneten Konfigurationen}}}{10}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {2D Modell}}}{10}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {3D Modell}}}{10}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Temperaturabh\IeC {\"a}ngigkeit, $B=0$}}}{10}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Feldabh\IeC {\"a}ngigkeit, $T=const.$}}}{10}
+\contentsline {figure}{\numberline {9}{\ignorespaces Veranschaulichung des Wolff-Algorithmus Schemas\relax }}{10}
+\contentsline {figure}{\numberline {10}{\ignorespaces Konvergenz der Magnetisierung im Vergleich zwischen Metropolis- und Cluster-Update-Verfahren auf einem 50x50 Gitter\relax }}{12}
+\contentsline {figure}{\numberline {11}{\ignorespaces Konvergenz der Magnetisierung im Vergleich zwischen Metropolis- und Cluster-Update-Verfahren auf einem 20x20x20 Gitter\relax }}{13}
+\contentsline {figure}{\numberline {12}{\ignorespaces Temperaturabh\IeC {\"a}ngigkeit der Magnetisierung auf einem 50x50 Gitter\relax }}{13}

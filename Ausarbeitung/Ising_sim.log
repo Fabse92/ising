@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.17)  17 FEB 2015 23:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.17)  18 FEB 2015 11:38
 entering extended mode
 **Ising_sim.tex
 (X:\Dropbox\Uni\CP\ising\Ausarbeitung\Ising_sim.tex
@@ -582,7 +582,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--8
  []
 
 ) [2] (X:\Dropbox\Uni\CP\ising\Ausarbeitung\metropolis.tex
-Underfull \hbox (badness 10000) in paragraph at lines 7--13
+Underfull \hbox (badness 10000) in paragraph at lines 5--11
 
  []
 
@@ -591,7 +591,7 @@ File: ../Graph_Export/MP2D/m(Steps)_r.jpg Graphic file (type jpg)
 
 <use ../Graph_Export/MP2D/m(Steps)_r.jpg>
 Package pdftex.def Info: ../Graph_Export/MP2D/m(Steps)_r.jpg used on input line
- 24.
+ 22.
 (pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
 
 <../Graph_Export/MP2D/m(Steps)_p.jpg, id=24, 810.8694pt x 562.9833pt>
@@ -599,9 +599,9 @@ File: ../Graph_Export/MP2D/m(Steps)_p.jpg Graphic file (type jpg)
 
 <use ../Graph_Export/MP2D/m(Steps)_p.jpg>
 Package pdftex.def Info: ../Graph_Export/MP2D/m(Steps)_p.jpg used on input line
- 27.
+ 25.
 (pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 28.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 26.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
 File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
@@ -611,7 +611,7 @@ File: ../Graph_Export/MP3D/m(Steps)_r.jpg Graphic file (type jpg)
 
 <use ../Graph_Export/MP3D/m(Steps)_r.jpg>
 Package pdftex.def Info: ../Graph_Export/MP3D/m(Steps)_r.jpg used on input line
- 38.
+ 36.
 (pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
 
 <../Graph_Export/MP3D/m(Steps)_p.jpg, id=26, 810.8694pt x 562.9833pt>
@@ -619,7 +619,7 @@ File: ../Graph_Export/MP3D/m(Steps)_p.jpg Graphic file (type jpg)
 
 <use ../Graph_Export/MP3D/m(Steps)_p.jpg>
 Package pdftex.def Info: ../Graph_Export/MP3D/m(Steps)_p.jpg used on input line
- 41.
+ 39.
 (pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
  [3 <X:/Dropbox/Uni/CP/ising/Graph_Export/MP2D/m(Steps)_r.jpg> <X:/Dropbox/Uni/
 CP/ising/Graph_Export/MP2D/m(Steps)_p.jpg>]) [4 <X:/Dropbox/Uni/CP/ising/Graph_
@@ -720,8 +720,8 @@ File: ../Graph_Export/cluster_veranschaulichung/Abbildung41.png Graphic file (t
 ype png)
  <use ../Graph_Export/cluster_veranschaulichung/Abbildung41.png>
 Package pdftex.def Info: ../Graph_Export/cluster_veranschaulichung/Abbildung41.
-png used on input line 15.
-(pdftex.def)             Requested size: 85.35826pt x 85.35284pt.
+png used on input line 16.
+(pdftex.def)             Requested size: 120.92421pt x 120.92342pt.
 
 <../Graph_Export/cluster_veranschaulichung/Abbildung42.png, id=65, 451.6875pt x
  451.6875pt>
@@ -730,7 +730,7 @@ ype png)
  <use ../Graph_Export/cluster_veranschaulichung/Abbildung42.png>
 Package pdftex.def Info: ../Graph_Export/cluster_veranschaulichung/Abbildung42.
 png used on input line 19.
-(pdftex.def)             Requested size: 85.35826pt x 85.35284pt.
+(pdftex.def)             Requested size: 120.92421pt x 120.92342pt.
 
 <../Graph_Export/cluster_veranschaulichung/Abbildung43a.png, id=66, 451.6875pt 
 x 451.6875pt>
@@ -738,8 +738,8 @@ File: ../Graph_Export/cluster_veranschaulichung/Abbildung43a.png Graphic file (
 type png)
  <use ../Graph_Export/cluster_veranschaulichung/Abbildung43a.png>
 Package pdftex.def Info: ../Graph_Export/cluster_veranschaulichung/Abbildung43a
-.png used on input line 23.
-(pdftex.def)             Requested size: 85.35826pt x 85.35284pt.
+.png used on input line 22.
+(pdftex.def)             Requested size: 120.92421pt x 120.92342pt.
 
 <../Graph_Export/cluster_veranschaulichung/Abbildung43b.png, id=67, 451.6875pt 
 x 451.6875pt>
@@ -747,8 +747,8 @@ File: ../Graph_Export/cluster_veranschaulichung/Abbildung43b.png Graphic file (
 type png)
  <use ../Graph_Export/cluster_veranschaulichung/Abbildung43b.png>
 Package pdftex.def Info: ../Graph_Export/cluster_veranschaulichung/Abbildung43b
-.png used on input line 27.
-(pdftex.def)             Requested size: 85.35826pt x 85.35284pt.
+.png used on input line 25.
+(pdftex.def)             Requested size: 120.92421pt x 120.92342pt.
 
 <../Graph_Export/cluster_veranschaulichung/Abbildung43c.png, id=68, 451.6875pt 
 x 451.6875pt>
@@ -756,8 +756,8 @@ File: ../Graph_Export/cluster_veranschaulichung/Abbildung43c.png Graphic file (
 type png)
  <use ../Graph_Export/cluster_veranschaulichung/Abbildung43c.png>
 Package pdftex.def Info: ../Graph_Export/cluster_veranschaulichung/Abbildung43c
-.png used on input line 31.
-(pdftex.def)             Requested size: 85.35826pt x 85.35284pt.
+.png used on input line 28.
+(pdftex.def)             Requested size: 120.92421pt x 120.92342pt.
 
 <../Graph_Export/cluster_veranschaulichung/Abbildung44.png, id=69, 451.6875pt x
  451.6875pt>
@@ -765,10 +765,20 @@ File: ../Graph_Export/cluster_veranschaulichung/Abbildung44.png Graphic file (t
 ype png)
  <use ../Graph_Export/cluster_veranschaulichung/Abbildung44.png>
 Package pdftex.def Info: ../Graph_Export/cluster_veranschaulichung/Abbildung44.
-png used on input line 35.
-(pdftex.def)             Requested size: 85.35826pt x 85.35284pt.
+png used on input line 31.
+(pdftex.def)             Requested size: 120.92421pt x 120.92342pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--44
+Underfull \hbox (badness 10000) in paragraph at lines 5--34
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--34
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--40
 
  []
 
@@ -780,57 +790,122 @@ ldung43b.png> <X:/Dropbox/Uni/CP/ising/Graph_Export/cluster_veranschaulichung/A
 bbildung43c.png> <X:/Dropbox/Uni/CP/ising/Graph_Export/cluster_veranschaulichun
 g/Abbildung44.png>]
 
-LaTeX Warning: Command \ss invalid in math mode on input line 48.
+LaTeX Warning: Command \ss invalid in math mode on input line 44.
 
 Missing character: There is no ÿ in font cmr8!
 
-LaTeX Warning: Command \ss invalid in math mode on input line 54.
+LaTeX Warning: Command \ss invalid in math mode on input line 50.
 
 Missing character: There is no ÿ in font cmr8!
 
-LaTeX Warning: Command \ss invalid in math mode on input line 54.
+LaTeX Warning: Command \ss invalid in math mode on input line 50.
 
 Missing character: There is no ÿ in font cmr8!
 
-LaTeX Warning: Command \ss invalid in math mode on input line 60.
+LaTeX Warning: Command \ss invalid in math mode on input line 56.
 
 Missing character: There is no ÿ in font cmr8!
 
-LaTeX Warning: Command \ss invalid in math mode on input line 60.
+LaTeX Warning: Command \ss invalid in math mode on input line 56.
 
 Missing character: There is no ÿ in font cmr8!
 
-LaTeX Warning: Command \ss invalid in math mode on input line 67.
+LaTeX Warning: Command \ss invalid in math mode on input line 63.
 
 
-LaTeX Warning: Command \ss invalid in math mode on input line 67.
+LaTeX Warning: Command \ss invalid in math mode on input line 63.
 
 Missing character: There is no ÿ in font cmr6!
 Missing character: There is no ÿ in font cmr6!
 
-LaTeX Warning: Command \ss invalid in math mode on input line 67.
+LaTeX Warning: Command \ss invalid in math mode on input line 63.
 
 
-LaTeX Warning: Command \ss invalid in math mode on input line 67.
+LaTeX Warning: Command \ss invalid in math mode on input line 63.
 
 Missing character: There is no ÿ in font cmr6!
 Missing character: There is no ÿ in font cmr6!
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+<../Graph_Export/CU2D/m(steps)_Plot.jpg, id=79, 810.8694pt x 562.9833pt>
+File: ../Graph_Export/CU2D/m(steps)_Plot.jpg Graphic file (type jpg)
+
+<use ../Graph_Export/CU2D/m(steps)_Plot.jpg>
+Package pdftex.def Info: ../Graph_Export/CU2D/m(steps)_Plot.jpg used on input l
+ine 73.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
+
+<../Graph_Export/CU2D/abs(m(steps))_Plot.jpg, id=80, 810.8694pt x 562.9833pt>
+File: ../Graph_Export/CU2D/abs(m(steps))_Plot.jpg Graphic file (type jpg)
+
+<use ../Graph_Export/CU2D/abs(m(steps))_Plot.jpg>
+Package pdftex.def Info: ../Graph_Export/CU2D/abs(m(steps))_Plot.jpg used on in
+put line 76.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
+File: ../Graph_Export/MP2D/m(Steps)_r.jpg Graphic file (type jpg)
+
+<use ../Graph_Export/MP2D/m(Steps)_r.jpg>
+Package pdftex.def Info: ../Graph_Export/MP2D/m(Steps)_r.jpg used on input line
+ 79.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
+
+Underfull \hbox (badness 1540) in paragraph at lines 80--80
+[][]|\T1/cmr/m/n/10.95 Kon-ver-genz der Ma-gne-ti-sie-rung im Ver-gleich zwi-sc
+hen Metropolis- und
+ []
+
+[11]
+<../Graph_Export/CU3D/abs(m(steps))_Plot.jpg, id=84, 810.8694pt x 562.9833pt>
+File: ../Graph_Export/CU3D/abs(m(steps))_Plot.jpg Graphic file (type jpg)
+
+<use ../Graph_Export/CU3D/abs(m(steps))_Plot.jpg>
+Package pdftex.def Info: ../Graph_Export/CU3D/abs(m(steps))_Plot.jpg used on in
+put line 91.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
+File: ../Graph_Export/MP3D/m(Steps)_r.jpg Graphic file (type jpg)
+
+<use ../Graph_Export/MP3D/m(Steps)_r.jpg>
+Package pdftex.def Info: ../Graph_Export/MP3D/m(Steps)_r.jpg used on input line
+ 94.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
+
+Underfull \hbox (badness 1540) in paragraph at lines 95--95
+[][]|\T1/cmr/m/n/10.95 Kon-ver-genz der Ma-gne-ti-sie-rung im Ver-gleich zwi-sc
+hen Metropolis- und
+ []
+
+[12 <X:/Dropbox/Uni/CP/ising/Graph_Export/CU2D/m(steps)_Plot.jpg> <X:/Dropbox/U
+ni/CP/ising/Graph_Export/CU2D/abs(m(steps))_Plot.jpg>]
+<../Graph_Export/CU2D/m(T)_B=0_matModes_CU2D_Plot.jpg, id=88, 810.8694pt x 562.
+9833pt>
+File: ../Graph_Export/CU2D/m(T)_B=0_matModes_CU2D_Plot.jpg Graphic file (type j
+pg)
+ <use ../Graph_Export/CU2D/m(T)_B=0_matModes_CU2D_Plot.jpg>
+Package pdftex.def Info: ../Graph_Export/CU2D/m(T)_B=0_matModes_CU2D_Plot.jpg u
+sed on input line 105.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
+
+<../Graph_Export/MP2D/m(T)_B=0_matModes_MP2D_50_Plot.jpg, id=89, 810.8694pt x 5
+62.9833pt>
+File: ../Graph_Export/MP2D/m(T)_B=0_matModes_MP2D_50_Plot.jpg Graphic file (typ
+e jpg)
+ <use ../Graph_Export/MP2D/m(T)_B=0_matModes_MP2D_50_Plot.jpg>
+Package pdftex.def Info: ../Graph_Export/MP2D/m(T)_B=0_matModes_MP2D_50_Plot.jp
+g used on input line 108.
+(pdftex.def)             Requested size: 227.3381pt x 157.84042pt.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 71--57
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 71--57
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 71--57
-
- []
-
-[11] (X:\Dropbox\Uni\CP\ising\Ausarbeitung\fazit.tex) [12]
+[13 <X:/Dropbox/Uni/CP/ising/Graph_Export/CU3D/abs(m(steps))_Plot.jpg> <X:/Drop
+box/Uni/CP/ising/Graph_Export/CU2D/m(T)_B=0_matModes_CU2D_Plot.jpg> <X:/Dropbox
+/Uni/CP/ising/Graph_Export/MP2D/m(T)_B=0_matModes_MP2D_50_Plot.jpg>]
+(X:\Dropbox\Uni\CP\ising\Ausarbeitung\fazit.tex) [14]
 (X:\Dropbox\Uni\CP\ising\Ausarbeitung\Ising_sim.lof)
 \tf@lof=\write4
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 64.
@@ -840,16 +915,16 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 64.
- [13]
+ [15]
 (X:\Dropbox\Uni\CP\ising\Ausarbeitung\Ising_sim.aux) ) 
 Here is how much of TeX's memory you used:
- 5480 strings out of 493921
- 79301 string characters out of 3144864
- 143603 words of memory out of 3000000
- 8629 multiletter control sequences out of 15000+200000
+ 5515 strings out of 493921
+ 80575 string characters out of 3144864
+ 144603 words of memory out of 3000000
+ 8658 multiletter control sequences out of 15000+200000
  20019 words of font info for 57 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 36i,10n,38p,1366b,385s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,10n,38p,1366b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\jfs92_000\AppD
 ata\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Users\
 jfs92_000\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsx1095.
@@ -872,9 +947,9 @@ pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/
 Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Pr
 ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Ising_sim.pdf (13 pages, 17570656 bytes).
+Output written on Ising_sim.pdf (15 pages, 25146998 bytes).
 PDF statistics:
- 486 PDF objects out of 1000 (max. 8388607)
+ 513 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 
