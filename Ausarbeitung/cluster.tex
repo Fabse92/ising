@@ -56,10 +56,10 @@ E_j = E_{innen} + E_{außen} + n_{gleich} * J - n_{diff} * J\\
 \end{align}
 Damit gilt:
 \begin{align}
-W_{ij} = min\{1, \frac{A_{innen}*(1-p)^{n_{diff}}}{A_{innen}*(1-p)^{n_{gleich}}} * \frac{e^{-\beta E_{innen} + E_{außen} + n_{gleich} * J - n_{diff} * J}}{e^{-\beta E_{innen} + E_{außen} - n_{gleich} * J + n_{diff} * J}}\} \\
-= min\{1, \frac{(1-p)^{n_{diff}}}{(1-p)^{n_{gleich}}} * \frac{e^{-\beta n_{gleich} * J} * e^{+\beta n_{diff} * J}}{e^{+\beta n_{gleich} * J} * e^{-\beta n_{diff} * J}}\}\\
-= min\{1, \frac{(1-p)^{n_{diff}}}{(1-p)^{n_{gleich}}} * \frac{e^{-2\beta n_{gleich} * J}}{e^{-2\beta n_{diff} * J}}\}\\
-= min\{1, \left(\frac{(1-p)}{e^{-2\beta J}}\right)^{n_{diff}} * \left(\frac{e^{-2\beta J}}{(1-p)}\right)^{n_{gleich}}\}
+W_{ij} &= min\{1, \frac{A_{innen}*(1-p)^{n_{diff}}}{A_{innen}*(1-p)^{n_{gleich}}} * \frac{e^{-\beta E_{innen} + E_{außen} + n_{gleich} * J - n_{diff} * J}}{e^{-\beta E_{innen} + E_{außen} - n_{gleich} * J + n_{diff} * J}}\} \\
+&= min\{1, \frac{(1-p)^{n_{diff}}}{(1-p)^{n_{gleich}}} * \frac{e^{-\beta n_{gleich} * J} * e^{+\beta n_{diff} * J}}{e^{+\beta n_{gleich} * J} * e^{-\beta n_{diff} * J}}\}\\
+&= min\{1, \frac{(1-p)^{n_{diff}}}{(1-p)^{n_{gleich}}} * \frac{e^{-2\beta n_{gleich} * J}}{e^{-2\beta n_{diff} * J}}\}\\
+&= min\{1, \left(\frac{(1-p)}{e^{-2\beta J}}\right)^{n_{diff}} * \left(\frac{e^{-2\beta J}}{(1-p)}\right)^{n_{gleich}}\}
 \end{align}
 Hieraus lässt sich nun erkennen, dass die Wahrscheinlichkeit vom Zustand i zu j überzugehen gleich $1$ wird, wenn wir $p = 1 - e^{-2\beta J}$ wählen.
 
@@ -69,13 +69,13 @@ Der Vorteil des Cluster-Algorithmus ist die schnelle Konverenzgeschwindigkeit in
 \begin{figure}[H]
 	\centering
 	\subfigure[Konvergenz beim Cluster-Update-Verfahren]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/CU2D/m(steps)_Plot.jpg}
+		\includegraphics[width=0.30\textwidth]{../Graph_Export/CU2D/m(steps)_Plot.jpg}
 	}
 	\subfigure[Betragswerte der Abbildung (a)]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/CU2D/abs(m(steps))_Plot.jpg}
+		\includegraphics[width=0.30\textwidth]{../Graph_Export/CU2D/abs(m(steps))_Plot.jpg}
 	}	
 	\subfigure[Konvergenz beim Metropolis-Verfahren]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(Steps)_r.jpg}
+		\includegraphics[width=0.30\textwidth]{../Graph_Export/MP2D/m(Steps)_r.jpg}
 	}		
 	\caption{Konvergenz der Magnetisierung im Vergleich zwischen Metropolis- und Cluster-Update-Verfahren auf einem 50x50 Gitter}
 	\label{cu2d2steps}
