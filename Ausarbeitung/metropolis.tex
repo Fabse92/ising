@@ -1,4 +1,4 @@
-Das von uns entwickelte Programm zur Untersuchung des Ising-Modells ist in C geschrieben. Die wichtigen Parameter zum steuern der Simulation werden als Programmparameter beim starten mitgegeben. Die Zufallszahlen im Programm werden mit einem Mersenne-Twister Pseudozufallszahlengenerator erzeugt.
+Das von uns entwickelte Programm zur Untersuchung des Ising-Modells ist in C geschrieben. Die wichtigen Parameter zum Steuern der Simulation werden als Programmparameter beim Starten mitgegeben. Die Zufallszahlen im Programm werden mit einem Mersenne-Twister Pseudozufallszahlengenerator erzeugt.
 
 \subsection{Metropolis Schema}
 
@@ -43,4 +43,7 @@ Hier der Metropolis Block eines Monte Carlo Schritts mit Konvergenzverhalten
 
 \subsection{Im Detail: Funktion weiterer Parameter}
 
-Unterschied B T Mode etc. ..
+Außer der Wahl der Gittergröße, der Anzahl an Monte-Carlo-Schritten und der Dimension (2D oder 3D) bietet das Programm noch weitere Parameter, mit denen verschiedene Simulationsmodi gestartet werden können.\\
+Um nicht nur den Einfluss der Temperatur, sondern auch den des äußeren Magnetfeldes untersuchen zu können, gibt es die Möglichkeit, die zwischen den verschiedenen Simulationen zu variierende Größe zu wählen. So wird entweder der Tempeartur- oder der Magnetfeldbereich zwischen dem als Parameter angegebenen Start- und Endwert mit einer ebenfalls angegebenen Schrittweite durchlaufen.\\
+Möchte man das Schaltverhalten des Systems untersuchen, stellt man mit Hilfe eines Parameters ein, dass bei der Variation des Magnetfeldes nicht bei jeder neuen Feldstärke ein zufälliges neues Gitter erstellt wird, sondern auf dem vorhandenen weitergearbeitet wird. Außerdem wird in diesem Fall der angegebene Bereich nicht nur in eine Richtung durchlaufen, sondern anschließend auch zurück, sodass eine Hysterese erkennbar werden kann.\\
+Dazu ist es noch möglich, mit einem vollständig ausgerichteten Gitter zu beginnen, sowie die Cluster-Update-Methode zu verwenden oder nicht und zur Veranschaulichung des Systems, einige Zwischenergebnisse als Dateien zu speichern.
