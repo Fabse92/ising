@@ -12,7 +12,7 @@ Somit liefern entgegengesetzt gerichtete Nachbarn einen positiven Energiebeitrag
 Zur Simulation dieses Systems im Ising-Modell wird die Monte-Carlo-Methode verwendet. Hierbei werden mit Hilfe von Zufallszahlen mögliche Konfigurationen des Systems erstellt. Um einen einfachen Mittelwert einer gesuchten Größe bilden zu können, werden Konfigurationen gemäß der Metropolis-Methode gewählt.\\
 Die Wahrscheinlichkeitsverteilung der Zustände $P_i$ ist die Boltzmann-Verteilung. Die Wahrscheinlichkeit, dass sich das System im Zustand $i$ befindet ergibt sich nach $P_{i}=\frac{1}{Z_{k}}\dot e^{-\beta E_{i}}$. Dabei bezeichnet $Z_{k}$ die kanonische Zustandsumme des Systems, $E_{i}$ die innere Energie des Systems in Zustand $i$. Das System unterliegt folglich einer Boltzmann-Verteilung. Daraus folgt für die Flipwahrscheinlichkeit für den Metropolisalgorithmus
 \begin{equation}
-W_{ij}=min\{1,\frac{P_{j}}{P_{i}}\}=min\{1,e^{\beta \Delta E}\}
+W_{ij}=W(S_k \rightarrow -S_k)=min\{1,\frac{P_{j}}{P_{i}}\}=min\{1,e^{\beta \Delta E}\}
 \end{equation}
 mit $\Delta E=E_{i}-E_{j}$. Somit wird jede Energieminimierung akzeptiert, jede Energieerhöhung nur zu einer gewissen Wahrscheinlichkeit.
 
