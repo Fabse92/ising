@@ -1,6 +1,11 @@
 
+In diesem Kapitel soll die Funktionsweise des Programms sowie seine Eigenschaften näher betrachtet werden.
+
+
+\subsection{Allgemeiner Programmablauf}
+
 Das Programm simuliert das Ising Modell auf einem Gitter vorgegebener Länge $N$ und Dimension $d$ mittels Monte Carlo Verfahren. Dabei können sowohl eine als auch mehrere Simulationen zu unterschiedlichen Parameterwerten durchgeführt werden. Jede Simulation besteht dabei aus $n$ Monte Carlo Schritten oder steps. Darin werden $N^{d}$ potentielle Spinflips betrachtet, welche je nach Flipwahrscheinlichkeit akzeptiert oder abgelehnt werden. Die Flipwahrscheinlichkeit ergibt sich aus Differenz der inneren Energien beider Zustände. Für unsere Simulation berachten die Kopplungskonstante in “Nächster-Nachbarn”-Näherung mit $J=1$. Die Boltzmannkonstante wird ebenfalls mit $k_{b}=1$ eingerechnet. 
-Alle Parameter der Simulation, sowie die Auswahl der Programmmodi, welche das Zusammenspiel der einzelnen Simulationen bestimmen, werden beim Programmaufruf übergeben. Die Zufallszahlen im Programm werden mit einem Mersenne-Twister Pseudozufallszahlengenerator erzeugt. Das Programm ist in C geschrieben.
+Alle Parameter der Simulation, sowie die Auswahl der Programmmodi, welche das Zusammenspiel der einzelnen Simulationen bestimmen, werden beim Programmaufruf übergeben (siehe auch Kapitel \ref{met4}). Die Zufallszahlen im Programm werden mit einem Mersenne-Twister Pseudozufallszahlengenerator erzeugt. Das Programm ist in C geschrieben.
 
 
 \subsection{Monte Carlo Schritt im Metropolis Schema}
@@ -48,6 +53,7 @@ Die Magnetisierung ergibt sich aus der durchschnittlichen Magnetisierung eines S
 
 
 \subsection{Im Detail: Funktion weiterer Parameter}
+\label{met4}
 
 Außer der Wahl der Gittergröße, der Anzahl an Monte-Carlo-Schritten und der Dimension (2D oder 3D) bietet das Programm noch weitere Parameter, mit denen verschiedene Simulationsmodi gestartet werden können.\\
 Um nicht nur den Einfluss der Temperatur, sondern auch den des äußeren Magnetfeldes untersuchen zu können, gibt es die Möglichkeit, die zwischen den verschiedenen Simulationen zu variierende Größe zu wählen. So wird entweder der Tempeartur- oder der Magnetfeldbereich zwischen dem als Parameter angegebenen Start- und Endwert mit einer ebenfalls angegebenen Schrittweite durchlaufen.\\
