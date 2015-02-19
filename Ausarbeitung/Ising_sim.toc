@@ -1,0 +1,19 @@
+\select@language {ngerman}
+\select@language {ngerman}
+\contentsline {section}{\numberline {1}Problemstellung und Theorie}{2}
+\contentsline {subsection}{\numberline {1.1}Das Ising-Modell}{2}
+\contentsline {subsection}{\numberline {1.2}Monte-Carlo-Simulation und Metropolis-Algorithmus}{2}
+\contentsline {subsection}{\numberline {1.3}Ziele}{2}
+\contentsline {section}{\numberline {2}Das Programm}{3}
+\contentsline {subsection}{\numberline {2.1}Allgemeiner Programmablauf}{3}
+\contentsline {subsection}{\numberline {2.2}Monte Carlo Schritt im Metropolis Schema}{3}
+\contentsline {subsection}{\numberline {2.3}Im Detail: Konvergenz von makroskopischen Gr\IeC {\"o}\IeC {\ss }en im Metropolis Algorithmus}{3}
+\contentsline {subsection}{\numberline {2.4}Im Detail: Funktion weiterer Parameter}{5}
+\contentsline {section}{\numberline {3}Ergebnisse und Auswertung}{6}
+\contentsline {subsection}{\numberline {3.1}Phasen\IeC {\"u}bergang zwischen Hoch- und Niedertemperaturphase}{6}
+\contentsline {subsection}{\numberline {3.2}Schaltverhalten im Magnetfeld}{9}
+\contentsline {section}{\numberline {4}Alternative: Cluster Monte Carlo Algorithmen}{11}
+\contentsline {subsection}{\numberline {4.1}Wolff-Algorithmus}{11}
+\contentsline {subsection}{\numberline {4.2}Flipwahrscheinlichkeit des Clusters $W_{ij}$ = 1}{11}
+\contentsline {subsection}{\numberline {4.3}Metropolis und Cluster-Update im Vergleich}{12}
+\contentsline {section}{\numberline {5}Zusammenfassung}{15}
