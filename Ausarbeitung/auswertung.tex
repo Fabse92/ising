@@ -20,21 +20,23 @@ Als erstes wird das 2D-Ising Modell betrachtet. Als Grundlage dient ein 50x50 Gi
 Zunächst wird die Temperaturabhängigkeit ohne äußeres Feld ($B=0$) untersucht. Durch die analytische Lösung ist die kritische Temperatur ($T_{c}\approx 2,269$), welche den Übergang zwischen Hoch- und Niedertemperaturphase bestimmt, bekannt, sodass eine Simulation von $T=1,5$ bis $T=3,5$ mit einem Schritt von $\Delta T = 0.005$ den interessanten Bereich beinhaltet. Hierbei werden zunächst die unterschiedlichen Auswirkungen der Startkonfigurationen betrachtet (Abb. \ref{mp2d0modes}).
 \begin{figure}[H]
 	\centering
-	\subfigure[Start aus Zufallskonfiguration]{
+	\subfigure[Start aus r-Konfiguration]{
 		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(T)_B=0_rMode_MP2D_50_Plot.jpg}
 }	
-	\subfigure[Start aus geordneten Konfigurationen]{
+	\subfigure[Start p- und n-Konfigurationen]{
 		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(T)_B=0_pnModes_MP2D_50_Plot.jpg}
 }		
 	\caption{Temperaturabhängigkeit der Magnetisierung im 2D Ising Modells via Metropolisalgorithmus ohne äußeres Feld}
 	\label{mp2d0modes}
 \end{figure}
-Es ist erkennbar, dass sich die Wahl der Startkonfiguration nicht auf den grundsätzlichen Verlauf der Kurve auswirkt. Dabei sollten allerdings 2 Aspekte beachtet werden. Erstens erkennt man beim Start in einer zufälligen Konfiguration einige Ausreißer im Bereich $T<T_{c}$, in denen einige Simulationen offensichtlich nicht konvergierten. Zweitens führt eine positive Startkonfiguration trivialerweise zu einer Konvergenz zum positiven Wert $m_{0}$ und umgekehrt. Daraus folgt, dass es für diesen Bereich zwei Energieminima bei $\pm m_{0}$ gibt, welche bei Start in zufälliger Konfiguration gleich wahrscheinlich erreicht werden können, bei geordneter Startkonfiguration jedoch nur näheres erreicht wird. Gleich bleibt jedoch das große Rauschen um $T_{c}$, welches zu einer großen Ungenauigkeit bei der Bestimmung der Curie-Temperatur führt, jedoch liegt sie mit einer Abschätzung von $T_{c}\approx 2,26\pm 0,02$ absolut im erwarteten Bereich. Hier ist eine Unstetigkeit in der ersten Ableitung zu erkennen, welche den Phasenübergang kennzeichnet. Auch ein kleineres Rauschen für $T>T_{c}$ mit einer Bandbreite von $\pm 0,2 = 0,4$ ist in allen Simulationen vorhanden. Um dieses Rauschen zu minimieren könnte man mit größeren Gittern arbeiten, diese erzeugen jedoch auch mehr Ausreißer im Bereich $T<T_{c}$.
-
-
+Es ist erkennbar, dass sich die Wahl der Startkonfiguration nicht auf den grundsätzlichen Verlauf der Kurve auswirkt. In allen Fällen konvergiert die Simulation gegen den Wert $|m_0|$. Je niedrigere die Temperatur desto höher ist der Wert $|m_0|$ desto stärker ist also das Gitter magnetisiert, bzw. sind die Spins parallel ausgerichtet. Ab einer gewissen kritischen Temperatur ist jedoch keine Magnetisierung des Gitters zu erkennen. Es sollten allerdings 2 Aspekte beachtet werden. Erstens erkennt man beim Start in einer r-Konfiguration einige Ausreißer im Bereich $T<T_{c}$, in denen einige Simulationen offensichtlich nicht konvergierten. Zweitens führt eine p-Startkonfiguration trivialerweise zu einer Konvergenz zum positiven Wert $m_{0}$ und umgekehrt. Daraus folgt, dass für diesen Bereich zwei Minima der freien Energie bei $\pm m_{0}$ existieren, welche bei Start in zufälliger Konfiguration gleich wahrscheinlich erreicht werden können, bei geordneter Startkonfiguration jedoch nur näheres erreicht wird. Daraus ergibt phänomenologisch ein Zusammenhang zwischen der freien Energie $F$ und der Magnetisierung $m$, wie in Abb. \ref{fmagT} dargestellt. Gleich bleibt jedoch das große Rauschen um $T_{c}$, welches zu einer großen Ungenauigkeit bei der Bestimmung der Curie-Temperatur führt, jedoch liegt sie mit einer Abschätzung von $T_{c}\approx 2,26\pm 0,02$ absolut im erwarteten Bereich. Hier ist eine Unstetigkeit in der ersten Ableitung zu erkennen, welche den Phasenübergang kennzeichnet. Auch ein kleineres Rauschen für $T>T_{c}$ mit einer Bandbreite von $\pm 0,2 = 0,4$ ist in allen Simulationen vorhanden. Um dieses Rauschen zu minimieren könnte man mit größeren Gittern arbeiten, diese erzeugen jedoch auch mehr Ausreißer im Bereich $T<T_{c}$.\\
 Für eine optimale Auflösung empfiehlt sich für Metropolis Algorithmen ohne äußeres Feld folglich zwei Simulationen, je eine aus positiver und negativer Startkonfiguration.
-
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_T.jpg}
+	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung bei verschiedenen Temperaturen}
+	\label{fmagT}
+\end{figure}
 Nun soll die Auswirkung eines äußeren Feldes auf die Temperaturabhängigkeit betrachtet werden. Dazu wird obige Simulation für die Felder $B=\pm 0,1$ im Bereich $T=1,5$ bis $T=5,0$ und $B=\pm 0,4$ im Bereich $T=1,5$ bis $T=7,0$ durchgeführt. Dabei wird die Schrittweite auf $\Delta T = 0.01$ bzw. $\Delta T = 0.02$ erhöht (Abb. \ref{mp2db}). Für Simulationen mit äußerem Feld kann bedenkenlos aus zufälliger Konfiguration gestartet werden, da das angelegte Feld Ausreißer für $T<T_{c}$ verhindert und das Vorzeichen des angenommen Werts bestimmt. Bei geordneter Startkonfiguration ist die zweite Bedingung nicht zwingend erfüllt, wie Kapitel \ref{auswB} zeigen wird.
 \begin{figure}[H]
 	\centering
@@ -73,7 +75,7 @@ Auch bei der Untersuchung der Einwirkung verschiedener äußerer Felder treten d
  \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../Graph_Export/MP3D/m(T)_MP3D_Plot.jpg}	
-	\caption{Temperaturabhängigkeit der Magnetisierung im §D Ising Modells via Metropolisalgorithmus für verschiedene äußere Felder}
+	\caption{Temperaturabhängigkeit der Magnetisierung im 3D Ising Modells via Metropolisalgorithmus für verschiedene äußere Felder}
 	\label{mp3db}
 \end{figure}
 
@@ -93,16 +95,11 @@ Als zweites soll die Abhängigkeit der Magnetisierung vom äußeren Feld betrach
 	\caption{Abhängigkeit der Magnetisierung von einem externen Magnetfeld, Simulation via Metropolisalgorithmus auf einem Gitter}
 	\label{mpbsweep}
 \end{figure}
-In beiden Fällen ist zu erkennen, dass sich für $T<T_{c}$ eine Hysterese herausbildet, welche immer schmaler wird, je näher sich $T$ $T_{c}$ annähert. Zudem ist zu beobachten, dass für kleine Temperaturen das Gitter komplett schaltet, währen um $T_{c}$ herum die Magnetiesung vor dem Schalten langsam kolabiert. Dieses Schaltverhalten lässt sich anhand der zwei Minima der freien Energie an $\pm m_{0}$ erklären. Diese liegen je nach Temperatur mehr oder weniger tief, für $B=0$ jedoch auf selber Höhe (Gleichgewicht). Im Falle eines externen Feldes verschiebt sich das Gleichgewicht zu Gunsten des angelegten Feldes. Ein Umschalten findet folglich erst statt, wenn aus dem ungünstigen Extremum ein Wendepunkt geworden ist, was je nach Temperatur bei unterschiedlichen $|B|>0$ der Fall ist (Abb. \ref{fmag}b). An $T_{c}$ selbst ist erstmals keine Hysterese mehr zu erkennen, da ab hier nur noch ein einziges Minimum bei $m=0$ besteht (Abb. \ref{fmag}a). Für $T>T_{c}$ ist ein kontinuierlicher Übergang der Magnetisierung zu beobachten, welcher durch den Ursprung verläuft. Dies deckt sich mit den Ergebnissen der Simulationen zur Temperaturabhängigkeit Kapitel \ref{auswT}. Für höhere Temperaturen ist entsprechend ein stärkeres Feld nötig um eine komplette Magnetisierung zu erreichen. 
+In beiden Fällen ist zu erkennen, dass sich für $T<T_{c}$ eine Hysterese herausbildet, welche immer schmaler wird, je näher sich $T$ $T_{c}$ annähert. Zudem ist zu beobachten, dass für kleine Temperaturen das Gitter komplett schaltet, währen um $T_{c}$ herum die Magnetiesung vor dem Schalten langsam kolabiert. Dieses Schaltverhalten lässt sich anhand der zwei Minima der freien Energie an $\pm m_{0}$ erklären. Diese liegen je nach Temperatur mehr oder weniger tief, für $B=0$ jedoch auf selber Höhe (Gleichgewicht). Im Falle eines externen Feldes verschiebt sich das Gleichgewicht zu Gunsten des angelegten Feldes. Ein Umschalten findet folglich erst statt, wenn aus dem ungünstigen Extremum ein Wendepunkt geworden ist, was je nach Temperatur bei unterschiedlichen $|B|>0$ der Fall ist (Abb. \ref{fmagB}). An $T_{c}$ selbst ist erstmals keine Hysterese mehr zu erkennen, da ab hier nur noch ein einziges Minimum bei $m=0$ besteht (Abb. \ref{fmagT}). Für $T>T_{c}$ ist ein kontinuierlicher Übergang der Magnetisierung zu beobachten, welcher durch den Ursprung verläuft. Dies deckt sich mit den Ergebnissen der Simulationen zur Temperaturabhängigkeit Kapitel \ref{auswT}. Für höhere Temperaturen ist entsprechend ein stärkeres Feld nötig um eine komplette Magnetisierung zu erreichen. 
 \begin{figure}[H]
 	\centering
-	\subfigure[Temperaturabhängigkeit, $B=0$]{
-		\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_T.jpg}
-}	
-	\subfigure[Feldabhängigkeit, $T=const.$]{
-		\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_B.jpg}
-}		
-	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung. Auswirkung der Temperatur und des externen Magnetfelds}
-	\label{fmag}
+	\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_B.jpg}
+	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung bei verschiedenen externen Feldern für eine Temperatur $T<T_c$}
+	\label{fmagB}
 \end{figure}
 

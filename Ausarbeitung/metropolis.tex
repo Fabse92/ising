@@ -5,44 +5,47 @@ Alle Parameter der Simulation, sowie die Auswahl der Programmmodi, welche das Zu
 
 \subsection{Monte Carlo Schritt im Metropolis Schema}
 
-Zunächst wird für die Flipwahrscheinlichkeit $W_{ij}$ mittels Metropolis-Schema berechnet. Die Wahrscheinlichkeit, dass sich das System im Zustand $i$ befindet ergibt sich nach $P_{i}=\frac{1}{Z_{k}}\dot e^{-\beta E_{i}}$. Dabei bezeichnet $Z_{k}$ die kanonische Zustandsumme des Systems, $E_{i}$ die innere Energie des Systems in Zustand $i$. Daraus folgt für die Flipwahrscheinlichkeit
-\begin{equation}
-W_{ij}=min\{1,\frac{P_{j}}{P_{i}}\}=min\{1,e^{\beta \Delta E}\}
-\end{equation}
-mit $\Delta E=E_{i}-E_{j}$. Somit wird jede Energieminimierung akzeptiert, jede Energieerhöhung nur zu einer gewissen Wahrscheinlichkeit. 
-
-
+Zunächst wird die Flipwahrscheinlichkeit $W_{ij}$ mittels Metropolis-Schema berechnet (siehe Kapitel \ref{theo2}).\\
 Somit läuft ein Flip während eines Monte Carlo Schritts wie folgt ab:\\
-Zunächst befindet sich das System im Zustand $i$. Dann wird ein zufälliger Spin $S_{k}$ ausgewählt. Danach wird die Energiedifferenz $\Delta E$ zwischen Energie im Zustand $i$ mit $S_{k}$ und die Energie im Zustand $j$ mit $-S_{k}$, also dem gefliptem Spin berechnet. Diese berechnet sich im hier verwendetem Ising-Modell über $\Delta E=2S_{k}(B+\sum_{i=1}^{d}S_{k-1}+S_{k+1})$. Die Berücksichtigung des Magnetfelds $B$ spielt bei unsere Betrachtung eine große Rolle, weshalb der Metropolisalgorithmus verwendet wurde. Eine Alternative ohne äußeres Feld wird in Kapitel \ref{cluster} dargestellt. Der Spinflip wird der Wahrscheinlichkeit $W(S_k \rightarrow -S_k)=min\{ 1, e^{\frac{\Delta E}{T}} \}$. Im Falle einer Energieerhöhung wird der Spinflip ausgeführt, falls die Flipwahrscheinlichkeit $e^{\frac{\Delta E}{T}}$ größer als eine Zufallszahl $R\in[0,1]$.
+Zunächst befindet sich das System im Zustand $i$. Dann wird ein zufälliger Spin $S_{k}$ ausgewählt.Dies garantiert die Ergodizität der Markov-Kette aus ZUständen. Danach wird die Energiedifferenz $\Delta E$ zwischen Energie im Zustand $i$ mit $S_{k}$ und die Energie im Zustand $j$ mit $-S_{k}$, also dem gefliptem Spin berechnet. Diese berechnet sich im hier verwendetem Ising-Modell über $\Delta E=2S_{k}(B+\sum_{i=1}^{d}S_{k-1}+S_{k+1})$. Die Berücksichtigung des Magnetfelds $B$ spielt bei unsere Betrachtung eine große Rolle, weshalb der Metropolisalgorithmus verwendet wurde. Eine Alternative ohne äußeres Feld wird in Kapitel \ref{cluster} dargestellt. Der Spinflip wird der Wahrscheinlichkeit $W(S_k \rightarrow -S_k)=min\{ 1, e^{\frac{\Delta E}{T}} \}$. Im Falle einer Energieerhöhung wird der Spinflip ausgeführt, falls die Flipwahrscheinlichkeit $e^{\frac{\Delta E}{T}}$ größer als eine Zufallszahl $R\in[0,1]$.
 
 
 \subsection{Im Detail: Konvergenz von makroskopischen Größen im Metropolis Algorithmus}
 
-Durch die Temperaturabhängigkeit der Flipwahrscheinlichkeit $W_{ij}$ konvergiert die Energie im Verlauf einer Simulation gegen einen bestimmten Energiewert $E_{n}$, welcher äquivalent zum Minimum der freien Energie $F=E-TS$ ist. Daraus folgt das auch der Zustand bis auf mikroskopische Fluktuationen bzw. die Magnetisierung des Systems und damit auch die durchschnittliche Magnetisierung pro Spin konvergent ist. Diese konvergiert für verschiedene Startkonfigurationen sowohl für ein zwei- als auch dreidimensionales Gitter (Abb.\ref{} und \ref{}). Hier wurden jeweils der Verlauf der Magnetisierung des Systems über 1000 Monte Carlo Schritte aus einer rein positiven Startkonfiguration und einer zufälligen Startkonfiguration für verschiedene Temperaturen $T$ betrachtet. Je niedriger die Temperatur, desto höher ist der absolute Wert...
+Durch die Temperaturabhängigkeit der Flipwahrscheinlichkeit $W_{ij}$ konvergiert die Energie im Verlauf einer Simulation gegen einen bestimmten Energiewert $E_{n}$, welcher äquivalent zum Minimum der freien Energie $F=E-TS$ ist. Daraus folgt das auch der Zustand bis auf mikroskopische Fluktuationen bzw. die Magnetisierung des Systems und damit auch die durchschnittliche Magnetisierung pro Spin konvergent ist. Diese konvergiert für verschiedene Startkonfigurationen sowohl für ein zwei- als auch dreidimensionales Gitter (Abb.\ref{mpkonv}). Hier wurden jeweils der Verlauf der Magnetisierung des Systems über 1000 Monte Carlo Schritte aus einer rein positiv (p) und einer zufällig (r) ausgerichteten Startkonfiguration für verschiedene Temperaturen $T$ betrachtet. Man erkennt, dass (fast) unabhängig der Startkonfiguration die Folge gegen ein und denselben Wert $m_0$ konvergiert. Bei einer r-Startkonfiguration konvergiert die Folge jedoch zufällig gegen einen der Werte $\pm m_0$, während sie aus einer p-Startkonfiguration immer gegen den Wert $+m_0$ konvergiert. Es reicht aber den Zusammenhang zwischen r- und p-Konfiguration zu betrachten da sich eine rein negativ (n) ausgerichtete Startkonfiguration analog zum Wert $-m_0$ verhält. Weiterhin fällt auf, dass je nach die Temperatur der Wert der Magnetisierung $m_0$ ein anderer ist. Der Zusammenhang zwischen Magnetisierung und Temperatur wird in Kapitel \ref{auswT} genauer betrachtet.
 \begin{figure}[H]
 	\centering
-	\subfigure[zufällige Startkonfiguration]{
+	\subfigure[2D: zufällige Startkonfiguration]{
 		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(Steps)_r.jpg}
 }	
-	\subfigure[positv parallele Startkonfiguration]{
+	\subfigure[2D: positv parallele Startkonfiguration]{
 		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(Steps)_p.jpg}
 }		
-	\caption{Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus für ein zweidimensionales Gitter}
-	\label{mp2dkonv}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\subfigure[zufällige Startkonfiguration]{
+	\subfigure[3D: zufällige Startkonfiguration]{
 		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP3D/m(Steps)_r.jpg}
 }	
-	\subfigure[positv parallele Startkonfiguration]{
+	\subfigure[3D: positv parallele Startkonfiguration]{
 		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP3D/m(Steps)_p.jpg}
 }		
-	\caption{Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus für ein dreidimensionales Gitter}
-	\label{mp3dkonv}
+	\caption{Konvergenzverhalten der Magnetisierung im Metropolisalgorithmus für ein zwei- bzw. dreidimensionales Gitter}
+	\label{mpkonv}
+\end{figure}
+Die Magnetisierung ergibt sich aus der durchschnittlichen Magnetisierung eines Spins im Gitter. Eine komplett parallele Ausrichtung ergibt einen Wert von $m_{0}=\pm1$ (Abb. \ref{mp2dconfig}a), bei Werten von $m_{0} \in(0,1)$ haben sich auf dem Gitter sogenannte Weiß’sche Bezirke oder Domänen gebildet (Abb. \ref{mp2dconfig}b), bis schließlich für $m_{0}\approx0$ sich ein “perfektes” Rauschen einstellt (Abb. \ref{mp2dconfig}c).
+\begin{figure}[H]
+	\centering
+	\subfigure[$T<<T_{c}$]{
+		%\includegraphics[width=0.31\textwidth]{../Graph_Export/.jpg}
+}	
+	\subfigure[$T<T_{c}$]{
+		%\includegraphics[width=0.31\textwidth]{../Graph_Export/.jpg}
+}		
+	\subfigure[$T>T_{c}$]{
+		%\includegraphics[width=0.31\textwidth]{../Graph_Export/.jpg}
+}		
+	\caption{Abschlusskonfiguration eines 50x50-Gitters in verschiedenen Temperaturbereichen}
+	\label{mp2dconfig}
 \end{figure}
 
-bilder aus Filmen...
 
 \subsection{Im Detail: Funktion weiterer Parameter}
 
