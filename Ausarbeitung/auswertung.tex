@@ -37,7 +37,7 @@ Für eine optimale Auflösung empfiehlt sich für Metropolis Algorithmen ohne ä
 	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung bei verschiedenen Temperaturen}
 	\label{fmagT}
 \end{figure}
-Nun soll die Auswirkung eines äußeren Feldes auf die Temperaturabhängigkeit betrachtet werden. Dazu wird obige Simulation für die Felder $B=\pm 0,1$ im Bereich $T=1,5$ bis $T=5,0$ und $B=\pm 0,4$ im Bereich $T=1,5$ bis $T=7,0$ durchgeführt. Dabei wird die Schrittweite auf $\Delta T = 0.01$ bzw. $\Delta T = 0.02$ erhöht (Abb. \ref{mp2db}). Für Simulationen mit äußerem Feld kann bedenkenlos aus zufälliger Konfiguration gestartet werden, da das angelegte Feld Ausreißer für $T<T_{c}$ verhindert und das Vorzeichen des angenommen Werts bestimmt. Bei geordneter Startkonfiguration ist die zweite Bedingung nicht zwingend erfüllt, wie Kapitel \ref{auswB} zeigen wird.
+Nun soll die Auswirkung eines äußeren Feldes auf die Temperaturabhängigkeit betrachtet werden. Dazu wird obige Simulation für die Felder $B=\pm 0,1$ im Bereich $T=1,5$ bis $T=5,0$ und $B=\pm 0,4$ im Bereich $T=1,5$ bis $T=7,0$ durchgeführt. Dabei wird die Schrittweite auf $\Delta T = 0.01$ bzw. $\Delta T = 0.02$ erhöht (Abb. \ref{mp2db}). Für Simulationen mit äußerem Feld kann bedenkenlos aus r-Konfiguration gestartet werden, da das angelegte Feld Ausreißer für $T<T_{c}$ verhindert und das Vorzeichen des angenommen Werts bestimmt. Bei geordneter Startkonfiguration ist die zweite Bedingung nicht zwingend erfüllt, wie Kapitel \ref{auswB} zeigen wird.
 
 
 Während ohne äußeres Feld die Magnetisierung an $T_{c}$ steil abfällt und (bis auf ein Rauschen) auf Null zurückgeht, treten bei angelegtem Feld Ausschmierungen auf, sodass sich die Kurve asymptotisch der Null nähert und man weiterhin zwischen negativem und positivem Arm unterscheiden kann, welche dan jeweils mit etwa $0,2$ zum Grundrauschen beitragen. Auch nimmt die Größe der Ausschmierung bei stärkeren Feldern weiter zu.
@@ -61,10 +61,10 @@ Nun wird die Temperatur im 3D-IsingModell untersucht. Um in vertretbarem Rechena
 Als erstes wird wieder die Auswirkung der Startkonfiguration auf Simulationen ohne äußeres Feld untersucht (Abb. \ref{mp3d0modes}). Die Simulationen laufen jeweils von $T=2,5$ bis $T=6,0$ mit einer Schrittweite von $\Delta T= 0,01$.
 \begin{figure}[H]
 	\centering
-	\subfigure[Start aus Zufallskonfiguration]{
+	\subfigure[Start aus r-Konfiguration]{
 		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP3D/m(T)_B=0_rMode_MP3D_Plot.jpg}
 }	
-	\subfigure[Start aus geordneten Konfigurationen]{
+	\subfigure[Start aus p- und n-Konfigurationen]{
 		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP3D/m(T)_B=0_pnModes_MP3D_Plot.jpg}
 }		
 	\caption{Temperaturabhängigkeit der Magnetisierung im 3D Ising Modells via Metropolisalgorithmus ohne äußeres Feld}
