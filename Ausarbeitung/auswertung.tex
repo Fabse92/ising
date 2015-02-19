@@ -21,10 +21,10 @@ Zunächst wird die Temperaturabhängigkeit ohne äußeres Feld ($B=0$) untersuch
 \begin{figure}[H]
 	\centering
 	\subfigure[Start aus r-Konfiguration]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(T)_B=0_rMode_MP2D_50_Plot.jpg}
+		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP2D/m(T)_B=0_rMode_MP2D_50_Plot.jpg}
 }	
 	\subfigure[Start p- und n-Konfigurationen]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(T)_B=0_pnModes_MP2D_50_Plot.jpg}
+		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP2D/m(T)_B=0_pnModes_MP2D_50_Plot.jpg}
 }		
 	\caption{Temperaturabhängigkeit der Magnetisierung im 2D Ising Modells via Metropolisalgorithmus ohne äußeres Feld}
 	\label{mp2d0modes}
@@ -33,18 +33,20 @@ Es ist erkennbar, dass sich die Wahl der Startkonfiguration nicht auf den grunds
 Für eine optimale Auflösung empfiehlt sich für Metropolis Algorithmen ohne äußeres Feld folglich zwei Simulationen, je eine aus positiver und negativer Startkonfiguration.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_T.jpg}
+	\includegraphics[width=0.4\textwidth]{../Graph_Export/F(mag)_T.jpg}
 	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung bei verschiedenen Temperaturen}
 	\label{fmagT}
 \end{figure}
 Nun soll die Auswirkung eines äußeren Feldes auf die Temperaturabhängigkeit betrachtet werden. Dazu wird obige Simulation für die Felder $B=\pm 0,1$ im Bereich $T=1,5$ bis $T=5,0$ und $B=\pm 0,4$ im Bereich $T=1,5$ bis $T=7,0$ durchgeführt. Dabei wird die Schrittweite auf $\Delta T = 0.01$ bzw. $\Delta T = 0.02$ erhöht (Abb. \ref{mp2db}). Für Simulationen mit äußerem Feld kann bedenkenlos aus zufälliger Konfiguration gestartet werden, da das angelegte Feld Ausreißer für $T<T_{c}$ verhindert und das Vorzeichen des angenommen Werts bestimmt. Bei geordneter Startkonfiguration ist die zweite Bedingung nicht zwingend erfüllt, wie Kapitel \ref{auswB} zeigen wird.
+
+
+Während ohne äußeres Feld die Magnetisierung an $T_{c}$ steil abfällt und (bis auf ein Rauschen) auf Null zurückgeht, treten bei angelegtem Feld Ausschmierungen auf, sodass sich die Kurve asymptotisch der Null nähert und man weiterhin zwischen negativem und positivem Arm unterscheiden kann, welche dan jeweils mit etwa $0,2$ zum Grundrauschen beitragen. Auch nimmt die Größe der Ausschmierung bei stärkeren Feldern weiter zu.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../Graph_Export/MP2D/m(T)_MP2D_50_Plot.jpg}	
+	\includegraphics[width=0.85\textwidth]{../Graph_Export/MP2D/m(T)_MP2D_50_Plot.jpg}	
 	\caption{Temperaturabhängigkeit der Magnetisierung im 2D Ising Modells via Metropolisalgorithmus für verschiedene äußere Felder}
 	\label{mp2db}
 \end{figure}
-Während ohne äußeres Feld die Magnetisierung an $T_{c}$ steil abfällt und (bis auf ein Rauschen) auf Null zurückgeht, treten bei angelegtem Feld Ausschmierungen auf, sodass sich die Kurve asymptotisch der Null nähert und man weiterhin zwischen negativem und positivem Arm unterscheiden kann, welche dan jeweils mit etwa $0,2$ zum Grundrauschen beitragen. Auch nimmt die Größe der Ausschmierung bei stärkeren Feldern weiter zu.
 
 
 \paragraph*{3DModell}
@@ -60,10 +62,10 @@ Als erstes wird wieder die Auswirkung der Startkonfiguration auf Simulationen oh
 \begin{figure}[H]
 	\centering
 	\subfigure[Start aus Zufallskonfiguration]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP3D/m(T)_B=0_rMode_MP3D_Plot.jpg}
+		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP3D/m(T)_B=0_rMode_MP3D_Plot.jpg}
 }	
 	\subfigure[Start aus geordneten Konfigurationen]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP3D/m(T)_B=0_pnModes_MP3D_Plot.jpg}
+		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP3D/m(T)_B=0_pnModes_MP3D_Plot.jpg}
 }		
 	\caption{Temperaturabhängigkeit der Magnetisierung im 3D Ising Modells via Metropolisalgorithmus ohne äußeres Feld}
 	\label{mp3d0modes}
@@ -74,7 +76,7 @@ Zunächst ist erkennbar, dass der grundsätzliche Verlauf mit dem der 2D-Simulat
 Auch bei der Untersuchung der Einwirkung verschiedener äußerer Felder treten die gleichen Effekte analog zum 2D-Modell auf. Für die Simulation von $B=\pm 0,1$ wurden Temperaturen von $T=2,5$ bis $T=9,0$ mit Schrittweite $\Delta T= 0,02$ und für $B=\pm 0,4$ Temperaturen von $T=2,5$ bis $T=12,0$ mit Schrittweite $\Delta T= 0,025$ betrachtet (Abb. \ref{mp3db}).
  \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../Graph_Export/MP3D/m(T)_MP3D_Plot.jpg}	
+	\includegraphics[width=0.85\textwidth]{../Graph_Export/MP3D/m(T)_MP3D_Plot.jpg}	
 	\caption{Temperaturabhängigkeit der Magnetisierung im 3D Ising Modells via Metropolisalgorithmus für verschiedene äußere Felder}
 	\label{mp3db}
 \end{figure}
@@ -87,10 +89,10 @@ Als zweites soll die Abhängigkeit der Magnetisierung vom äußeren Feld betrach
 \begin{figure}[H]
 	\centering
 	\subfigure[2D Modell]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP2D/m(B)_MP2D_Plot.jpg}
+		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP2D/m(B)_MP2D_Plot.jpg}
 }	
 	\subfigure[3D Modell]{
-		\includegraphics[width=0.47\textwidth]{../Graph_Export/MP3D/m(B)_MP3D_Plot.jpg}
+		\includegraphics[width=0.45\textwidth]{../Graph_Export/MP3D/m(B)_MP3D_Plot.jpg}
 }		
 	\caption{Abhängigkeit der Magnetisierung von einem externen Magnetfeld, Simulation via Metropolisalgorithmus auf einem Gitter}
 	\label{mpbsweep}
@@ -98,7 +100,7 @@ Als zweites soll die Abhängigkeit der Magnetisierung vom äußeren Feld betrach
 In beiden Fällen ist zu erkennen, dass sich für $T<T_{c}$ eine Hysterese herausbildet, welche immer schmaler wird, je näher sich $T$ $T_{c}$ annähert. Zudem ist zu beobachten, dass für kleine Temperaturen das Gitter komplett schaltet, währen um $T_{c}$ herum die Magnetiesung vor dem Schalten langsam kolabiert. Dieses Schaltverhalten lässt sich anhand der zwei Minima der freien Energie an $\pm m_{0}$ erklären. Diese liegen je nach Temperatur mehr oder weniger tief, für $B=0$ jedoch auf selber Höhe (Gleichgewicht). Im Falle eines externen Feldes verschiebt sich das Gleichgewicht zu Gunsten des angelegten Feldes. Ein Umschalten findet folglich erst statt, wenn aus dem ungünstigen Extremum ein Wendepunkt geworden ist, was je nach Temperatur bei unterschiedlichen $|B|>0$ der Fall ist (Abb. \ref{fmagB}). An $T_{c}$ selbst ist erstmals keine Hysterese mehr zu erkennen, da ab hier nur noch ein einziges Minimum bei $m=0$ besteht (Abb. \ref{fmagT}). Für $T>T_{c}$ ist ein kontinuierlicher Übergang der Magnetisierung zu beobachten, welcher durch den Ursprung verläuft. Dies deckt sich mit den Ergebnissen der Simulationen zur Temperaturabhängigkeit Kapitel \ref{auswT}. Für höhere Temperaturen ist entsprechend ein stärkeres Feld nötig um eine komplette Magnetisierung zu erreichen. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.35\textwidth]{../Graph_Export/F(mag)_B.jpg}
+	\includegraphics[width=0.4\textwidth]{../Graph_Export/F(mag)_B.jpg}
 	\caption{schematischer Verlauf der freien Energie in Abhängigkeit der Magnetisierung bei verschiedenen externen Feldern für eine Temperatur $T<T_c$}
 	\label{fmagB}
 \end{figure}
